@@ -3,6 +3,7 @@
     font-size: var(--button-size);
     font-weight: var(--button-weight);
     border-radius: var(--border-radius-button);
+    min-width: 110px;
     padding: 12px 20px;
     cursor: pointer;
   }
@@ -20,3 +21,25 @@
     border: none;
   }
   
+  /* Hovers */
+  .btn-primary:hover {
+    background-color: var(--primary-250);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--neutral-250);
+  }
+  
+  /* Active */
+
+  .btn-primary:active {
+    background-color: var(--primary-750);
+    color: var(--white);
+    transform: translateY(1px);
+  }
+
+  .btn-secondary:active {
+    background-color: var(--neutral-750);
+    color: var(--white);
+    transform: translateY(1px);
+  }
