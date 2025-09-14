@@ -1,0 +1,44 @@
+.btn-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 50px;
+    width: auto;
+    gap: 8px;
+}
+
+.btn-profile__text {
+    color: var(--black);
+    background-color: transparent;
+    border: none;
+    font-family: var(--font-family);
+    font-size: var(--body-size);
+    font-weight: var(--body-weight);
+}
+
+.fa-cicle-user {
+    color: var(--black);
+    background-color: transparent;
+    font-size: var(--h2-size);
+}
+
+/* Hover */
+.btn-profile__text:hover {
+    color: var(--neutral-750);
+}
+
+.fa-cicle-user {
+    color: var(--neutral-750);
+}
+
+
+/* Active and selected */
+.btn-profile__text:active {
+    font-size: var(--button-size);
+    font-weight: var(--button-weight);
+}
+
+.btn-profile__text.selected {
+    font-size: var(--button-size);
+    font-weight: var(--button-weight);
+}

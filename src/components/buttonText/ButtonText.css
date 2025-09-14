@@ -10,7 +10,6 @@
 /* Hover */
 .btn-text:hover {
     color: var(--neutral-750);
-    box-shadow: 2px 2px 4px rgb(0, 0, 0, 0.25);
 }
 
 /* Active and selected */
