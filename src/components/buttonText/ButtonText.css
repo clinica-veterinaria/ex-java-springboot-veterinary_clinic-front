@@ -1,0 +1,25 @@
+.btn-text {
+    font-family: var(--font-family);
+    font-size: var(--body-size);
+    font-weight: var(--body-weight);
+    color: var(--black);
+    background-color: transparent;
+    border: none;
+}
+
+/* Hover */
+.btn-text:hover {
+    color: var(--neutral-750);
+    box-shadow: 2px 2px 4px rgb(0, 0, 0, 0.25);
+}
+
+/* Active and selected */
+.btn-text:active {
+    font-size: var(--button-size);
+    font-weight: var(--button-weight);
+}
+
+.btn-text.selected {
+    font-size: var(--button-size);
+    font-weight: var(--button-weight);
+}
