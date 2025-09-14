@@ -5,19 +5,16 @@
     color: var(--black);
     background-color: transparent;
     border: none;
+    text-align: left;
+    width: 100%;
 }
 
 /* Hover */
 .btn-text:hover {
-    color: var(--neutral-750);
+    color: var(--neutral-250);
 }
 
-/* Active and selected */
-.btn-text:active {
-    font-size: var(--button-size);
-    font-weight: var(--button-weight);
-}
-
+/* Selected */
 .btn-text.selected {
     font-size: var(--button-size);
     font-weight: var(--button-weight);
