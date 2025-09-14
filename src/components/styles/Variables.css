@@ -23,7 +23,7 @@
         --background-red: #FDD3D0;
 
     /* ✍️ Typography (Host Grotesk) */
-    --font-family: "Host Grotesk", sans-serif;
+        --font-family: "Host Grotesk", sans-serif;
       
         --h1-size: 32px;
         --h1-weight: 700;
@@ -41,6 +41,12 @@
         --button-weight: 600;
 
     /* 📏 Spacing */
+    --space-section: 32px; /* between sections*/
+    --space-card: 28px; /* between cards*/
+    --space-margin: 24px;
+    --space-body: 20px;   /* title + text / in the same section */
+    --space-button: 16px; /* text + buttons / buttons */
+    --space-s: 8px;
 
 
     /* ⚙️ Border radius */

@@ -19,10 +19,10 @@ export default function SideMenuAdmin() {
     return(
         <aside className="menu-admin">
             <div className="menu-admin__container">
-                <div className="menu-admin__logo">
-                <Link to="/home">
-                    <img src={Logo} alt="logotype" className="logo"></img>
-                </Link>
+                <div className="logo__container">
+                    <Link to="/home">
+                        <img src={Logo} alt="logotype" className="logo"></img>
+                    </Link>
                 </div>
                 <div className="menu-admin__buttons">
                     <ButtonText onClick={() => handleNavigation("/home")} isSelected={isSelected("/home")}>Home</ButtonText>
