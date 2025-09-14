@@ -1,0 +1,7 @@
+.menu-admin {
+    margin: 24px;
+    background-color: var(--primary-500);
+    width: 200px;
+    height: 784px;
+    position: static;
+}
