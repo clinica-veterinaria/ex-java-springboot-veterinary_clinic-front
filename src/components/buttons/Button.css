@@ -1,0 +1,22 @@
+.btn {
+    font-family: var(--font-family);
+    font-size: var(--button-size);
+    font-weight: var(--button-weight);
+    border-radius: var(--border-radius-button);
+    padding: 12px 20px;
+    cursor: pointer;
+  }
+  
+  /* Variantes */
+  .btn-primary {
+    background-color: var(--primary-500);
+    color: var(--black);
+    border: none;
+  }
+  
+  .btn-secondary {
+    background-color: var(--neutral-500);
+    color: var(--black);
+    border: none;
+  }
+  
