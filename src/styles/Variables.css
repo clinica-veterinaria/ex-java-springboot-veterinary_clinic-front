@@ -1,0 +1,56 @@
+:root {
+     /* 🎨 Colors
+        /* Primary */
+        --primary-250: #E9E7FD;
+        --primary-500: #BBB5FA;
+        --primary-750: #120877;
+
+        /* Secondary */
+        --secondary-250: #EEF3B9;
+        --secondary-500: #D9E460;
+        --secondary-750: #616912;
+
+        /* Neutral */
+        --secondary-250: #F2F2F2;
+        --secondary-500: #D7D7D7;
+        --secondary-750: #404040;
+
+        --black: #101010;
+        --white: #ffffff;
+
+        /* Error */
+        --border-red:#C00F0C;
+        --background-red: #FDD3D0;
+
+    /* ✍️ Typography (Host Grotesk) */
+    --font-family: "Host Grotesk", sans-serif;
+      
+        --h1-size: 32px;
+        --h1-weight: 700;
+      
+        --h2-size: 24px;
+        --h2-weight: 600;
+      
+        --h3-size: 20px;
+        --h3-weight: 500;
+      
+        --body-size: 16px;
+        --body-weight: 400;
+      
+        --button-size: 16px;
+        --button-weight: 600;
+
+    /* 📏 Spacing */
+
+
+    /* ⚙️ Border radius */
+    --border-radius-button: 50px;
+    --border-radius-card: 12px;
+    --border-radius-img: 8px;
+
+    
+
+
+
+
+}
