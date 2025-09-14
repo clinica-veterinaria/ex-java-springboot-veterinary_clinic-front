@@ -1,0 +1,89 @@
+.button-status-container {
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+}
+
+.button-status {
+  font-family: var(--font-family);
+  font-size: var(--button-size);
+  font-weight: var(--button-weight);
+  border-radius: var(--border-radius-button);
+  border: none;
+  padding: 12px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  transition: all 0.2s ease;
+  min-width: 120px;
+  justify-content: center;
+}
+
+.button-status--pendiente {
+  background-color: var(--secondary-250);
+  color: var(--secondary-750);
+}
+
+.button-status--pendiente:hover {
+  background-color: var(--secondary-500);
+}
+
+.button-status--atendido {
+  background-color: var(--secondary-500);
+  color: var(--secondary-750);
+}
+
+.button-status--atendido:hover {
+  background-color: var(--secondary-250);
+}
+
+.button-status--expirada {
+  background-color: var(--neutral-500);
+  color: var(--neutral-750);
+  cursor: not-allowed;
+}
+
+.button-status:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.dropdown-icon {
+  font-size: 12px;
+  transition: transform 0.2s ease;
+}
+
+.dropdown-icon--open {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--white);
+  border-radius: var(--border-radius-card);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  margin-top: 4px;
+}
+
+.dropdown-item {
+  width: 100%;
+  padding: 12px 20px;
+  border: none;
+  background: var(--neutral-250);
+  font-family: var(--font-family);
+  font-size: var(--button-size);
+  font-weight: var(--button-weight);
+  color: var(--neutral-750);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-radius: var(--border-radius-button);
+}
+
+.dropdown-item:hover {
+  background-color: var(--neutral-250);
+}
