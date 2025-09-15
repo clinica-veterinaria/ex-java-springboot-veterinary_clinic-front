@@ -4,7 +4,6 @@ import './components/styles/Variables.css';
 import SideMenuAdmin from './components/sideMenuAdmin/SideMenuAdmin';
 import { BrowserRouter } from 'react-router-dom';
 import SearchInput from './components/searchInput/SearchInput';
-import DeleteModal from './components/deleteModal/DeleteModal';
 
 function App() {
 
@@ -12,7 +11,6 @@ function App() {
     <BrowserRouter>
       <SideMenuAdmin></SideMenuAdmin>
       <SearchInput></SearchInput>
-      <DeleteModal></DeleteModal>
    
     </BrowserRouter>
   )
