@@ -2,7 +2,33 @@
     height: 508px;
     width: 582px;
     background-color: var(--white);
-    box-shadow: rgba(0, 0, 0, 0.25);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
     padding: 12px 20px 24px;
     border-radius: var(--border-radius-card);
+}
+
+.signin-modal__title {
+    font-family: var(--font-family);
+    font-size: var(--h2-size);
+    font-weight: var(--h2-weight);
+    color: var(--black);
+    display: block;   
+    text-align: center;
+    margin: 0;
+}
+
+.signin-modal__image-container {
+    width: 196px;
+    height: 167px;
+    border-radius: var(--border-radius-img);
+    background-color: var(--primary-250);
+}
+
+.signin-modal__buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: var(--space-button);
 }

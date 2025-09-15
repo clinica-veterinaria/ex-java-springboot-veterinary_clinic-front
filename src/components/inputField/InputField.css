@@ -1,0 +1,28 @@
+.input-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+}
+
+.input-field__label {
+    font-family: var(--font-family);
+    font-size: var(--button-size);
+    font-weight: var(--button-weight);
+    color: var(--black);
+  }
+  
+  .input-field__input {
+    height: 36px;
+    border: 1px solid var(--neutral-750);
+    border-radius: var(--border-radius-card);
+    padding: 0 8px;
+    font-size: 14px;
+    font-family: var(--font-family);
+    font-size: var(--body-size);
+    font-weight: var(--body-weight);
+    color: var(--black);
+  }
+  
+  .input-field__input::placeholder {
+    color: var(--neutral-500);
+  }
