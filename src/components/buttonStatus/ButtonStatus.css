@@ -21,7 +21,7 @@
 
 .button-status--pendiente {
   background-color: var(--secondary-250);
-  color: var(--secondary-750);
+  color: var(--black);
 }
 
 .button-status--pendiente:hover {
@@ -30,7 +30,7 @@
 
 .button-status--atendido {
   background-color: var(--secondary-500);
-  color: var(--secondary-750);
+  color: var(--black);
 }
 
 .button-status--atendido:hover {
@@ -39,7 +39,7 @@
 
 .button-status--expirada {
   background-color: var(--neutral-500);
-  color: var(--neutral-750);
+  color: var(--black);
   cursor: not-allowed;
 }
 
@@ -74,7 +74,7 @@
   width: 100%;
   padding: 12px 20px;
   border: none;
-  background: var(--neutral-250);
+  background: var(--neutral-500);
   font-family: var(--font-family);
   font-size: var(--button-size);
   font-weight: var(--button-weight);
