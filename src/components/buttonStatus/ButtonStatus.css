@@ -15,7 +15,7 @@
   display: flex;
   gap: var(--space-s);
   transition: all 0.2s ease;
-  min-width: 120px;
+  width: 132px;
   justify-content: center;
 }
 
