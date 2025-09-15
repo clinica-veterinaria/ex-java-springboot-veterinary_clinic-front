@@ -11,16 +11,7 @@ const ButtonStatus = ({
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
   const buttonRef = useRef(null);
-
-  // Check if appointment is expired (after 20:00 of the appointment date)
-  const isExpired = appointmentDate && (() => {
-    const appointmentDateTime = new Date(appointmentDate);
-    const closingTime = new Date(appointmentDateTime);
-    closingTime.setHours(20, 0, 0, 0); // Set to 20:00 (8 PM) of the appointment date
-    
-    const now = new Date();
-    return now > closingTime && status === 'pendiente';
-  })();
+  const containerRef = useRef(null);
 
   const handleStatusChange = (newStatus) => {
     setStatus(newStatus);
@@ -31,31 +22,22 @@ const ButtonStatus = ({
   const toggleDropdown = () => {
     if (status !== 'expirada') {
       if (!isOpen && buttonRef.current) {
-        // Calculate position when opening
         const rect = buttonRef.current.getBoundingClientRect();
         setDropdownPosition({
           top: rect.bottom + 4,
           left: rect.left,
-          width: 132 // Fixed width to match button
+          width: 132
         });
       }
       setIsOpen(!isOpen);
     }
   };
 
-  // Auto-set to expired if conditions are met
-  useEffect(() => {
-    if (isExpired && status === 'pendiente') {
-      setStatus('expirada');
-      onStatusChange('expirada');
-    }
-  }, [appointmentDate, status, isExpired, onStatusChange]);
-
   const getButtonClass = () => {
     return `button-status button-status--${status}`;
   };
 
-   const renderDropdownIcon = () => {
+  const renderDropdownIcon = () => {
     if (status === 'expirada') return null;
     return <span className={`dropdown-icon ${isOpen ? 'dropdown-icon--open' : ''}`}> 
         <ChevronDown size={20} />
@@ -75,8 +57,39 @@ const ButtonStatus = ({
     }
   };
 
+  // Check if appointment is expired (after 20:00 of the appointment date)
+  useEffect(() => {
+    if (appointmentDate && status === 'pendiente') {
+      const appointmentDateTime = new Date(appointmentDate);
+      const closingTime = new Date(appointmentDateTime);
+      closingTime.setHours(20, 0, 0, 0);
+      
+      const now = new Date();
+      if (now > closingTime) {
+        setStatus('expirada');
+        onStatusChange('expirada');
+      }
+    }
+  }, [appointmentDate, status, onStatusChange]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isOpen && containerRef.current && !containerRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }
+  }, [isOpen]);
+
   return (
-    <div className="button-status-container">
+    <div className="button-status-container" ref={containerRef}>
       <button 
         ref={buttonRef}
         className={getButtonClass()}
@@ -88,7 +101,6 @@ const ButtonStatus = ({
         {renderDropdownIcon()}
       </button>
       
-      {/* Dropdown con position fixed */}
       {isOpen && (
         <div 
           style={{

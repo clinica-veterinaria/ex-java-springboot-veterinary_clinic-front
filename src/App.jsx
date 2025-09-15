@@ -12,11 +12,11 @@ function App() {
     <BrowserRouter>
       <SideMenuAdmin></SideMenuAdmin>
       <SearchInput></SearchInput>
-      <ButtonStatus 
+       <ButtonStatus 
   initialStatus="pendiente"
   appointmentDate="2025-09-15" // Fecha pasada
   onStatusChange={(newStatus) => console.log(newStatus)}
-/>
+	/>
     </BrowserRouter>
   )
 }
