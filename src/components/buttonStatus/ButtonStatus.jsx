@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { ChevronDown } from "lucide-react";
 import './ButtonStatus.css';
 
 const ButtonStatus = ({ 
@@ -11,8 +12,15 @@ const ButtonStatus = ({
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
   const buttonRef = useRef(null);
 
-  // Check if appointment is expired
-  const isExpired = appointmentDate && new Date(appointmentDate) < new Date() && status === 'pendiente';
+  // Check if appointment is expired (after 20:00 of the appointment date)
+  const isExpired = appointmentDate && (() => {
+    const appointmentDateTime = new Date(appointmentDate);
+    const closingTime = new Date(appointmentDateTime);
+    closingTime.setHours(20, 0, 0, 0); // Set to 20:00 (8 PM) of the appointment date
+    
+    const now = new Date();
+    return now > closingTime && status === 'pendiente';
+  })();
 
   const handleStatusChange = (newStatus) => {
     setStatus(newStatus);
@@ -28,7 +36,7 @@ const ButtonStatus = ({
         setDropdownPosition({
           top: rect.bottom + 4,
           left: rect.left,
-          width: rect.width
+          width: 132 // Fixed width to match button
         });
       }
       setIsOpen(!isOpen);
@@ -47,9 +55,11 @@ const ButtonStatus = ({
     return `button-status button-status--${status}`;
   };
 
-  const renderDropdownIcon = () => {
+   const renderDropdownIcon = () => {
     if (status === 'expirada') return null;
-    return <span className={`dropdown-icon ${isOpen ? 'dropdown-icon--open' : ''}`}>▼</span>;
+    return <span className={`dropdown-icon ${isOpen ? 'dropdown-icon--open' : ''}`}> 
+        <ChevronDown size={20} />
+    </span>;
   };
 
   const getStatusText = () => {

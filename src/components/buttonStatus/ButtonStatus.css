@@ -13,7 +13,6 @@
   padding: 12px 20px;
   cursor: pointer;
   display: flex;
-  align-items: center;
   gap: var(--space-s);
   transition: all 0.2s ease;
   min-width: 120px;
@@ -52,6 +51,7 @@
 .dropdown-icon {
   font-size: 12px;
   transition: transform 0.2s ease;
+  
 }
 
 .dropdown-icon--open {
