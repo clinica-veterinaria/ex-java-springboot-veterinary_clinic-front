@@ -3,42 +3,31 @@ import { useForm } from "react-hook-form";
 import './SignInModal.css';
 import Button from '../buttons/Button';
 import InputField from '../inputs/InputField';
-import SimpleCaptcha from '../captcha/SimpleCaptcha';
 
 export default function SignInModal({ onCancel, onSave }) {
     const { register, handleSubmit, formState: { errors }, watch } = useForm();
     const [preview, setPreview] = useState(null);
-    const [captchaValid, setCaptchaValid] = useState(false);
     
     // See password for validation
     const password = watch("password");
 
-    const onSubmit = (data) => {
-        if (!captchaValid) {
-            alert("Por favor, completa el captcha");
-            return;
-        }
-
-        // Password encrypted with btoa method
-        const encryptedData = {
+    // Password encrypted with btoa method
+        const onSubmit = (data) => {
+            const encryptedData = {
             ...data,
             password: btoa(data.password), // Encrypt password
             confirmPassword: undefined, // dont send confirmPassword
             imagen: data.imagen[0] // just the file, not the FileList
-        };
-
-        if (onSave) onSave(encryptedData);
-    };
+            };
+            
+            if (onSave) onSave(encryptedData);
+            };
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
             setPreview(URL.createObjectURL(file));
         }
-    };
-
-    const handleCaptchaSuccess = (isValid) => {
-        setCaptchaValid(isValid);
     };
 
     return (
@@ -136,7 +125,7 @@ export default function SignInModal({ onCancel, onSave }) {
                                 minLength: { value: 8, message: "Mínimo 8 caracteres" },
                                 pattern: {
                                     value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-                                    message: "Debe tener mayúscula, minúscula y número"
+                                    message: "Debe contener mayúscula, minúscula y número"
                                 }
                             })}
                             error={errors.password?.message}
@@ -155,17 +144,10 @@ export default function SignInModal({ onCancel, onSave }) {
                         />
                     </div>
 
-                    {/* Captcha */}
-                    <SimpleCaptcha onValidation={handleCaptchaSuccess} />
-
                     {/* Buttons */}
                     <div className="signin-modal__buttons">
-                        <Button variant="secondary" type="button" onClick={onCancel}>
-                            Cancelar
-                        </Button>
-                        <Button variant="primary" type="submit">
-                            Registrarse
-                        </Button>
+                        <Button variant="secondary" type="button" onClick={onCancel}>Cancelar</Button>
+                        <Button variant="primary" type="submit">Registrarse</Button>
                     </div>
                 </form>
             </div>
