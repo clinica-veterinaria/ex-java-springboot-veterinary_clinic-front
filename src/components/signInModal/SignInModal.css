@@ -22,6 +22,10 @@
     height: 167px;
     border-radius: var(--border-radius-img);
     background-color: var(--primary-250);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
 }
 
 .signin-modal__buttons {
@@ -32,3 +36,37 @@
     gap: 16px;
     margin-top: var(--space-button);
 }
+  
+  /* Placeholder */
+  .signin-modal__image-placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--neutral-600);
+    cursor: pointer;
+  }
+  
+  /* Imagen preview */
+  .signin-modal__image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  /* Input oculto */
+  .signin-modal__image-input {
+    display: none;
+  }
+  
+  .error-text {
+    color: var(--border-red);
+    font-family: var(--font-family);
+    font-size: var(--body-size);
+    font-weight: var(--body-weight);
+    margin-top: var(--space-s);
+  }
+  
