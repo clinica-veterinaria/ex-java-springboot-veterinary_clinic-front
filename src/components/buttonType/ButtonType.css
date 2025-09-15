@@ -20,22 +20,19 @@
 }
 
 .button-type--estandar {
-  background-color: var(--secondary-250);
-  color: var(--secondary-750);
+  background-color: var(--white);
+  color: var(--black);
+  border: solid 2px black;
 }
 
-.button-type--estandar:hover {
-  background-color: var(--secondary-500);
-}
 
 .button-type--urgente {
-  background-color: var(--secondary-500);
-  color: var(--secondary-750);
+ background-color: var(--white);
+  color: var(--black);
+  border: solid 2px black;
 }
 
-.button-type--urgente:hover {
-  background-color: var(--secondary-250);
-}
+
 
 
 .dropdown-icon {
