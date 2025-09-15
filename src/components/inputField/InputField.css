@@ -13,6 +13,7 @@
   
   .input-field__input {
     height: 36px;
+    width: auto;
     border: 2px solid var(--neutral-750);
     border-radius: var(--border-radius-card);
     padding: 0 8px;

@@ -10,7 +10,7 @@ export default function SignInModal({ children, onCancel, onSave }) {
             </div>
             <div className="signin-modal__content">
                 <div className="signin-modal__image-container">
-
+                    {children}
                 </div>
             </div>
             <div className="signin-modal__buttons">
