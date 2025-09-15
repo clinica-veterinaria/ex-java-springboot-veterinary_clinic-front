@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import './SignInModal.css';
 import Button from '../buttons/Button';
-import InputField from '../inputs/InputField';
+import InputField from '../inputField/InputField';
 
 export default function SignInModal({ onCancel, onSave }) {
     const { register, handleSubmit, formState: { errors }, watch } = useForm();
@@ -40,6 +40,7 @@ export default function SignInModal({ onCancel, onSave }) {
                 <form onSubmit={handleSubmit(onSubmit)} className="signin-modal__form">
                     
                     {/* Upload image */}
+                    <div className="signin-modal__form-body">
                     <div className="signin-modal__image-section">
                         <label className="signin-modal__image-label">
                             {preview ? (
@@ -73,8 +74,7 @@ export default function SignInModal({ onCancel, onSave }) {
                                 required: "El nombre es obligatorio",
                                 minLength: { value: 2, message: "Mínimo 2 caracteres" }
                             })}
-                            error={errors.nombreDoctor?.message}
-                        />
+                            error={errors.nombreDoctor?.message}/>
 
                         <InputField
                             label="Número de colegiado"
@@ -86,8 +86,7 @@ export default function SignInModal({ onCancel, onSave }) {
                                     message: "Formato: 2 letras seguidas de 3-6 números"
                                 }
                             })}
-                            error={errors.colegiado?.message}
-                        />
+                            error={errors.colegiado?.message}/>
 
                         <InputField
                             label="Correo electrónico"
@@ -100,8 +99,7 @@ export default function SignInModal({ onCancel, onSave }) {
                                     message: "Introduce un correo válido"
                                 }
                             })}
-                            error={errors.email?.message}
-                        />
+                            error={errors.email?.message}/>
 
                         <InputField
                             label="Teléfono"
@@ -113,8 +111,7 @@ export default function SignInModal({ onCancel, onSave }) {
                                     message: "Debe contener 9 dígitos"
                                 }
                             })}
-                            error={errors.telefono?.message}
-                        />
+                            error={errors.telefono?.message}/>
 
                         <InputField
                             label="Contraseña"
@@ -128,8 +125,7 @@ export default function SignInModal({ onCancel, onSave }) {
                                     message: "Debe contener mayúscula, minúscula y número"
                                 }
                             })}
-                            error={errors.password?.message}
-                        />
+                            error={errors.password?.message}/>
 
                         <InputField
                             label="Confirmar contraseña"
@@ -140,8 +136,8 @@ export default function SignInModal({ onCancel, onSave }) {
                                 validate: value => 
                                     value === password || "Las contraseñas no coinciden"
                             })}
-                            error={errors.confirmPassword?.message}
-                        />
+                            error={errors.confirmPassword?.message}/>
+                    </div>
                     </div>
 
                     {/* Buttons */}

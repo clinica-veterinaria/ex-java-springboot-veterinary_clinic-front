@@ -1,10 +1,12 @@
 .signin-modal {
-    height: 508px;
-    width: 582px;
+    height: 640px;
+    width: 500px;
     background-color: var(--white);
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
     padding: 12px 20px 24px;
     border-radius: var(--border-radius-card);
+    display: flex;
+    flex-direction: column;
 }
 
 .signin-modal__title {
@@ -17,15 +19,62 @@
     margin: 0;
 }
 
-.signin-modal__image-container {
-    width: 196px;
-    height: 167px;
-    border-radius: var(--border-radius-img);
-    background-color: var(--primary-250);
+.signin-modal__form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
+    gap: var(--space-button);
+    width: 100%;
+}
+
+.signin-modal__image-section {
+    width: 196px;
+    flex-shrink: 0;
+    text-align: center;
+    display: flex;            
+    justify-content: center; 
+    align-items: center;    
+    margin: 0 auto;    
+}
+
+.signin-modal__image-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 167px;
+    border-radius: var(--border-radius-img);
+    background-color: var(--primary-250);
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.signin-modal__image {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--border-radius-img);
+    object-fit: cover;
+}
+
+.signin-modal__image-placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--neutral-750);
+    cursor: pointer;
+}
+
+.signin-modal__fields {
+    margin-top: var(--space-card);
+    width: 100%; 
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 16px;
+    align-items: start;
 }
 
 .signin-modal__buttons {
@@ -36,31 +85,6 @@
     gap: 16px;
     margin-top: var(--space-button);
 }
-  
-  /* Placeholder */
-  .signin-modal__image-placeholder {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--neutral-600);
-    cursor: pointer;
-  }
-  
-  /* Imagen preview */
-  .signin-modal__image {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  
-  /* Input oculto */
-  .signin-modal__image-input {
-    display: none;
-  }
   
   .error-text {
     color: var(--border-red);
