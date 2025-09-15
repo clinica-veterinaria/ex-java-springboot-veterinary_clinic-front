@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import './FilterGroup.css';
 import FilterPill from "../filterPills/FilterPill";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilter } from "@fortawesome/free-solid-svg-icons";
 
 export default function FilterGroup({ onFilterChange }) {
     
-    const [selectedFilters, setSelectedFilters] = useState(null);
+    const [selectedFilters, setSelectedFilters] = useState([]);
 
     const filters = [
         "Ordenar por fecha",
@@ -36,6 +38,7 @@ export default function FilterGroup({ onFilterChange }) {
 
     return(
         <div className="filter-group">
+            <FontAwesomeIcon icon={faFilter} className="faFilter" />
             {filters.map((filter) => (
                 <FilterPill key={filter} isSelected={selectedFilters.includes(filter)} onClick={() => handleFilterClick(filter)}>{filter}</FilterPill>
             ))}

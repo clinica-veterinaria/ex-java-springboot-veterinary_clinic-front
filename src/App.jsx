@@ -4,7 +4,6 @@ import './components/styles/Variables.css';
 import SideMenuAdmin from './components/sideMenuAdmin/SideMenuAdmin';
 import { BrowserRouter } from 'react-router-dom';
 import SearchInput from './components/searchInput/SearchInput';
-import FilterGroup from './components/filterGroup/FilterGroup';
 
 function App() {
 
@@ -12,7 +11,6 @@ function App() {
     <BrowserRouter>
       <SideMenuAdmin></SideMenuAdmin>
       <SearchInput></SearchInput>
-      <FilterGroup></FilterGroup>
     </BrowserRouter>
   )
 }
