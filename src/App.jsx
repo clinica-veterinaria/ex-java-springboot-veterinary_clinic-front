@@ -8,17 +8,6 @@ import LoginPage from './pages/LoginPage';
 
 
 function App() {
-const handleLogin = (credentials) => {
-    console.log('Datos del login:', credentials);
-    // Aquí procesarías el login
-  };
-
-  const handleGoToRegister = () => {
-    console.log('Ir al registro');
-    // Aquí navegarías al registro
-  };
-
-
   return (
     <BrowserRouter>
       <SideMenuAdmin></SideMenuAdmin>
