@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './AddAppt.css';
 import ButtonType from '../buttonType/ButtonType';
 import ButtonStatus from '../buttonStatus/ButtonStatus'
 import Button from '../buttons/Button';
-// import DateTimePicker from './DateTimePicker'; // Componente que necesitarás crear para el calendario
+import DateTimePicker from '../dateTimePicker/DateTimePicker';
 
-const AddAppointmentModal = ({
-    isOpen = false,
-    onClose = () => { },
-    onSave = () => { }
-}) => {
+const AddAppointmentModal = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => {
     const [formData, setFormData] = useState({
         petName: '',
         petId: '',
@@ -19,6 +15,40 @@ const AddAppointmentModal = ({
         type: 'estandar',
         status: 'pendiente'
     });
+
+    const [availableSlots, setAvailableSlots] = useState([]);
+
+    useEffect(() => {
+        if (formData.date) {
+            const fetchAvailableSlots = async () => {
+                try {
+                    // connect with backend
+                    const response = await fetch(`/api/appointments/disponibles?fecha=${formData.date}`);
+                    
+                    if (!response.ok) {
+                        throw new Error('Error al obtener los horarios del servidor');
+                    }
+                    
+                    const data = await response.json();
+                
+                    const allSlotsFromBackend = data.slots; 
+                    
+                    // Max. 10 appointments
+                    const limitedSlots = allSlotsFromBackend.slice(0, 10);
+                    
+                    setAvailableSlots(limitedSlots);
+
+                } catch (error) {
+                    console.error("Error al obtener los horarios disponibles:", error);
+                    setAvailableSlots([]);
+                }
+            };
+
+            fetchAvailableSlots();
+        } else {
+            setAvailableSlots([]); // Limpia los horarios si no hay fecha seleccionada
+        }
+    }, [formData.date]); // El efecto se ejecuta solo cuando la fecha cambia
 
     const handleInputChange = (field, value) => {
         setFormData(prev => ({
@@ -46,6 +76,7 @@ const AddAppointmentModal = ({
     };
 
     if (!isOpen) return null;
+    
 
     return (
         <div className="modal-overlay">
@@ -83,38 +114,24 @@ const AddAppointmentModal = ({
                     <div className="form-row">
                         <div className="form-field">
                             <label className="form-label">Fecha</label>
-                            {/* Aquí irá tu componente DateTimePicker */}
-                            <input
+                            {/* Date time picker-date */}
+                            <DateTimePicker 
                                 type="date"
-                                className="form-input"
-                                placeholder="Ej: 15/09/2025"
                                 value={formData.date}
-                                onChange={(e) => handleInputChange('date', e.target.value)}
+                                onChange={(value) => handleInputChange('date', value)}
+                                availableSlots={availableSlots}
                             />
-                            {/* <DateTimePicker 
-                type="date"
-                value={formData.date}
-                onChange={(value) => handleInputChange('date', value)}
-                availableSlots={availableSlots}
-              /> */}
                         </div>
                         <div className="form-field">
                             <label className="form-label">Hora</label>
-                            {/* Aquí irá tu componente DateTimePicker */}
-                            <input
+                            {/* Date Time Picker-time */}
+                            <DateTimePicker 
                                 type="time"
-                                className="form-input"
-                                placeholder="Ej: 12:00"
                                 value={formData.time}
-                                onChange={(e) => handleInputChange('time', e.target.value)}
+                                onChange={(value) => handleInputChange('time', value)}
+                                selectedDate={formData.date}
+                                availableSlots={availableSlots}
                             />
-                            {/* <DateTimePicker 
-                type="time"
-                value={formData.time}
-                onChange={(value) => handleInputChange('time', value)}
-                selectedDate={formData.date}
-                availableSlots={availableSlots}
-              /> */}
                         </div>
                     </div>
 
@@ -150,3 +167,5 @@ const AddAppointmentModal = ({
 };
 
 export default AddAppointmentModal;
+
+// availableSlots
