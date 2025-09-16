@@ -68,25 +68,13 @@ export default function SignInModal({ onCancel, onSave }) {
                     {/* Form */}
                     <div className="signin-modal__fields">
                         <InputField
-                            label="Nombre doctor"
-                            placeholder="Ej.: Dra. Miranda López"
-                            {...register("nombreDoctor", { 
+                            label="Nombre"
+                            placeholder="Ej.: Miranda López"
+                            {...register("nombre", { 
                                 required: "El nombre es obligatorio",
                                 minLength: { value: 2, message: "Mínimo 2 caracteres" }
                             })}
                             error={errors.nombreDoctor?.message}/>
-
-                        <InputField
-                            label="Número de colegiado"
-                            placeholder="CV12345"
-                            {...register("colegiado", { 
-                                required: "El número de colegiado es obligatorio",
-                                pattern: {
-                                    value: /^[A-Z]{2}\d{3,6}$/,
-                                    message: "Formato: 2 letras seguidas de 3-6 números"
-                                }
-                            })}
-                            error={errors.colegiado?.message}/>
 
                         <InputField
                             label="Correo electrónico"
