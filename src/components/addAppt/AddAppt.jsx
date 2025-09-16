@@ -151,8 +151,8 @@ const AddAppointmentModal = ({ isOpen = false, onClose = () => { }, onSave = () 
 
                     {/* Row 4: type and state */}
                     <div className="form-row">
-                        <ButtonType></ButtonType>
-                        <ButtonStatus></ButtonStatus>
+                    <ButtonType value={formData.type} onChange={(value) => handleInputChange('type', value)} />
+                    <ButtonStatus value={formData.status} onChange={(value) => handleInputChange('status', value)}/>
                     </div>
 
                     {/* Buttons */}
@@ -167,5 +167,3 @@ const AddAppointmentModal = ({ isOpen = false, onClose = () => { }, onSave = () 
 };
 
 export default AddAppointmentModal;
-
-// availableSlots
