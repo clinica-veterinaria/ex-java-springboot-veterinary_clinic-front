@@ -59,6 +59,7 @@ const LoginPage = ({ onLogin = () => { }, onGoToRegister = () => { } }) => {
                     <PawPrint key={i} size={60} color='#D9E460' strokeWidth={1} />
                 ))}
             </div>
+            <div className="login-content">
             <div className="logo-container">
                 <img src={Oliwa} alt="Olivwa Logo" width="500" height="120" />
 
@@ -126,6 +127,7 @@ const LoginPage = ({ onLogin = () => { }, onGoToRegister = () => { } }) => {
                         </div>
                     </form>
                 </div>
+            </div>
             </div>
         </div>
     );
