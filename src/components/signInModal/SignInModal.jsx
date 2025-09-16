@@ -74,7 +74,7 @@ export default function SignInModal({ onCancel, onSave }) {
                                 required: "El nombre es obligatorio",
                                 minLength: { value: 2, message: "Mínimo 2 caracteres" }
                             })}
-                            error={errors.nombreDoctor?.message}/>
+                            error={errors.nombre?.message}/>
 
                         <InputField
                             label="Correo electrónico"

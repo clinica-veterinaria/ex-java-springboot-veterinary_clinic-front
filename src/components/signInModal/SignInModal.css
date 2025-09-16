@@ -53,7 +53,8 @@
     width: 100%;
     height: 100%;
     border-radius: var(--border-radius-img);
-    object-fit: cover;
+    object-fit: contain;
+    overflow: hidden;
 }
 
 .signin-modal__image-placeholder {
@@ -66,6 +67,7 @@
     justify-content: center;
     color: var(--neutral-750);
     cursor: pointer;
+    overflow: hidden;
 }
 
 .signin-modal__fields {
