@@ -78,6 +78,18 @@ export default function SignInModal({ onCancel, onSave }) {
                             error={errors.nombre?.message}/>
 
                         <InputField
+                            label="DNI"
+                            placeholder="12345678 A"
+                            {...register("dni", {
+                                required: "El DNI es obligatorio",
+                                pattern: {
+                                    value: /^[0-9]{8,10}[A-Z]$/,
+                                    message: "Debe contener entre 8 y 10 dígitos y una mayúscula"
+                                }
+                            })}
+                            error={errors.dni?.message}/>          
+
+                        <InputField
                             label="Correo electrónico"
                             placeholder="Ej.: dramiranda@email.com"
                             type="email"
