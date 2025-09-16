@@ -12,8 +12,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <SideMenuAdmin></SideMenuAdmin>
-      <SearchInput></SearchInput>
+     
 
 <AddAppointmentModal 
   isOpen={showModal}

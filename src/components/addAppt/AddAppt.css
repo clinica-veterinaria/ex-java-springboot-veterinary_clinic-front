@@ -79,7 +79,7 @@
 .form-textarea,
 .form-select {
   padding: 12px 16px;
-  border: 1px solid var(--neutral-500);
+  border: 1px solid var(--neutral-750);
   border-radius: var(--border-radius-card);
   font-family: var(--font-family);
   font-size: var(--body-size);
@@ -102,13 +102,13 @@
   color: var(--neutral-500);
 }
 
-/* Textarea específico */
+/* Textarea */
 .form-textarea {
   resize: vertical;
   min-height: 80px;
 }
 
-/* Select específico */
+/* Select */
 .form-select {
   cursor: pointer;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
@@ -134,44 +134,11 @@
 
 /* Modal Actions */
 .modal-actions {
-  padding: var(--space-body) var(--space-section) var(--space-section);
+  padding: var(--space-body) var(--space-section);
   border-top: 1px solid var(--neutral-250);
   display: flex;
   gap: var(--space-button);
   justify-content: center;
-}
-
-/* Botones temporales - reemplazar por tus componentes */
-.btn-cancel,
-.btn-save {
-  padding: 12px 24px;
-  border-radius: var(--border-radius-button);
-  font-family: var(--font-family);
-  font-size: var(--button-size);
-  font-weight: var(--button-weight);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: none;
-  min-width: 100px;
-}
-
-.btn-cancel {
-  background-color: var(--neutral-250);
-  color: var(--neutral-750);
-}
-
-.btn-cancel:hover {
-  background-color: var(--neutral-500);
-}
-
-.btn-save {
-  background-color: var(--primary-500);
-  color: var(--primary-750);
-}
-
-.btn-save:hover {
-  background-color: var(--primary-750);
-  color: var(--white);
 }
 
 /* Responsive */

@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import './AddAppt.css';
 import ButtonType from '../buttonType/ButtonType';
 import ButtonStatus from '../buttonStatus/ButtonStatus'
-// import ButtonPrimary from './ButtonPrimary'; // Descomenta cuando tengas el componente
-// import ButtonSecondary from './ButtonSecondary'; // Descomenta cuando tengas el componente
-// import ButtonStatus from './ButtonStatus'; // Ya lo tienes creado
+import Button from '../buttons/Button';
 // import DateTimePicker from './DateTimePicker'; // Componente que necesitarás crear para el calendario
 
 const AddAppointmentModal = ({
@@ -57,7 +55,7 @@ const AddAppointmentModal = ({
                 </div>
 
                 <div className="modal-content">
-                    {/* Fila 1: Nombre mascota e ID */}
+                    {/* row 1: name and id */}
                     <div className="form-row">
                         <div className="form-field">
                             <label className="form-label">Nombre mascota</label>
@@ -81,7 +79,7 @@ const AddAppointmentModal = ({
                         </div>
                     </div>
 
-                    {/* Fila 2: Fecha y Hora */}
+                    {/* row 2: date and time */}
                     <div className="form-row">
                         <div className="form-field">
                             <label className="form-label">Fecha</label>
@@ -120,7 +118,7 @@ const AddAppointmentModal = ({
                         </div>
                     </div>
 
-                    {/* Fila 3: Motivo */}
+                    {/* row 3: cause */}
                     <div className="form-row">
                         <div className="form-field form-field--full">
                             <label className="form-label">Motivo</label>
@@ -134,35 +132,16 @@ const AddAppointmentModal = ({
                         </div>
                     </div>
 
-                    {/* Fila 4: Tipo y Estado */}
+                    {/* Row 4: type and state */}
                     <div className="form-row">
                         <ButtonType></ButtonType>
                         <ButtonStatus></ButtonStatus>
                     </div>
 
-                    {/* Botones */}
+                    {/* Buttons */}
                     <div className="modal-actions">
-                        {/* Aquí usarías tus componentes de botones */}
-                        {/* <ButtonSecondary onClick={handleCancel}>
-            Cancelar
-          </ButtonSecondary>
-          <ButtonPrimary onClick={handleSave}>
-            Guardar
-          </ButtonPrimary> */}
-
-                        {/* Botones temporales - reemplazar por tus componentes */}
-                        <button
-                            className="btn-cancel"
-                            onClick={handleCancel}
-                        >
-                            Cancelar
-                        </button>
-                        <button
-                            className="btn-save"
-                            onClick={handleSave}
-                        >
-                            Guardar
-                        </button>
+                        <Button variant="secondary" onClick={handleCancel}>Cancelar</Button>
+                        <Button variant="primary" onClick={handleSave}>Guardar</Button> 
                     </div>
                 </div>
             </div>
