@@ -11,7 +11,6 @@ function App() {
     <BrowserRouter>
       <SideMenuAdmin></SideMenuAdmin>
       <SearchInput></SearchInput>
-   
     </BrowserRouter>
   )
 }
