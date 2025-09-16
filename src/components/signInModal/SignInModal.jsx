@@ -47,7 +47,8 @@ export default function SignInModal({ onCancel, onSave }) {
                                 <img src={preview} alt="Preview" className="signin-modal__image" />
                             ) : (
                                 <div className="signin-modal__image-placeholder">
-                                    <span>📷 Subir imagen</span>
+                                    <div>📁</div>
+                                    <span>Seleccionar imagen</span>
                                 </div>
                             )}
                             <input
@@ -138,3 +139,5 @@ export default function SignInModal({ onCancel, onSave }) {
         </div>
     );
 }
+
+{/* falta el captcha! */}
