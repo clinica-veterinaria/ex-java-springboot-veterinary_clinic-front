@@ -1,3 +1,10 @@
+.pill-row {
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-s);
+    align-items: left;
+  }
+
 .pill {
     display: inline-flex;
     align-items: center;
@@ -7,7 +14,7 @@
     font-family: var(--font-family);
     font-size: var(--body-size);
     font-weight: var(--body-weight);
-    color: var(--neutral-250);
+    color: var(--black);
     text-align: center;
     white-space: nowrap;
     min-height: 32px; 

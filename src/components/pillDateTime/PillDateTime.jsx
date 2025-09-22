@@ -1,7 +1,7 @@
 import React from "react";
 import './PillDateTime.css';
 
-export default function PillDateTime({ label, type }) {
+export default function PillDateTime({ date, time }) {
     const formatDate = (dateString) => {
         const date = new Date(dateString);
 
@@ -16,8 +16,9 @@ export default function PillDateTime({ label, type }) {
       };
 
     return(
-        <span className={`pill pill--${type}`}>
-        {formatDate(label)}
-        </span>
+        <div className="pill-row">
+            <span className="pill pill-date">{formatDate(date)}</span>
+            <span className="pill pill-time">{time}</span>
+        </div>
     );
 }
