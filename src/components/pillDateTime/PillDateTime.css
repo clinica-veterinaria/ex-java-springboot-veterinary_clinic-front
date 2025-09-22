@@ -3,6 +3,7 @@
     flex-direction: row;
     gap: var(--space-s);
     align-items: left;
+    margin-bottom: var(--space-button);
   }
 
 .pill {
@@ -14,6 +15,7 @@
     font-family: var(--font-family);
     font-size: var(--body-size);
     font-weight: var(--body-weight);
+    background-color: var(--neutral-500);
     color: var(--black);
     text-align: center;
     white-space: nowrap;
