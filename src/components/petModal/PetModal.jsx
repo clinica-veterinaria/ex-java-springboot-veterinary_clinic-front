@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
 import './PetModal.css';
 import Button from '../buttons/Button'
-import { createPatient } from './services/APIService.js';
+import { registerPatient } from '../../services/APIPatient';
+
 
 
 const AddPetModal = ({ 
@@ -120,7 +121,7 @@ const AddPetModal = ({
   const handleSave = async () => {
   if (validateForm()) {
     try {
-      const savedPatient = await createPatient(formData);
+      const savedPatient = await registerPatient(formData);
       onSave(savedPatient); 
       handleCancel(); // Reset form after save
     } catch (error) {
