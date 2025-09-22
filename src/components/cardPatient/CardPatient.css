@@ -91,26 +91,9 @@
   color: var(--neutral-750);
 }
 
-.add-patient-card__text {
-  font-size: var(--body-size);
-  font-weight: var(--button-weight);
-  color: var(--neutral-750);
-  margin: 0;
-}
-
-.patient-card {
-  border: 2px solid var(--secondary-750);
-  border-radius: 12px;
-  cursor: pointer;
-  transition: border 0.2s ease, transform 0.1s ease;
-  padding: 8px;
-}
-
-
 .patient-card--selected {
   border: 4px solid var(--secondary-750);
 }
-
 
 
 @media (max-width: 768px) {
