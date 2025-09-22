@@ -12,7 +12,7 @@ import PatientPage from './pages/PatientPage';
 function App() {
   return (
     <BrowserRouter>
-     <PatientPage></PatientPage>
+      <SignInPage></SignInPage>
     </BrowserRouter>
   )
 }
