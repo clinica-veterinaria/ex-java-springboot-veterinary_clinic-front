@@ -4,4 +4,45 @@
     padding: 20px 12px 24px;
     background-color: var(--white);
     border-radius: var(--border-radius-card);
+    font-family: var(--font-family);
+    color: var(--black);
+    display: flex;
+    flex-direction: column;
+}
+
+.faXmark {
+    font-size: var(--h2-size);
+    margin-left: 266px;
+}
+
+.appointment-user__title {
+    font-size: var(--h2-size);
+    font-weight: var(--h2-weight);
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--space-button);
+}
+
+.appointment-user__petName {
+    font-size: var(--h2-size);
+    font-weight: var(--h2-weight);
+    display: flex;
+    align-items: left;
+    margin-bottom: var(--space-s);
+}
+
+.appointment-user__subtitle{
+    margin-top: var(--space-button);
+    font-size: var(--button-size);
+    font-weight: var(--button-weight);
+    display: flex;
+    align-items: left;
+    margin-bottom: var(--space-s);
+}
+
+.appointment-user__text {
+    font-size: var(--body-size);
+    font-weight: var(--body-weight);
+    display: flex;
+    align-items: left;
 }
