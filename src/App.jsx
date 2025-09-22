@@ -4,14 +4,14 @@ import './components/styles/Variables.css';
 import { BrowserRouter } from 'react-router-dom';
 import AppointmentDetailsAdmin from './components/appointmentDetailsAdmin/AppointmentDetailsAdmin';
 import AppointmentCard from './components/appointmentCard/AppointmentCard';
+import FeedbackModal from './components/feedbackModal/FeedbackModal';
 
 function App() {
   return (
     <BrowserRouter>
-    <AppointmentCard 
-    appointmentDatetime="2025-11-09"
-    petName="Pepita"
-    reason="Revisión"
+    <FeedbackModal 
+    message="Eliminado con éxito"
+    type= "success"
     />
     </BrowserRouter>
   )
