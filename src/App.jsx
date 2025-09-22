@@ -9,7 +9,7 @@ function App() {
   return (
     <BrowserRouter>
     <AppointmentCard 
-    appointmentDate="2025-11-09"
+    appointmentDatetime="2025-11-09"
     petName="Pepita"
     reason="Revisión"
     />

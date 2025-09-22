@@ -1,0 +1,29 @@
+.feedback__overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 900;
+}
+
+.feedback-message {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  padding: 10px 16px;
+  border-radius: var(--border-radius-card);
+  font-family: var(--font-family);
+  font-weight: var(--body-weight);
+  font-size: var(--body-size);  
+  text-align: center;
+  z-index: 10000;
+  background-color: var(--white);
+  color: var(--black);
+}
+
+.feedback-message--error {
+    background-color: var(--background-red);
+    color: var(--border-red);
+}

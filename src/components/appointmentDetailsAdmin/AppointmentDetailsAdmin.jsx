@@ -7,7 +7,7 @@ import ButtonStatus from '../buttonStatus/ButtonStatus';
 import Button from '../buttons/Button';
 import ButtonText from '../buttonText/ButtonText';
 
-export default function AppointmentDetailsAdmin({ onClose, petName, appointmentDate, appointmentTime, reason, icon}) {
+export default function AppointmentDetailsAdmin({ onClose, patient, appointmentDatetime, reason, icon}) {
     const [status, setStatus] = useState("pendiente");
 
 
@@ -21,9 +21,9 @@ export default function AppointmentDetailsAdmin({ onClose, petName, appointmentD
                 <h2>Datos de la cita</h2>
             </div>
             <div className="appointment-admin__details">
-                <h3 className="appointment-admin__petName">{petName}</h3>
+                <h3 className="appointment-admin__patient">{patient}</h3>
                 <div className="appointment-admin__data">
-                <PillDateTime date={appointmentDate} time={appointmentTime} />
+                <PillDateTime appointmentDatetime={appointmentDatetime} />
                 <ButtonStatus initialStatus={status} onStatusChange={setStatus} />
                 </div>
                 <div className="appointment-admin__body">

@@ -1,24 +1,23 @@
 import React from "react";
 import './PillDateTime.css';
 
-export default function PillDateTime({ date, time }) {
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
+export default function PillDateTime({ appointmentDatetime }) {
+  if (!appointmentDatetime) return null;
 
-        return date.toLocaleDateString('es-ES', { 
+  const dateObj = new Date(appointmentDatetime);
 
-          day: '2-digit', 
-          month: 'short', 
-          year: 'numeric' 
+  const day = dateObj.getDate();
+  const month = dateObj.toLocaleString("es-ES", { month: "short" }).toUpperCase();
+  const year = dateObj.getFullYear();
 
-        })
-        .toUpperCase(); 
-      };
+  const hours = dateObj.getHours().toString().padStart(2, "0");
+  const minutes = dateObj.getMinutes().toString().padStart(2, "0");
 
-    return(
-        <div className="pill-row">
-            <span className="pill pill-date">{formatDate(date)}</span>
-            <span className="pill pill-time">{time}</span>
-        </div>
-    );
+  const formatted = `${day} ${month} ${year}, ${hours}:${minutes}`;
+
+  return (
+    <span className="pill pill--datetime">
+      {formatted}
+    </span>
+  );
 }

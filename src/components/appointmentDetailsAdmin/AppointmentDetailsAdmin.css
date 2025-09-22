@@ -78,7 +78,7 @@ p {
     padding-bottom: var(--space-s);
 }
 
-.appointment-admin__petName {
+.appointment-admin__patient {
     font-size: var(--h2-size);
     font-weight: var(--h2-weight);
     display: flex;
