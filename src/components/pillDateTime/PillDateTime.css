@@ -1,0 +1,15 @@
+.pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: var(--border-radius-button);
+    font-family: var(--font-family);
+    font-size: var(--body-size);
+    font-weight: var(--body-weight);
+    color: var(--neutral-250);
+    text-align: center;
+    white-space: nowrap;
+    min-height: 32px; 
+    box-sizing: border-box;
+}
