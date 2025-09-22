@@ -1,31 +1,41 @@
+
 .patients-page {
     display: flex;
-    min-height: 100vh;
+    height: 100vh; 
     background-color: var(--neutral-250);
     font-family: var(--font-family);
+    overflow: hidden; 
 }
 
-/* MAIN CONTENT - Ajustado para sidebar fijo */
 .main-content {
     flex: 1;
+    margin-left: 200px; 
     display: flex;
-    position: relative;
-}
+    height: 100vh;
+    overflow: hidden;}
 
-/* CONTENT AREA - Área principal centrada */
 .content-area {
     flex: 1;
     padding: var(--space-section);
     display: flex;
     flex-direction: column;
-    max-width: 1400px;
+    max-width: 1600px;
     margin: 0 auto;
-    /* Centrar el contenido */
+    min-height: 100vh;
+    overflow-y: auto; 
+    overflow-x: hidden; 
+    padding-bottom: 80px; 
+    overflow-y: auto;
 }
 
-/* HEADER */
-
-
+.patients-page__navbar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    z-index: 1000;
+    overflow: hidden; 
+}
 .page-header__filters {
     display: flex;
     align-items: center;
@@ -75,52 +85,33 @@
     text-align: left;
 }
 
-/* ALPHABET INDEX - Posición fija a la izquierda del contenido */
-.alphabet-index {
-    position: fixed;
-    left: 220px;
-    top: 20%;
-    width: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-s);
+
+.content-with-alphabet {
+  display: flex;
+  gap: var(--space-card);
+  align-items: flex-start;
 }
 
-.alphabet-letter {
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background-color: var(--neutral-500);
-    color: var(--white);
-    font-size: 12px;
-    font-weight: var(--button-weight);
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    border: none;
+.alphabet-index__pages {
+  flex-shrink: 0;
+  width: 40px;
 }
 
-.alphabet-letter:hover {
-    background-color: var(--primary-500);
-}
 
-.alphabet-letter--active {
-    background-color: var(--primary-750);
-}
 
 /* GRID DE PACIENTES - Centrado y responsivo */
 .patients-content {
-    width: 100%;
+    flex: 1; /* Mantener del primer bloque */
+    width: 100%; /* Mantener del segundo bloque */
     display: flex;
     justify-content: center;
 }
 
+
+
 .patient-grid {
     background: transparent;
-    padding: 0;
+    padding: 0 0 40px 0; /* Añadir padding bottom */
     width: 100%;
     max-width: 1400px;
 }
@@ -148,9 +139,8 @@
 
 .page-text{
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
     max-width: 1500px;
+    justify-content: flex-end;
 }
 
 
@@ -200,3 +190,4 @@
         right: var(--space-body);
     }
 }
+

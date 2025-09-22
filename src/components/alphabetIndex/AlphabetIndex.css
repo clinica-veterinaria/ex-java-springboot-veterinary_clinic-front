@@ -4,6 +4,7 @@
   align-items: center;
   padding: var(--space-button);
   position: relative;
+
 }
 
 .alphabet-index__list {
@@ -22,8 +23,8 @@
 }
 
 .alphabet-letter {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background-color: var(--primary-500);
   color: var(--white);
@@ -63,7 +64,7 @@
 
 .alphabet-index__connector {
   width: 4px;
-  height: 15px;
+  height: 10px;
   background-color: var(--primary-500);
   margin: 0;
   position: relative;
