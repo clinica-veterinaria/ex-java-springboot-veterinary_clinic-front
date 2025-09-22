@@ -31,7 +31,7 @@ export default function SideMenuAdmin() {
                     <ButtonText onClick={() => handleNavigation("/patients")} isSelected={isSelected("/patients")}>Pacientes</ButtonText>
                 </div>
                 <div className="menu-admin__profile">
-                    <ButtonProfile onClick={() => handleNavigation("/profille")} isSelected={isSelected("/profile")}>Margarita</ButtonProfile>
+                    <ButtonProfile onClick={() => handleNavigation("/profile")} isSelected={isSelected("/profile")}>Margarita</ButtonProfile>
                 </div>
             </div>
         </aside>

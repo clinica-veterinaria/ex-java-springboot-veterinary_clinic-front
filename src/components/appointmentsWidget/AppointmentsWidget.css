@@ -1,0 +1,23 @@
+.appointments-widget {
+    background-color: var(--primary-250);
+    border-radius: var(--border-radius-card);
+    max-width: 632px;
+    height: auto;
+    padding: 12px 12px  28px 12px ;
+    box-shadow: 2px 2px 4px rgb(0, 0, 0, 0.25);
+    overflow-y: auto;
+}
+
+.appointments-widget__title {
+    font-family: var(--font-family);
+    font-size: var(--h2-size);
+    font-weight: var(--h2-weight);
+    margin-bottom: var(--space-card);
+}
+
+.appointments-widget__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-card);
+    align-items: center;
+}

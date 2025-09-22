@@ -1,0 +1,91 @@
+h2 {
+    margin:0;
+    justify-content: center;
+}
+
+h3 {
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
+.appointment-user__overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.appointment-user__container {
+    height: auto;
+    width: 310px;
+    padding-top: 12px;
+    padding-bottom: 24px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: var(--white);
+    border-radius: var(--border-radius-card);
+    font-family: var(--font-family);
+    color: var(--black);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+}
+
+.appointment-user__close {
+    border: none;
+    background: none;
+    cursor: pointer;
+    align-self: flex-end;
+} 
+
+.faXmark {
+    font-size: var(--h2-size);
+    align-items: flex-end;
+}
+
+.appointment-user__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+}
+
+.appointment-user__title {
+    font-size: var(--h2-size);
+    font-weight: var(--h2-weight);
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding-top: var(--space-s);
+    padding-bottom: var(--space-s);
+}
+
+.appointment-user__patient {
+    font-size: var(--h2-size);
+    font-weight: var(--h2-weight);
+    display: flex;
+    align-items: left;
+    margin-bottom: var(--space-s);
+}
+
+.appointment-user__subtitle {
+    font-size: var(--button-size);
+    font-weight: var(--button-weight);
+    display: flex;
+    align-items: left;
+    margin-bottom: var(--space-s);
+}
+
+.appointment-user__text {
+    font-size: var(--body-size);
+    font-weight: var(--body-weight);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: left;
+}

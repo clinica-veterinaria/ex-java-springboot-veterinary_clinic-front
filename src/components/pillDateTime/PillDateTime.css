@@ -1,0 +1,24 @@
+.pill-row {
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-s);
+    align-items: left;
+    margin-bottom: var(--space-button);
+  }
+
+.pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    border-radius: var(--border-radius-button);
+    font-family: var(--font-family);
+    font-size: var(--body-size);
+    font-weight: var(--body-weight);
+    background-color: var(--neutral-500);
+    color: var(--black);
+    text-align: center;
+    white-space: nowrap;
+    min-height: 32px; 
+    box-sizing: border-box;
+}
