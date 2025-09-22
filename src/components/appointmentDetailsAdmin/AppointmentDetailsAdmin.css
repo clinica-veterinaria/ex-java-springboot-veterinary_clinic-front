@@ -36,6 +36,11 @@ p {
     flex-direction: column;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
     box-sizing: border-box;
+    border: 4px transparent;
+}
+
+.appointment-admin__container--urgent {
+    border: 4px solid var(--secondary-500);
 }
 
 .appointment-admin__close {
@@ -98,13 +103,6 @@ p {
     margin-bottom: var(--space-s);
 }
 
-.appointment-admin__link {
-    padding: 0;
-    text-decoration: underline;
-    color: var(--neutral-750);
-    cursor: pointer;
-}
-
 .btn-text__icon {
     display: inline-flex;
     align-items: center;
@@ -122,3 +120,6 @@ p {
     justify-content: center;
     margin-top: var(--space-card);
 }
+
+
+  

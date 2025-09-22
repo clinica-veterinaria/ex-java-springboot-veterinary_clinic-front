@@ -25,7 +25,8 @@
 }
 
 .button-status--pendiente:hover {
-  background-color: var(--secondary-500);
+  background-color: var(--secondary-750);
+  color: var(--white)
 }
 
 .button-status--atendido {
@@ -34,7 +35,8 @@
 }
 
 .button-status--atendido:hover {
-  background-color: var(--secondary-250);
+  background-color: var(--secondary-750);
+  color: var(--white);
 }
 
 .button-status--expirada {
@@ -80,10 +82,11 @@
   font-weight: var(--button-weight);
   color: var(--neutral-750);
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: 0.2s ease;
   border-radius: var(--border-radius-button);
 }
 
 .dropdown-item:hover {
-  background-color: var(--neutral-500);
+  background-color: var(--neutral-750);
+  color: var(--white);
 }
