@@ -23,7 +23,7 @@ p {
 
 .appointment-admin__container {
     height: auto;
-    width: 310px;
+    width: auto;
     padding-top: 12px;
     padding-bottom: 24px;
     padding-left: 20px;
@@ -50,6 +50,13 @@ p {
     align-items: flex-end;
 }
 
+.appointment-admin__data {
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-s);
+    margin-bottom: var(--space-s);
+}
+
 .appointment-admin__body {
     display: flex;
     flex-direction: column;
@@ -60,7 +67,7 @@ p {
     font-size: var(--h2-size);
     font-weight: var(--h2-weight);
     display: flex;
-    align-items: center;
+    justify-content: center;
     margin: 0;
     padding-top: var(--space-s);
     padding-bottom: var(--space-s);
@@ -88,6 +95,24 @@ p {
     display: flex;
     flex-wrap: wrap;
     align-items: left;
+    margin-bottom: var(--space-s);
+}
+
+.appointment-admin__link {
+    padding: 0;
+    text-decoration: underline;
+    color: var(--neutral-750);
+    cursor: pointer;
+}
+
+.btn-text__icon {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 4px;
+}
+  
+  .btn-text__icon--right {
+    margin-left: 8px;
 }
 
 .appointment-admin__buttons {
@@ -95,5 +120,5 @@ p {
     flex-direction: row;
     gap: var(--space-s);
     justify-content: center;
-    margin-top: var(--space-button);
+    margin-top: var(--space-card);
 }

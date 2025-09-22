@@ -1,7 +1,7 @@
 import React from "react";
 import './AppointmentDetailsAdmin.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons"; 
+import { faXmark, faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons"; 
 import PillDateTime from '../pillDateTime/PillDateTime';
 import ButtonStatus from '../buttonStatus/ButtonStatus';
 import Button from '../buttons/Button';
@@ -19,13 +19,16 @@ export default function AppointmentDetailsAdmin({ onClose, petName, appointmentD
             </div>
             <div className="appointment-admin__details">
                 <h3 className="appointment-admin__petName">{petName}</h3>
-                <div className="appointment-admin__date">
+                <div className="appointment-admin__data">
                 <PillDateTime date={appointmentDate} time={appointmentTime} />
+                <ButtonStatus />
                 </div>
                 <div className="appointment-admin__body">
                     <p className="appointment-admin__subtitle">Motivo</p>
                     <p className="appointment-admin__text">{description}</p>
-                    <ButtonText icon={icon}>Ver ficha paciente</ButtonText>
+                    <div className="appointment-admin__link">
+                    <ButtonText icon={<FontAwesomeIcon icon={faArrowUpRightFromSquare}/>}>Ver ficha paciente</ButtonText>
+                    </div>
                 </div>
                 <div className="appointment-admin__buttons">
                     <Button variant="secondary">Urgente</Button>
