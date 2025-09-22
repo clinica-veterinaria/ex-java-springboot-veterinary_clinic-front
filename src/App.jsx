@@ -6,13 +6,13 @@ import { BrowserRouter } from 'react-router-dom';
 import SearchInput from './components/searchInput/SearchInput';
 import SignInPage from './pages/SignInPage';
 import { CardPatient } from './components/cardPatient/CardPatient';
+import PatientPage from './pages/PatientPage';
 
 
 function App() {
   return (
     <BrowserRouter>
-     
-      <CardPatient></CardPatient>
+     <PatientPage></PatientPage>
     </BrowserRouter>
   )
 }
