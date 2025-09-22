@@ -26,9 +26,7 @@ export default function AppointmentDetailsAdmin({ onClose, petName, appointmentD
                 <div className="appointment-admin__body">
                     <p className="appointment-admin__subtitle">Motivo</p>
                     <p className="appointment-admin__text">{description}</p>
-                    <div className="appointment-admin__link">
                     <ButtonText icon={<FontAwesomeIcon icon={faArrowUpRightFromSquare}/>}>Ver ficha paciente</ButtonText>
-                    </div>
                 </div>
                 <div className="appointment-admin__buttons">
                     <Button variant="secondary">Urgente</Button>
