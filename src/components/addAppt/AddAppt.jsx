@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './AddAppt.css';
 import ButtonType from '../buttonType/ButtonType';
-import ButtonStatus from '../buttonStatus/ButtonStatus'
 import Button from '../buttons/Button';
 import DateTimePicker from '../dateTimePicker/DateTimePicker';
 
 const AddAppointmentModal = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => {
     const [formData, setFormData] = useState({
-        petName: '',
+        patient: '',
         petId: '',
         date: '',
         time: '',
@@ -64,7 +63,7 @@ const AddAppointmentModal = ({ isOpen = false, onClose = () => { }, onSave = () 
 
     const handleCancel = () => {
         setFormData({
-            petName: '',
+            patient: '',
             petId: '',
             date: '',
             time: '',
@@ -94,8 +93,8 @@ const AddAppointmentModal = ({ isOpen = false, onClose = () => { }, onSave = () 
                                 type="text"
                                 className="form-input"
                                 placeholder="Ej: Valentín"
-                                value={formData.petName}
-                                onChange={(e) => handleInputChange('petName', e.target.value)}
+                                value={formData.patient}
+                                onChange={(e) => handleInputChange('patient', e.target.value)}
                             />
                         </div>
                         <div className="form-field">
@@ -149,10 +148,9 @@ const AddAppointmentModal = ({ isOpen = false, onClose = () => { }, onSave = () 
                         </div>
                     </div>
 
-                    {/* Row 4: type and state */}
+                    {/* Row 4: type */}
                     <div className="form-row">
                     <ButtonType value={formData.type} onChange={(value) => handleInputChange('type', value)} />
-                    <ButtonStatus value={formData.status} onChange={(value) => handleInputChange('status', value)}/>
                     </div>
 
                     {/* Buttons */}
