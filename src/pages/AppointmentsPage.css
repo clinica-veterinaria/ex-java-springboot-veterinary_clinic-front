@@ -9,15 +9,6 @@ aside {
     position: sticky;
 }
 
-.appointments-page__navbar {
-    display: flex;
-    flex-direction: row;
-    gap: var(--space-button);
-    align-items: center;
-    position: sticky;
-    justify-content: end;
-}
-
 .appointments-page__title {
     font-family: var(--font-family);
     font-size: var(--h1-size);

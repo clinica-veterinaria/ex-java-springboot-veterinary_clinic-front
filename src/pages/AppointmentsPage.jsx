@@ -6,6 +6,7 @@ import FilterGroup from '../components/filterGroup/FilterGroup';
 import SearchInput from '../components/searchInput/SearchInput';
 import ButtonAdd from '../components/buttonAdd/ButtonAdd';
 import AppointmentCard from "../components/appointmentCard/AppointmentCard";
+import Navbar from "../components/navbar/Navbar";
 import { Filter } from "lucide-react";
 
 export default function AppointmentsPage() {
@@ -21,8 +22,7 @@ export default function AppointmentsPage() {
             </aside>
             <main className="appointments-page__main">
                 <div className="appointments-page__navbar">
-                    <FilterGroup />
-                    <SearchInput />
+                    <Navbar/>
                 </div>
                 <div className="appointments-page__container">
                     <div className="appointments-page__title">

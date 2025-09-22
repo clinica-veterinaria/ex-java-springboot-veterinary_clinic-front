@@ -1,0 +1,8 @@
+.navbar {
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-button);
+    align-items: center;
+    position: sticky;
+    justify-content: end;
+}
