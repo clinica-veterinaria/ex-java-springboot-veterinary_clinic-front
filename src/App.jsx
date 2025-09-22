@@ -2,12 +2,11 @@ import React from 'react'
 import './App.css'
 import './components/styles/Variables.css';
 import { BrowserRouter } from 'react-router-dom';
-import AppointmentsWidget from './components/appointmentsWidget/AppointmentsWidget';
-
+import AppointmentsPage from './pages/AppointmentsPage';
 function App() {
   return (
     <BrowserRouter>
-    <AppointmentsWidget />
+      <AppointmentsPage />
     </BrowserRouter>
   )
 }
