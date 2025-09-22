@@ -1,19 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import './AppointmentsPage.css';
 import AppointmentsWidget from "../components/appointmentsWidget/AppointmentsWidget";
 import SideMenuAdmin from '../components/sideMenuAdmin/SideMenuAdmin';
-import FilterGroup from '../components/filterGroup/FilterGroup';
-import SearchInput from '../components/searchInput/SearchInput';
+import AddAppt from '../components/addAppt/AddAppt';
 import ButtonAdd from '../components/buttonAdd/ButtonAdd';
 import AppointmentCard from "../components/appointmentCard/AppointmentCard";
+import FeedbackModal from "../components/feedbackModal/FeedbackModal";
 import Navbar from "../components/navbar/Navbar";
 import { Filter } from "lucide-react";
 
 export default function AppointmentsPage() {
+    const [showAddModal, setShowAddModal] = useState(false);
+    const [feedback, setFeedback] = useState(null);
+
     const nextAppointments = [
         { id: 1, date: "23 SEP, 10:00h", patient: "Pepita", reason: "Vacuna", type: "estandar" },
         { id: 2, date: "23 SEP, 12:00h", patient: "Luna", reason: "Revisión", type: "urgente" }
     ];
+
+    const handleOpenAdd = () => setShowAddModal(true);
+
+    //Change to async await to get backend data
+    const handleSaveAppointment = () => {
+          setShowAddModal(false);
+          setFeedback({ message: "Cita añadida con éxito ✅", type: "success" });
+          };
+          
       
     return(
         <div className="appointments-page">
@@ -46,12 +58,21 @@ export default function AppointmentsPage() {
                         </div>
 
                         <div className="appointments-page__flying-button">
-                            <ButtonAdd />
+                            <ButtonAdd onClick={handleOpenAdd}/>
                         </div>
                     </div>
                     
                 </div>
             </main>
+            {showAddModal && (
+            <div className="appointments-page__overlay">
+                <AddAppt onCancel={() => setShowAddModal(false)} onSave={handleSaveAppointment} />
+            </div>
+            )}
+
+            {feedback && (
+            <FeedbackModal message={feedback.message} type={feedback.type} onClose={() => setFeedback(null)}/>
+            )}
         </div>
     );
 
