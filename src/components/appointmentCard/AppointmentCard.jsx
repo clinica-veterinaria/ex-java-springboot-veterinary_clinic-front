@@ -4,7 +4,7 @@ import ButtonStatus from '../buttonStatus/ButtonStatus';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons"; 
 
-export default function AppointmentCard({ appointmentDatetime, patient, reason, status, type, onMoreOptions, onClick }) {
+export default function AppointmentCard({ appointmentDatetime, patient, reason, status, type, onMoreOptions, onClick, isNextAppointment = false }) {
 
     if (status === 'expirada') {
         return (
@@ -27,18 +27,24 @@ export default function AppointmentCard({ appointmentDatetime, patient, reason, 
                 <div className="appointment-card__date">{appointmentDatetime}</div>
                 <div className="appointment-card__pet">{patient}</div>
                 <div className="appointment-card__reason">{reason}</div>
+                
+                {/* Show state if is not "next appointment" */}
+              {!isNextAppointment && (
                 <div className="appointment-card__state">
                     <ButtonStatus initialStatus={status} />
                 </div>
-                {status !== 'atendido' && (
-                    <div className="appointment-card__icon" onClick={(e) => {
-                        e.stopPropagation();
-                        onMoreOptions?.();
-                      }}>
-                        <FontAwesomeIcon icon={faEllipsis} className="faEllipsis"/>        
-                    </div>
-                )}
-            </div>
-        </div>
-    );
+              )}
+
+              {/* Show icon if is not "next appointment" and not "attended" */}
+              {!isNextAppointment && status !== 'atendido' && (
+                <div className="appointment-card__icon" onClick={(e) => {
+                    e.stopPropagation();
+                    onMoreOptions?.();
+                }}>
+                    <FontAwesomeIcon icon={faEllipsis} className="faEllipsis"/>        
+                </div>
+              )}
+          </div>
+      </div>
+  );
 }
