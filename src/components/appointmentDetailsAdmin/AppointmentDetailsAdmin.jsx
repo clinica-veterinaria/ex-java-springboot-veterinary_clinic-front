@@ -7,7 +7,7 @@ import ButtonStatus from '../buttonStatus/ButtonStatus';
 import Button from '../buttons/Button';
 import ButtonText from '../buttonText/ButtonText';
 
-export default function AppointmentDetailsAdmin({ onClose, petName, appointmentDate, appointmentTime, description, icon}) {
+export default function AppointmentDetailsAdmin({ onClose, petName, appointmentDate, appointmentTime, reason, icon}) {
     const [status, setStatus] = useState("pendiente");
 
 
@@ -28,7 +28,7 @@ export default function AppointmentDetailsAdmin({ onClose, petName, appointmentD
                 </div>
                 <div className="appointment-admin__body">
                     <p className="appointment-admin__subtitle">Motivo</p>
-                    <p className="appointment-admin__text">{description}</p>
+                    <p className="appointment-admin__text">{reason}</p>
                     <ButtonText icon={<FontAwesomeIcon icon={faArrowUpRightFromSquare}/>}>Ver ficha paciente</ButtonText>
                 </div>
                 <div className="appointment-admin__buttons">

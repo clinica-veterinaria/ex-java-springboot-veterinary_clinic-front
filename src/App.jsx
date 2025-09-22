@@ -3,15 +3,16 @@ import './App.css'
 import './components/styles/Variables.css';
 import { BrowserRouter } from 'react-router-dom';
 import AppointmentDetailsAdmin from './components/appointmentDetailsAdmin/AppointmentDetailsAdmin';
+import AppointmentCard from './components/appointmentCard/AppointmentCard';
 
 function App() {
   return (
     <BrowserRouter>
-      <AppointmentDetailsAdmin 
-      petName="Pepita"
-      description="Revisión anual y vacuna"
-      appointmentDate="2025-11-09"
-      appointmentTime="12:00"/>
+    <AppointmentCard 
+    appointmentDate="2025-11-09"
+    petName="Pepita"
+    reason="Revisión"
+    />
     </BrowserRouter>
   )
 }
