@@ -26,7 +26,15 @@ aside {
 }
 
 .appointments-page__content {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.appointments-page__flying-button {
+    position: fixed; 
+    bottom: 80px;
+    right: 80px;
+    z-index: 1000; 
 }

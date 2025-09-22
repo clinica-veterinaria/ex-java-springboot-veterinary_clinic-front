@@ -4,6 +4,7 @@ import AppointmentsWidget from "../components/appointmentsWidget/AppointmentsWid
 import SideMenuAdmin from '../components/sideMenuAdmin/SideMenuAdmin';
 import FilterGroup from '../components/filterGroup/FilterGroup';
 import SearchInput from '../components/searchInput/SearchInput';
+import ButtonAdd from '../components/buttonAdd/ButtonAdd';
 import { Filter } from "lucide-react";
 
 export default function AppointmentsPage() {
@@ -23,7 +24,11 @@ export default function AppointmentsPage() {
                     </div>
                     <div className="appointments-page__content">
                         <AppointmentsWidget />
+                        <div className="appointments-page__flying-button">
+                            <ButtonAdd />
+                        </div>
                     </div>
+                    
                 </div>
             </main>
         </div>
