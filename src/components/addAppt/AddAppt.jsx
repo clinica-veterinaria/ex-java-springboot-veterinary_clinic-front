@@ -4,7 +4,7 @@ import ButtonType from '../buttonType/ButtonType';
 import Button from '../buttons/Button';
 import DateTimePicker from '../dateTimePicker/DateTimePicker';
 
-const AddAppointmentModal = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => {
+const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => {
     const [formData, setFormData] = useState({
         patient: '',
         petId: '',
@@ -164,4 +164,4 @@ const AddAppointmentModal = ({ isOpen = false, onClose = () => { }, onSave = () 
     );
 };
 
-export default AddAppointmentModal;
+export default AddAppt;

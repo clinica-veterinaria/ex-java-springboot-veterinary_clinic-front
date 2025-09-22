@@ -18,7 +18,9 @@ export default function AppointmentsPage() {
         { id: 2, date: "23 SEP, 12:00h", patient: "Luna", reason: "Revisión", type: "urgente" }
     ];
 
-    const handleOpenAdd = () => setShowAddModal(true);
+    const handleOpenAdd = () =>  {
+        console.log("Click detectado en +");
+        setShowAddModal(true); }
 
     //Change to async await to get backend data
     const handleSaveAppointment = () => {
@@ -65,9 +67,7 @@ export default function AppointmentsPage() {
                 </div>
             </main>
             {showAddModal && (
-            <div className="appointments-page__overlay">
-                <AddAppt onCancel={() => setShowAddModal(false)} onSave={handleSaveAppointment} />
-            </div>
+            <AddAppt isOpen={showAddModal} onClose={() => setShowAddModal(false)} onSave={handleSaveAppointment} />
             )}
 
             {feedback && (
