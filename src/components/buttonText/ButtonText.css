@@ -9,6 +9,12 @@
     width: 100%;
 }
 
+.btn-text__icon, 
+.btn-text__icon--right {
+    color: var(--black);
+    font-size: var(--button-size);
+}
+
 /* Hover */
 .btn-text:hover {
     color: var(--neutral-250);
