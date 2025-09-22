@@ -1,7 +1,7 @@
 .appointments-widget {
     background-color: var(--primary-250);
     border-radius: var(--border-radius-card);
-    width: auto;
+    max-width: 632px;
     height: auto;
     padding: 12px 12px  28px 12px ;
     box-shadow: 2px 2px 4px rgb(0, 0, 0, 0.25);
