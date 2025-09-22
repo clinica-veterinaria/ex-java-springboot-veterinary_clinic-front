@@ -1,0 +1,7 @@
+.appointment-user__container {
+    height: 264px;
+    width: 310px;
+    padding: 20px 12px 24px;
+    background-color: var(--white);
+    border-radius: var(--border-radius-card);
+}

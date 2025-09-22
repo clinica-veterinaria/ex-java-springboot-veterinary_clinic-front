@@ -37,12 +37,12 @@
 }
 
 /* Urgent */
-.appointment-card--urgent {
+.appointment-card__urgent {
     border: 4px solid var(--secondary-500);
 }
 
 /* Expired */
-.appointment-card--expired {
+.appointment-card__expired {
     color: var(--neutral-750);
     background-color: var(--neutral-500);
 }
