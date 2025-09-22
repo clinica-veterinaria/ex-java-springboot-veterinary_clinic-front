@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
 import './PetModal.css';
 import Button from '../buttons/Button'
+import { createPatient } from './services/APIService.js';
+
 
 const AddPetModal = ({ 
   isOpen = false, 
@@ -115,12 +117,17 @@ const AddPetModal = ({
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSave = () => {
-    if (validateForm()) {
-      onSave(formData);
+  const handleSave = async () => {
+  if (validateForm()) {
+    try {
+      const savedPatient = await createPatient(formData);
+      onSave(savedPatient); 
       handleCancel(); // Reset form after save
+    } catch (error) {
+      console.error("Error al guardar paciente:", error);
     }
-  };
+  }
+};
 
   const handleCancel = () => {
     setFormData({
@@ -288,7 +295,7 @@ const AddPetModal = ({
 
         {/* Modal actions */}
         <div className="pet-modal-actions">
-          <Button variant='secondary' onClick={handleCancel}>
+          <Button variant='secondary' onClick={handleCancel} >
             Cancelar
           </Button>
           <Button variant='primary' onClick={handleSave}>
