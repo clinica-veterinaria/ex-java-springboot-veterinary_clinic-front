@@ -46,9 +46,9 @@ const AddAppointmentModal = ({ isOpen = false, onClose = () => { }, onSave = () 
 
             fetchAvailableSlots();
         } else {
-            setAvailableSlots([]); // Limpia los horarios si no hay fecha seleccionada
+            setAvailableSlots([]); // Clean schedule if there's no selected date
         }
-    }, [formData.date]); // El efecto se ejecuta solo cuando la fecha cambia
+    }, [formData.date]); // effect applied when date changes
 
     const handleInputChange = (field, value) => {
         setFormData(prev => ({
