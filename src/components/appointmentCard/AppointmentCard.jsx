@@ -22,7 +22,7 @@ export default function AppointmentCard({ appointmentDatetime, patient, reason, 
     const cardClass = `appointment-card ${type === 'urgente' ? 'appointment-card__urgent' : ''}`;
 
     return(
-        <div className={cardClass} onClick={(e) => e.stopPropagation()}>
+        <div className={cardClass} onClick={onClick}>
             <div className="appointment-card__container">
                 <div className="appointment-card__date">{appointmentDatetime}</div>
                 <div className="appointment-card__pet">{patient}</div>
