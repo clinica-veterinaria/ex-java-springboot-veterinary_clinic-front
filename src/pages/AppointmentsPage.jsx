@@ -8,11 +8,14 @@ import AppointmentCard from "../components/appointmentCard/AppointmentCard";
 import FeedbackModal from "../components/feedbackModal/FeedbackModal";
 import Navbar from "../components/navbar/Navbar";
 import EditAppt from "../components/editAppt/EditAppt";
+import DeleteModal from "../components/deleteModal/DeleteModal";
+import EditDeleteModal from "../components/editDeleteModal/EditDeleteModal";
 import { Filter } from "lucide-react";
 
 export default function AppointmentsPage() {
     const [showAddModal, setShowAddModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
+    const [showOptionsModal, setShowOptionsModal] = useState(false);
     const [selectedAppointment, setSelectedAppointment] = useState(null);
     const [feedback, setFeedback] = useState(null);
 
@@ -22,7 +25,6 @@ export default function AppointmentsPage() {
     ];
 
     const handleOpenAdd = () =>  {
-        console.log("Click detectado en +");
         setShowAddModal(true); }
 
     //Change to async await to get backend data
@@ -31,8 +33,14 @@ export default function AppointmentsPage() {
           setFeedback({ message: "Cita añadida con éxito ✅", type: "success" });
     };
 
+    const handleOpenOptionsModal = (appt) => {
+        setSelectedAppointment(appt);
+        setShowOptionsModal(true);
+    };
+
     const handleOpenEdit = (appt) => {
         setSelectedAppointment(appt);
+        setShowOptionsModal(false);
         setShowEditModal(true);
     };
 
@@ -42,7 +50,11 @@ export default function AppointmentsPage() {
         setFeedback({ message: "Cita editada con éxito ✏️", type: "success" });
     };
 
-          
+    const handleDeleteAppointment = (appt) => {
+        console.log("Eliminar cita:", appt);
+        setShowOptionsModal(false);
+        setFeedback({ message: "Cita eliminada 🗑️", type: "success" });
+    };   
       
     return(
         <div className="appointments-page">
@@ -70,7 +82,9 @@ export default function AppointmentsPage() {
                                     reason={appt.reason}
                                     type={appt.type}
                                     isNextAppointment={true}
-                                    onClick={() => console.log("Ver detalles")}/>
+                                    onClick={() => console.log("Ver detalles")}
+                                    appointment={appt}
+                                    onOptionsClick={handleOpenOptionsModal} />
                                 ))}
                         </div>
 
@@ -88,12 +102,24 @@ export default function AppointmentsPage() {
             {feedback && (
             <FeedbackModal message={feedback.message} type={feedback.type} onClose={() => setFeedback(null)}/>
             )}
+
+            {/* Edit/Delete modal */}
+            {showOptionsModal && (
+                <EditDeleteModal
+                    onGoToEdit={() => handleOpenEdit(selectedAppointment)}
+                    onGoToDelete={() => handleDeleteAppointment(selectedAppointment)}
+                    onClose={() => setShowOptionsModal(false)}
+                />
+            )}
+
+            {/* edditAppt modal */}
             {showEditModal && (
-            <EditAppt
-            isOpen={showEditModal}
-            appointment={selectedAppointment}
-            onClose={() => setShowEditModal(false)}
-            onSave={handleEditAppointment}/>
+                <EditAppt
+                    isOpen={showEditModal}
+                    appointment={selectedAppointment}
+                    onClose={() => setShowEditModal(false)}
+                    onSave={handleEditAppointment}
+                />
             )}
 
         </div>
