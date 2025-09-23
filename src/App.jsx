@@ -6,13 +6,13 @@ import { BrowserRouter } from 'react-router-dom';
 import SearchInput from './components/searchInput/SearchInput';
 import { testConnection, testPatientCreation } from './services/APIPatient';
 import AppointmentsPage from './pages/AppointmentsPage';
-
+import MyCalendar from './components/calendarMonth/CalendarMonth';
 
 function App() {
 
   return (
     <BrowserRouter>
-    <AppointmentsPage />
+    <MyCalendar />
     </BrowserRouter>
   )
 }

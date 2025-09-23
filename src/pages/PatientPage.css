@@ -162,6 +162,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-size: var(--h1-size);
+    font-weight: var(--h1-weight);
+
 }
 
 .page-actions {

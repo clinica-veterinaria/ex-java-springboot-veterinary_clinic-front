@@ -1,0 +1,36 @@
+.calendar-style{
+    font-family: var(--font-family);
+}
+/* src/index.css o CalendarMonth.css */
+
+/* Fondo del calendario */
+.rbc-calendar {
+  background-color: var(--white);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+/* Cabecera de días */
+.rbc-header {
+  background-color: var(--secondary-250);
+  color: var(--neutral-750);
+  font-weight: bold;
+}
+
+/* Eventos */
+.rbc-event {
+  background-color: var(--primary-500);
+  color: white;
+  border-radius: 4px;
+  padding: 2px 4px;
+  font-size: 0.85rem;
+}
+
+/* Evento al pasar el cursor */
+.rbc-event:hover {
+  background-color: #357ab8;
+}
+
+.rbc-today{
+    background-color: var(--secondary-250);
+}
