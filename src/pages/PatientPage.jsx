@@ -5,8 +5,8 @@ import SideMenuAdmin from '../components/sideMenuAdmin/SideMenuAdmin';
 import ButtonAdd from '../components/buttonAdd/ButtonAdd';
 import AlphabetIndex from '../components/alphabetIndex/AlphabetIndex';
 import Navbar from '../components/navbar/Navbar'
-import AddAppt from '../components/addAppt/AddAppt';
 import FeedbackModal from "../components/feedbackModal/FeedbackModal";
+import AddPetModal from '../components/petModal/PetModal';
 
 const PatientPage = () => {
     const [showAddModal, setShowAddModal] = useState(false);
@@ -83,7 +83,7 @@ const PatientPage = () => {
     }
     const handleSaveAppointment = () => {
         setShowAddModal(false);
-        setFeedback({ message: "Cita añadida con éxito ✅", type: "success" });
+        setFeedback({ message: "Paciente añadido con éxito ✅", type: "success" });
     };
 
 
@@ -146,7 +146,7 @@ const PatientPage = () => {
                 </div>
             </main >
             {showAddModal && (
-                <AddAppt isOpen={showAddModal} onClose={() => setShowAddModal(false)} onSave={handleSaveAppointment} />
+                <AddPetModal isOpen={showAddModal} onClose={() => setShowAddModal(false)} onSave={handleSaveAppointment} />
             )}
             {feedback && (
                 <FeedbackModal message={feedback.message} type={feedback.type} onClose={() => setFeedback(null)} />
