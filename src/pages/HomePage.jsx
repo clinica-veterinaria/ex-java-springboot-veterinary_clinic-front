@@ -18,15 +18,22 @@ export default function HomePage(){
                     <div className="home-page__content">
                         <div className="home-page__planning">
                             <div className="home-page__week-view">
+                                <div className="home-page__title">
+                                    <h2>Semana</h2>
+                                </div>
+                            
 
-                            </div>
+                            </div>    
                             <div className="home-page__next-appointments">
-                                
+                                <div className="home-page__title">
+                                    <h2>Próximas citas</h2>
+                                </div>
+
                             </div>
                         </div>
                         <div className="home-page__cards">
                             <CardHome variant="appointments" />
-                            <CardHome variant="pets"/>
+                            <CardHome variant="patients"/>
                         </div>
                     </div>
                 </div>
