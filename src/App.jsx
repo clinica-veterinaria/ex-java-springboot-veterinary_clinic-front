@@ -6,13 +6,15 @@ import { BrowserRouter } from 'react-router-dom';
 import SearchInput from './components/searchInput/SearchInput';
 import { testConnection, testPatientCreation } from './services/APIPatient';
 import AppointmentsPage from './pages/AppointmentsPage';
+import HomePage from './pages/HomePage';
 
 
 function App() {
 
   return (
     <BrowserRouter>
-    <AppointmentsPage />
+    <HomePage />
+    {/*<AppointmentsPage />*/}
     </BrowserRouter>
   )
 }
