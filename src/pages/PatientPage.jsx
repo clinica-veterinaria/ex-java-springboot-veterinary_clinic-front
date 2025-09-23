@@ -46,14 +46,14 @@ const PatientPage = () => {
 
     // Handlers
     const handlePatientClick = (patient) => {
-    // Solo navegar al perfil si NO estamos en modo selección
-    if (!isSelectionMode) {
-        console.log('Ver perfil de:', patient);
-        // Aquí navegarías al perfil del paciente
-        // Por ejemplo: navigate(`/patient/${patient.id}`);
-    }
-    // Si estamos en modo selección, no hacer nada aquí
-    // La selección se maneja en onSelectionChange
+        // Solo navegar al perfil si NO estamos en modo selección
+        if (!isSelectionMode) {
+            console.log('Ver perfil de:', patient);
+            // Aquí navegarías al perfil del paciente
+            // Por ejemplo: navigate(`/patient/${patient.id}`);
+        }
+        // Si estamos en modo selección, no hacer nada aquí
+        // La selección se maneja en onSelectionChange
     };
 
     const handleLetterClick = (letter) => {
@@ -112,6 +112,8 @@ const PatientPage = () => {
         setShowAddModal(true);
     }
 
+
+
     const handleSaveAppointment = (newPatientData) => {
         // Los datos ya vienen estructurados desde el modal
         const newPatient = {
@@ -127,6 +129,14 @@ const PatientPage = () => {
             type: "success"
         });
     };
+
+    const sortedPatients = [...patients].sort((a, b) =>
+        a.name.localeCompare(b.name, 'es', { sensitivity: 'base' })
+    );
+
+    const filteredPatients = activeLetter
+        ? sortedPatients.filter((p) => p.name.charAt(0).toUpperCase() === activeLetter)
+        : sortedPatients;
 
     return (
         <div className="patients-page">
@@ -193,16 +203,18 @@ const PatientPage = () => {
                                         )}
                                     </div>
                                     <div className="patient-grid__cards">
-                                        {patients.map((patient) => (
+                                        {filteredPatients.map((patient) => (
                                             <CardPatient
                                                 key={patient.id}
                                                 name={patient.name}
                                                 photo={patient.photo}
-                                                species={patient.species} // Nueva prop
+                                                species={patient.species}
                                                 onClick={() => handlePatientClick(patient)}
                                                 isSelectionMode={isSelectionMode}
                                                 isSelected={selectedPatients.has(patient.id)}
-                                                onSelectionChange={(isSelected) => handleSelectionChange(patient.id, isSelected)}
+                                                onSelectionChange={(isSelected) =>
+                                                    handleSelectionChange(patient.id, isSelected)
+                                                }
                                             />
                                         ))}
                                     </div>
