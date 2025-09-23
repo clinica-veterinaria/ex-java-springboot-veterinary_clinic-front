@@ -2,8 +2,6 @@
 .patients-page {
     display: flex;
     height: 100vh; 
-    background-color: var(--neutral-250);
-    font-family: var(--font-family);
     overflow: hidden; 
 }
 
@@ -24,16 +22,9 @@
     overflow-x: hidden; 
     padding-bottom: 80px; 
     overflow-y: auto;
+    padding-top: 0;
 }
 
-.page-header__filters {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-button);
-    margin-bottom: var(--space-margin);
-    flex-wrap: wrap;
-}
 
 .page-title {
     font-size: var(--h1-size);
@@ -94,7 +85,7 @@
 
 .page-text{
     display: flex;
-    max-width: 1500px;
+    max-width: 1400px;
     justify-content: flex-end;
 }
 
@@ -146,3 +137,95 @@
     }
 }
 
+/* Botón de icono sin fondo */
+.icon-button {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    color: var(--neutral-750);
+    border-radius: 50%;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-button:hover {
+    background-color: var(--neutral-250);
+    color: var(--primary-750);
+}
+
+/* Header con título y acciones */
+.page-header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    max-width: 1300px;
+}
+
+/* Barra de selección */
+.selection-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-button);
+    background-color: var(--white);
+    padding: var(--space-body);
+    border-radius: var(--border-radius-card);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    min-width: 400px;
+    max-width: 500px;
+    margin: 10px;
+}
+
+.selection-info {
+    font-size: var(--body-size);
+    color: var(--neutral-750);
+    line-height: 1.4;
+}
+
+.selection-actions {
+    display: flex;
+    gap: var(--space-button);
+    justify-content: flex-end;
+}
+
+/* .selection-btn {
+    padding: var(--space-s) var(--space-body);
+    border-radius: var(--border-radius-button);
+    font-size: var(--button-size);
+    font-weight: var(--button-weight);
+    font-family: var(--font-family);
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s ease-in-out;
+} */
+
+
+/* Responsive para la barra de selección */
+@media (max-width: 768px) {
+    .page-header-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-button);
+    }
+    
+    .selection-toolbar {
+        min-width: 100%;
+        max-width: 100%;
+    }
+    
+    .selection-actions {
+        justify-content: stretch;
+    }
+    
+    .selection-btn {
+        flex: 1;
+    }
+}
