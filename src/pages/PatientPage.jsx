@@ -16,7 +16,7 @@ const PatientPage = () => {
     const [isSelectionMode, setIsSelectionMode] = useState(false);
     const [selectedPatients, setSelectedPatients] = useState(new Set());
     const [feedback, setFeedback] = useState(null);
-    
+
     // Datos de ejemplo - corregir IDs duplicados
     const [patients, setPatients] = useState([
         { id: 1, name: "Pepita", photo: null, species: "Perro" },
@@ -76,25 +76,25 @@ const PatientPage = () => {
 
     const handleDeleteSelected = () => {
         if (selectedPatients.size === 0) return;
-        
+
         const selectedNames = patients
             .filter(p => selectedPatients.has(p.id))
             .map(p => p.name)
             .join(', ');
-        
+
         const confirmed = window.confirm(
             `¿Estás seguro de que quieres eliminar ${selectedPatients.size === 1 ? 'al paciente' : 'a los pacientes'}: ${selectedNames}?`
         );
-        
+
         if (confirmed) {
             // Eliminar pacientes seleccionados
             const remainingPatients = patients.filter(p => !selectedPatients.has(p.id));
             setPatients(remainingPatients);
             setSelectedPatients(new Set());
             setIsSelectionMode(false);
-            setFeedback({ 
-                message: `${selectedPatients.size} paciente${selectedPatients.size > 1 ? 's eliminados' : ' eliminado'} con éxito ✅`, 
-                type: "success" 
+            setFeedback({
+                message: `${selectedPatients.size} paciente${selectedPatients.size > 1 ? 's eliminados' : ' eliminado'} con éxito ✅`,
+                type: "success"
             });
         }
     };
@@ -117,25 +117,20 @@ const PatientPage = () => {
     }
 
     const handleSaveAppointment = (newPatientData) => {
-    // Crear nuevo paciente con ID único
-    const newPatient = {
-        id: patients.length + 1, // O usar Date.now() para ID único
-        name: newPatientData.name,
-        photo: newPatientData.photo || null,
-        species: newPatientData.species,
-        // Añadir otros campos que capture el modal
+        // Los datos ya vienen estructurados desde el modal
+        const newPatient = {
+            ...newPatientData, // Spread todos los datos del modal
+            // Si necesitas generar un ID único cuando la API no lo devuelve:
+            id: newPatientData.id || Date.now() + Math.random()
+        };
+
+        setPatients(prevPatients => [...prevPatients, newPatient]);
+        setShowAddModal(false);
+        setFeedback({
+            message: `${newPatient.name} añadido con éxito ✅`,
+            type: "success"
+        });
     };
-    
-    // Añadir al estado de pacientes
-    setPatients(prevPatients => [...prevPatients, newPatient]);
-    
-    // Cerrar modal y mostrar feedback
-    setShowAddModal(false);
-    setFeedback({ 
-        message: `${newPatient.name} añadido con éxito ✅`, 
-        type: "success" 
-    });
-};
 
     return (
         <div className="patients-page">
@@ -153,7 +148,7 @@ const PatientPage = () => {
                     {/* HEADER CON TÍTULO Y BOTÓN */}
                     <div className="page-header-section">
                         <h1 className="page-title">Pacientes</h1>
-                        
+
                     </div>
 
                     <div className="content-with-alphabet">
@@ -167,46 +162,47 @@ const PatientPage = () => {
                             <div className="patient-grid">
                                 <div className="patient-grid__container">
                                     <div className="page-actions">
-                            {!isSelectionMode ? (
-                                // Botón de opciones (3 puntos)
-                                <button
-                                    className="icon-button"
-                                    onClick={toggleSelectionMode}
-                                    title="Seleccionar pacientes"
-                                >
-                                    <Ellipsis size={20} />
-                                </button>
-                            ) : (
-                                // Barra de selección cuando está activo el modo
-                                <div className="selection-toolbar">
-                                    <span className="selection-info">
-                                        Haz clic sobre todos los pacientes que quieras eliminar.
-                                        Recuerda que esta acción no se puede deshacer.
-                                    </span>
-                                    <div className="selection-actions">
-                                        <Button
-                                            onClick={handleCancelSelection}
-                                            variant='secondary'
-                                        >
-                                            Cancelar
-                                        </Button>
-                                        <Button 
-                                            onClick={handleDeleteSelected}
-                                            disabled={selectedPatients.size === 0}
-                                            variant='primary'
-                                        >
-                                            Eliminar
-                                        </Button>
+                                        {!isSelectionMode ? (
+                                            // Botón de opciones (3 puntos)
+                                            <button
+                                                className="icon-button"
+                                                onClick={toggleSelectionMode}
+                                                title="Seleccionar pacientes"
+                                            >
+                                                <Ellipsis size={20} />
+                                            </button>
+                                        ) : (
+                                            // Barra de selección cuando está activo el modo
+                                            <div className="selection-toolbar">
+                                                <span className="selection-info">
+                                                    Haz clic sobre todos los pacientes que quieras eliminar.
+                                                    Recuerda que esta acción no se puede deshacer.
+                                                </span>
+                                                <div className="selection-actions">
+                                                    <Button
+                                                        onClick={handleCancelSelection}
+                                                        variant='secondary'
+                                                    >
+                                                        Cancelar
+                                                    </Button>
+                                                    <Button
+                                                        onClick={handleDeleteSelected}
+                                                        disabled={selectedPatients.size === 0}
+                                                        variant='primary'
+                                                    >
+                                                        Eliminar
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
-                                </div>
-                            )}
-                        </div>
                                     <div className="patient-grid__cards">
                                         {patients.map((patient) => (
                                             <CardPatient
                                                 key={patient.id}
                                                 name={patient.name}
                                                 photo={patient.photo}
+                                                species={patient.species} // Nueva prop
                                                 onClick={() => handlePatientClick(patient)}
                                                 isSelectionMode={isSelectionMode}
                                                 isSelected={selectedPatients.has(patient.id)}
@@ -225,10 +221,10 @@ const PatientPage = () => {
             </main>
 
             {showAddModal && (
-                <AddPetModal 
-                    isOpen={showAddModal} 
-                    onClose={() => setShowAddModal(false)} 
-                    onSave={handleSaveAppointment} 
+                <AddPetModal
+                    isOpen={showAddModal}
+                    onClose={() => setShowAddModal(false)}
+                    onSave={handleSaveAppointment}
                 />
             )}
             {feedback && (
