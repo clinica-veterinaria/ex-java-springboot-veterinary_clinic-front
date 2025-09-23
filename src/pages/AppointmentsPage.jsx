@@ -20,8 +20,8 @@ export default function AppointmentsPage() {
     const [feedback, setFeedback] = useState(null);
 
     const nextAppointments = [
-        { id: 1, date: "23 SEP, 10:00h", patient: "Pepita", reason: "Vacuna", type: "estandar" },
-        { id: 2, date: "23 SEP, 12:00h", patient: "Luna", reason: "Revisión", type: "urgente" }
+        { id: 1, date: "23 SEP, 10:00h", patient: "Pepita", reason: "Vacuna", type: "estandar", status: "pendiente" },
+        { id: 2, date: "23 SEP, 12:00h", patient: "Luna", reason: "Revisión", type: "urgente", status: "pendiente" }
     ];
 
     const handleOpenAdd = () =>  {
@@ -81,7 +81,8 @@ export default function AppointmentsPage() {
                                     patient={appt.patient}
                                     reason={appt.reason}
                                     type={appt.type}
-                                    isNextAppointment={true}
+                                    status={appt.status}
+                                    isNextAppointment={false}
                                     onClick={() => console.log("Ver detalles")}
                                     appointment={appt}
                                     onOptionsClick={handleOpenOptionsModal} />

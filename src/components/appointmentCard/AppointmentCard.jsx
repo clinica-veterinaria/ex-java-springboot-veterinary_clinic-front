@@ -4,7 +4,7 @@ import ButtonStatus from '../buttonStatus/ButtonStatus';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons"; 
 
-export default function AppointmentCard({ appointmentDatetime, patient, reason, status, type, onMoreOptions, onClick, isNextAppointment = false, appointment }) {
+export default function AppointmentCard({ appointmentDatetime, patient, reason, status, type, onOptionsClick, onClick, isNextAppointment = false, appointment }) {
 
     if (status === 'expirada') {
         return (
@@ -39,7 +39,7 @@ export default function AppointmentCard({ appointmentDatetime, patient, reason, 
               {!isNextAppointment && status !== 'atendido' && (
                 <div className="appointment-card__icon" onClick={(e) => {
                     e.stopPropagation();
-                    onMoreOptions?.(appointment);
+                    onOptionsClick?.(appointment);
                 }}>
                     <FontAwesomeIcon icon={faEllipsis} className="faEllipsis"/>        
                 </div>
