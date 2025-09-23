@@ -27,7 +27,7 @@
     padding-bottom: 80px; 
     overflow-y: auto;
 }
-
+/* 
 .patients-page__navbar {
     position: fixed;
     left: 0;
@@ -35,7 +35,7 @@
     height: 100vh;
     z-index: 1000;
     overflow: hidden; 
-}
+} */
 .page-header__filters {
     display: flex;
     align-items: center;

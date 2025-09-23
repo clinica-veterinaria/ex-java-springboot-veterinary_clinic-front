@@ -116,16 +116,16 @@ const PatientPage = () => {
 
     return (
         <div className="patients-page">
-            <div className="patients-page__navbar">
+            <aside className="patients-page__navbar">
                 <SideMenuAdmin />
-            </div>
+            </aside>
 
 
             {/* CONTENIDO PRINCIPAL */}
-            <div className="main-content">
+            <main className="main-content">
                 <div className="content-area">
                     {/* HEADER CON FILTROS Y BÚSQUEDA */}
-                    <header className="page-header">
+                    <div className="page-header">
                         <div className="page-header__filters">
                             <FilterGroup />
 
@@ -142,7 +142,7 @@ const PatientPage = () => {
                                 />
                             </div>
                         </div>
-                    </header>
+                    </div>
 
                     <h2 className="page-title">Pacientes</h2>
                     {/* BOTÓN PARA ACTIVAR MODO SELECCIÓN */}
@@ -189,9 +189,11 @@ const PatientPage = () => {
                 <div className="add-patient">
                     <ButtonAdd className="add-patient" />
                 </div>
-                </div>
-            </div>
-            );
-};
+                </main >
+        </div>
+            
+    
+         );
+}
 
-            export default PatientPage;
+export default PatientPage;
