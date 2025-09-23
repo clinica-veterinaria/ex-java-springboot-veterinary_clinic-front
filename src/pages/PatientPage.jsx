@@ -46,10 +46,14 @@ const PatientPage = () => {
 
     // Handlers
     const handlePatientClick = (patient) => {
-        if (!isSelectionMode) {
-            console.log('Ver perfil de:', patient);
-            // Navegar al perfil del paciente
-        }
+    // Solo navegar al perfil si NO estamos en modo selección
+    if (!isSelectionMode) {
+        console.log('Ver perfil de:', patient);
+        // Aquí navegarías al perfil del paciente
+        // Por ejemplo: navigate(`/patient/${patient.id}`);
+    }
+    // Si estamos en modo selección, no hacer nada aquí
+    // La selección se maneja en onSelectionChange
     };
 
     const handleLetterClick = (letter) => {
@@ -64,14 +68,6 @@ const PatientPage = () => {
             newSelected.delete(patientId);
         }
         setSelectedPatients(newSelected);
-    };
-
-    const handleSelectAll = () => {
-        if (selectedPatients.size === patients.length) {
-            setSelectedPatients(new Set());
-        } else {
-            setSelectedPatients(new Set(patients.map(p => p.id)));
-        }
     };
 
     const handleDeleteSelected = () => {
