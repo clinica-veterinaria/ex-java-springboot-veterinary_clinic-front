@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import './HomePage.css';
+import { Link, useLocation } from "react-router-dom";
 import CardHome from "../components/cardsHome/CardHome";
 import NextAppointment from "../components/nextAppointment/NextAppointment";
 
@@ -7,10 +8,15 @@ export default function HomePage(){
     const [nextAppointments, setNextAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const location = useLocation();
+    const isSelected = (path) => location.pathname === path;
+
+
     // Get next 3 appointments from backend
     const fetchNextAppointments = async () => {
         try {
             setLoading(true);
+
             const response = await fetch('/api/appointments/next?limit=3');
             const data = await response.json();
             
@@ -93,8 +99,12 @@ export default function HomePage(){
                             </div>
                         </div>
                         <div className="home-page__cards">
-                            <CardHome variant="appointments" />
-                            <CardHome variant="patients"/>
+                            <Link to="/appointments">
+                                <CardHome variant="appointments" isSelected={isSelected("/appointments")}/>
+                            </Link>
+                            <Link to="/patients">
+                                <CardHome variant="patients" isSelected={isSelected("/patients")}/>
+                            </Link>
                         </div>
                     </div>
                 </div>
