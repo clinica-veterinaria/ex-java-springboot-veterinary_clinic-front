@@ -70,7 +70,7 @@ export default function AppointmentsPage() {
                         <h1>Citas</h1>
                     </div>
                     <div className="appointments-page__content">
-                        <AppointmentsWidget />
+                        <AppointmentsWidget onMoreOptions={handleOpenOptionsModal}/>
 
                         <div className="appointments-page__next">
                             <h2 className="appointments-page__subtitle">Próximas citas</h2>
