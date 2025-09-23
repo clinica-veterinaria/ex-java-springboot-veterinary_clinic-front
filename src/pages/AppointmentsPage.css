@@ -2,7 +2,6 @@
     display: grid;
     grid-template-columns: 240px 1fr;
     gap: var(--space-button);
-    padding: 16px;
 }
 
 aside {
