@@ -2,9 +2,10 @@ import React from "react";
 import './DeleteModal.css';
 import Button from '../buttons/Button';
 
-export default function DeleteModal() {
+export default function DeleteModal({ onCancel, onConfirm }) {
     return(
-        <div className="delete-modal">
+        <div className="delete-modal__overlay" onClick={onCancel}>
+        <div className="delete-modal" onClick={(e) => e.stopPropagation()}>
             <div className="delete-modal__title">
                 <h3>Eliminar</h3>
             </div>
@@ -12,9 +13,10 @@ export default function DeleteModal() {
                 <p>¿Estás seguro de que quieres borrar?</p>
             </div>
             <div className="delete-modal__buttons">
-                <Button variant="secondary">Atrás</Button>
-                <Button variant="primary">Eliminar</Button>
+                <Button variant="secondary" onClick={onCancel}>Atrás</Button>
+                <Button variant="primary" onClick={onConfirm}>Eliminar</Button>
             </div>
+        </div>
         </div>
     );
 }

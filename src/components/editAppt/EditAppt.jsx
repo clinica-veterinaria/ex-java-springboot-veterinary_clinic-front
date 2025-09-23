@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import './AddAppt.css';
+import React, { useState, useEffect } from "react";
+import './EditAppt.css';
 import ButtonType from '../buttonType/ButtonType';
 import Button from '../buttons/Button';
 import DateTimePicker from '../dateTimePicker/DateTimePicker';
 
-const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => {
+export default function EditAppt({ isOpen = false, onClose = () => {}, onSave = () => {}, appointment }) {
     const [formData, setFormData] = useState({
         patient: '',
         petId: '',
@@ -16,37 +16,40 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
 
     const [availableSlots, setAvailableSlots] = useState([]);
 
+    // Original data
+    useEffect(() => {
+        if (appointment) {
+            setFormData({
+                patient: appointment.patient || '',
+                petId: appointment.petId || '',
+                date: appointment.date || '',
+                time: appointment.time || '',
+                reason: appointment.reason || '',
+                type: appointment.type || 'estandar',
+            });
+        }
+    }, [appointment]);
+
+    // Load available slots when changing the date
     useEffect(() => {
         if (formData.date) {
             const fetchAvailableSlots = async () => {
                 try {
-                    // connect with backend
                     const response = await fetch(`/api/appointments/disponibles?fecha=${formData.date}`);
-                    
-                    if (!response.ok) {
-                        throw new Error('Error al obtener los horarios del servidor');
-                    }
+                    if (!response.ok) throw new Error('Error al obtener horarios');
                     
                     const data = await response.json();
-                
-                    const allSlotsFromBackend = data.slots; 
-                    
-                    // Max. 10 appointments
-                    const limitedSlots = allSlotsFromBackend.slice(0, 10);
-                    
-                    setAvailableSlots(limitedSlots);
-
+                    setAvailableSlots(data.slots.slice(0, 10));
                 } catch (error) {
-                    console.error("Error al obtener los horarios disponibles:", error);
+                    console.error("Error al obtener horarios disponibles:", error);
                     setAvailableSlots([]);
                 }
             };
-
             fetchAvailableSlots();
         } else {
-            setAvailableSlots([]); // Clean schedule if there's no selected date
+            setAvailableSlots([]);
         }
-    }, [formData.date]); // effect applied when date changes
+    }, [formData.date]);
 
     const handleInputChange = (field, value) => {
         setFormData(prev => ({
@@ -56,33 +59,20 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
     };
 
     const handleSave = () => {
-        onSave(formData);
-        onClose();
-    };
-
-    const handleCancel = () => {
-        setFormData({
-            patient: '',
-            petId: '',
-            date: '',
-            time: '',
-            reason: '',
-            type: 'estandar',
-        });
+        onSave(formData, appointment);
         onClose();
     };
 
     if (!isOpen) return null;
-    
 
-    return (
-        <div className="modal-overlay">
-            <div className="modal-container">
-                <div className="modal-header">
-                    <h2 className="modal-title">Añadir cita</h2>
-                </div>
 
-                <div className="modal-content">
+    return(
+        <div className="edit-appointment__overlay">
+            <div className="edit-appointment__container">
+                <div className="edit-appointment__header">
+                    <h2 className="edit-appointment__title">Editar cita</h2>
+                </div> 
+                <div className="edit-appointment__content">
                     {/* row 1: name and id */}
                     <div className="form-row">
                         <div className="form-field">
@@ -90,7 +80,6 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
                             <input
                                 type="text"
                                 className="form-input"
-                                placeholder="Ej: Valentín"
                                 value={formData.patient}
                                 onChange={(e) => handleInputChange('patient', e.target.value)}
                             />
@@ -100,7 +89,6 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
                             <input
                                 type="text"
                                 className="form-input"
-                                placeholder="Ej: 15032"
                                 value={formData.petId}
                                 onChange={(e) => handleInputChange('petId', e.target.value)}
                             />
@@ -111,7 +99,6 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
                     <div className="form-row">
                         <div className="form-field">
                             <label className="form-label">Fecha</label>
-                            {/* Date time picker-date */}
                             <DateTimePicker 
                                 type="date"
                                 value={formData.date}
@@ -121,7 +108,6 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
                         </div>
                         <div className="form-field">
                             <label className="form-label">Hora</label>
-                            {/* Date Time Picker-time */}
                             <DateTimePicker 
                                 type="time"
                                 value={formData.time}
@@ -138,7 +124,6 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
                             <label className="form-label">Motivo</label>
                             <textarea
                                 className="form-textarea"
-                                placeholder="Ej: Revisión del año"
                                 value={formData.reason}
                                 onChange={(e) => handleInputChange('reason', e.target.value)}
                                 rows="3"
@@ -148,18 +133,16 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
 
                     {/* Row 4: type */}
                     <div className="form-row">
-                    <ButtonType value={formData.type} onChange={(value) => handleInputChange('type', value)} />
+                        <ButtonType value={formData.type} onChange={(value) => handleInputChange('type', value)} />
                     </div>
 
                     {/* Buttons */}
-                    <div className="modal-actions">
-                        <Button variant="secondary" onClick={handleCancel}>Cancelar</Button>
-                        <Button variant="primary" onClick={handleSave}>Guardar</Button> 
+                    <div className="edit-appointment__actions">
+                        <Button variant="secondary" onClick={onClose}>Cancelar</Button>
+                        <Button variant="primary" onClick={handleSave}>Guardar cambios</Button> 
                     </div>
-                </div>
+                </div>               
             </div>
         </div>
     );
-};
-
-export default AddAppt;
+}

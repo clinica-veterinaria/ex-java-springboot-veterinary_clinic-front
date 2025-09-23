@@ -65,7 +65,8 @@ export default function AppointmentsWidget({ appointments = [], onMoreOptions })
               status={appointment.status}
               type={appointment.type}
               onClick={() => handleAppointmentClick(appointment)}
-              onMoreOptions={() => onMoreOptions?.(appointment)}
+              onOptionsClick={() => onMoreOptions?.(appointment)}
+              appointment={appointment}
             />
           ))}
         </div>
