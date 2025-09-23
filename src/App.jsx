@@ -6,6 +6,7 @@ import { testConnection, testPatientCreation } from './services/APIPatient';
 import AppointmentsPage from './pages/AppointmentsPage';
 import HomePage from './pages/HomePage';
 import MainLayout from './components/mainLayout/MainLayout';
+import PatientPage from './pages/PatientPage';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="home" element={<HomePage />} />
           <Route path="appointments" element={<AppointmentsPage />} />
+          <Route path="patients" element={<PatientPage />} />
           </Route>
       </Routes>
     </BrowserRouter>
