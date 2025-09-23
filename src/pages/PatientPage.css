@@ -24,7 +24,6 @@
     font-weight: var(--h1-weight);
     color: var(--black);
     font-family: var(--font-family);
-    margin-left: var(--space-section);
 }
 
 .content-with-alphabet {
