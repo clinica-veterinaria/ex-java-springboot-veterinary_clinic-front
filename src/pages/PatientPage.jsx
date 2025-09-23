@@ -2,16 +2,19 @@ import React, { useState } from 'react';
 import './PatientPage.css';
 import { CardPatient } from '../components/cardPatient/CardPatient';
 import SideMenuAdmin from '../components/sideMenuAdmin/SideMenuAdmin';
-import FilterGroup from '../components/filterGroup/FilterGroup';
 import ButtonAdd from '../components/buttonAdd/ButtonAdd';
 import AlphabetIndex from '../components/alphabetIndex/AlphabetIndex';
+import Navbar from '../components/navbar/Navbar'
+import AddAppt from '../components/addAppt/AddAppt';
+import FeedbackModal from "../components/feedbackModal/FeedbackModal";
 
 const PatientPage = () => {
-    // Estados
-    const [searchQuery, setSearchQuery] = useState('');
+    const [showAddModal, setShowAddModal] = useState(false);
     const [activeLetter, setActiveLetter] = useState('');
     const [isSelectionMode, setIsSelectionMode] = useState(false);
     const [selectedPatients, setSelectedPatients] = useState(new Set());
+    const [feedback, setFeedback] = useState(null);
+    
 
     // Datos de ejemplo
     const [patients] = useState([
@@ -55,15 +58,6 @@ const PatientPage = () => {
         }
     };
 
-    const handleAddPatient = () => {
-        console.log('Añadir nuevo paciente');
-        // Navegar a crear paciente
-    };
-
-    const handleLetterClick = (letter) => {
-        setActiveLetter(letter === activeLetter ? '' : letter);
-        // Scroll to patients starting with this letter
-    };
 
     const handleSelectionChange = (patientId, isSelected) => {
         const newSelected = new Set(selectedPatients);
@@ -75,37 +69,6 @@ const PatientPage = () => {
         setSelectedPatients(newSelected);
     };
 
-    const handleSelectAll = () => {
-        if (selectedPatients.size === patients.length) {
-            setSelectedPatients(new Set());
-        } else {
-            setSelectedPatients(new Set(patients.map(p => p.id)));
-        }
-    };
-
-    const handleDeleteSelected = () => {
-        if (selectedPatients.size === 0) return;
-
-        const selectedNames = patients
-            .filter(p => selectedPatients.has(p.id))
-            .map(p => p.name)
-            .join(', ');
-
-        const confirmed = window.confirm(
-            `¿Estás seguro de que quieres eliminar ${selectedPatients.size === 1 ? 'al paciente' : 'a los pacientes'}: ${selectedNames}?`
-        );
-
-        if (confirmed) {
-            console.log('Eliminando pacientes:', Array.from(selectedPatients));
-            setSelectedPatients(new Set());
-            setIsSelectionMode(false);
-        }
-    };
-
-    const handleCancelSelection = () => {
-        setSelectedPatients(new Set());
-        setIsSelectionMode(false);
-    };
 
     const toggleSelectionMode = () => {
         setIsSelectionMode(!isSelectionMode);
@@ -113,6 +76,17 @@ const PatientPage = () => {
             setSelectedPatients(new Set());
         }
     };
+
+    const handleOpenAdd = () => {
+        console.log("Click detectado en +");
+        setShowAddModal(true);
+    }
+    const handleSaveAppointment = () => {
+        setShowAddModal(false);
+        setFeedback({ message: "Cita añadida con éxito ✅", type: "success" });
+    };
+
+
 
     return (
         <div className="patients-page">
@@ -124,27 +98,11 @@ const PatientPage = () => {
             {/* CONTENIDO PRINCIPAL */}
             <main className="main-content">
                 <div className="content-area">
-                    {/* HEADER CON FILTROS Y BÚSQUEDA */}
                     <div className="page-header">
-                        <div className="page-header__filters">
-                            <FilterGroup />
-
-                            <div className="search-container">
-                                <svg className="search-icon" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
-                                </svg>
-                                <input
-                                    type="text"
-                                    className="search-input"
-                                    placeholder="Buscar pacientes..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                />
-                            </div>
-                        </div>
+                        <Navbar />
                     </div>
 
-                    <h2 className="page-title">Pacientes</h2>
+                    <h1 className="page-title">Pacientes</h1>
                     {/* BOTÓN PARA ACTIVAR MODO SELECCIÓN */}
                     <div className="page-text">
                         {!isSelectionMode && (
@@ -162,7 +120,6 @@ const PatientPage = () => {
                         <AlphabetIndex
                             className="alphabet-index__pages"
                         />
-                        {/* GRID DE PACIENTES CENTRADO */}
                         <div className="patients-content">
                             <div className="patient-grid">
                                 <div className="patient-grid__container">
@@ -183,17 +140,22 @@ const PatientPage = () => {
                             </div>
                         </div>
                     </div>
+                    <div className="add-patient">
+                        <ButtonAdd onClick={handleOpenAdd} />
+                    </div>
                 </div>
+            </main >
+            {showAddModal && (
+                <AddAppt isOpen={showAddModal} onClose={() => setShowAddModal(false)} onSave={handleSaveAppointment} />
+            )}
+            {feedback && (
+                <FeedbackModal message={feedback.message} type={feedback.type} onClose={() => setFeedback(null)} />
+            )}
 
-                {/* BOTÓN FLOTANTE PARA AÑADIR */}
-                <div className="add-patient">
-                    <ButtonAdd className="add-patient" />
-                </div>
-                </main >
         </div>
-            
-    
-         );
+
+
+    );
 }
 
 export default PatientPage;
