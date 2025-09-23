@@ -31,6 +31,7 @@
     font-weight: var(--h1-weight);
     color: var(--neutral-750);
     text-align: left;
+    font-family: var(--font-family);
 }
 
 .content-with-alphabet {
@@ -188,6 +189,7 @@
     font-size: var(--body-size);
     color: var(--neutral-750);
     line-height: 1.4;
+    font-family: var(--font-family);
 }
 
 .selection-actions {
