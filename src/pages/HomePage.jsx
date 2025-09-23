@@ -11,7 +11,6 @@ export default function HomePage(){
     const fetchNextAppointments = async () => {
         try {
             setLoading(true);
-
             const response = await fetch('/api/appointments/next?limit=3');
             const data = await response.json();
             

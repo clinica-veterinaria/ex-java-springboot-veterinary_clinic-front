@@ -1,13 +1,7 @@
 import React from "react";
 import './NextAppointment.css';
 
-export default function NextAppointment({ 
-    appointmentDatetime, 
-    patient, 
-    reason, 
-    type,
-    onClick 
-}) {
+export default function NextAppointment({ appointmentDatetime, patient, reason, type, onClick }) {
     const cardClass = `next-appointment ${type === 'urgente' ? 'next-appointment--urgent' : ''}`;
 
     return(
