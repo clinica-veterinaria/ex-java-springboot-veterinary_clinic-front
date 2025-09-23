@@ -8,7 +8,7 @@ import FeedbackModal from "../components/feedbackModal/FeedbackModal";
 import EditAppt from "../components/editAppt/EditAppt";
 import DeleteModal from "../components/deleteModal/DeleteModal";
 import EditDeleteModal from "../components/editDeleteModal/EditDeleteModal";
-import {getUpcomingAppointments, createAppointment, updateAppointment, deleteAppointment,} from "../services/APIAppointment";
+import { getUpcomingAppointments, createAppointment, updateAppointment, deleteAppointment } from '../services/AppointmentService';
 
 export default function AppointmentsPage() {
     const [showAddModal, setShowAddModal] = useState(false);
@@ -64,7 +64,7 @@ export default function AppointmentsPage() {
   };
 
   // PUT - Edit appointment
-  const handleEditAppointment = async (updatedData, originalData) => {
+  const handleEditAppointment = async (updatedData) => {
     try {
       await updateAppointment(selectedAppointment.id, updatedData);
       setShowEditModal(false);
@@ -105,7 +105,7 @@ export default function AppointmentsPage() {
                         <h1>Citas</h1>
                     </div>
                     <div className="appointments-page__content">
-                        <AppointmentsWidget onMoreOptions={handleOpenOptionsModal}/>
+                        <AppointmentsWidget appointments={nextAppointments} onMoreOptions={handleOpenOptionsModal}/>
 
                         <div className="appointments-page__next">
                             <h2 className="appointments-page__subtitle">Próximas citas</h2>
