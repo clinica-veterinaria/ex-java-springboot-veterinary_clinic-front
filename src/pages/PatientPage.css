@@ -2,14 +2,11 @@
 .patients-page {
     display: flex;
     height: 100vh; 
-    background-color: var(--neutral-250);
-    font-family: var(--font-family);
     overflow: hidden; 
 }
 
 .main-content {
     flex: 1;
-    margin-left: 200px; 
     display: flex;
     height: 100vh;
     overflow: hidden;}
@@ -20,63 +17,14 @@
     display: flex;
     flex-direction: column;
     max-width: 1600px;
-    margin: 0 auto;
     min-height: 100vh;
     overflow-y: auto; 
     overflow-x: hidden; 
     padding-bottom: 80px; 
     overflow-y: auto;
-}
-/* 
-.patients-page__navbar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    height: 100vh;
-    z-index: 1000;
-    overflow: hidden; 
-} */
-.page-header__filters {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-button);
-    margin-bottom: var(--space-margin);
-    flex-wrap: wrap;
+    padding-top: 0;
 }
 
-.search-container {
-    position: relative;
-    max-width: 400px;
-    margin-right: 40px;
-}
-
-.search-input {
-    width: 100%;
-    padding: var(--space-button);
-    padding-left: 48px;
-    border-radius: var(--border-radius-button);
-    border: 2px solid var(--neutral-500);
-    background-color: var(--white);
-    font-size: var(--body-size);
-    font-family: var(--font-family);
-    outline: none;
-    transition: border-color 0.2s ease-in-out;
-}
-
-.search-input:focus {
-    border-color: var(--primary-500);
-}
-
-.search-icon {
-    position: absolute;
-    left: var(--space-button);
-    top: 50%;
-    transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
-    color: var(--neutral-750);
-}
 
 .page-title {
     font-size: var(--h1-size);
@@ -85,11 +33,11 @@
     text-align: left;
 }
 
-
 .content-with-alphabet {
   display: flex;
-  gap: var(--space-card);
   align-items: flex-start;
+  margin-right: 40px; 
+  margin-left: 20px;
 }
 
 .alphabet-index__pages {
@@ -98,20 +46,17 @@
 }
 
 
-
 /* GRID DE PACIENTES - Centrado y responsivo */
 .patients-content {
-    flex: 1; /* Mantener del primer bloque */
-    width: 100%; /* Mantener del segundo bloque */
+    flex: 1; 
+    width: 100%; 
     display: flex;
     justify-content: center;
 }
 
-
-
 .patient-grid {
     background: transparent;
-    padding: 0 0 40px 0; /* Añadir padding bottom */
+    padding: 0 0 40px 0; 
     width: 100%;
     max-width: 1400px;
 }
@@ -126,26 +71,27 @@
     grid-template-columns: repeat(5, 1fr);
     gap: var(--space-card);
     justify-items: center;
-    width: 100%;
+    width: 80%;
     margin: 0 auto;
 }
 
 
 .add-patient {
-    position: fixed;
-    bottom: 40%;
-    right: var(--space-section);
+    position: fixed; 
+    bottom: 80px;
+    right: 80px;
+    z-index: 800; 
 }
 
 .page-text{
     display: flex;
-    max-width: 1500px;
+    max-width: 1400px;
     justify-content: flex-end;
 }
 
 
 /* RESPONSIVE */
-@media (max-width: 1024px) {
+@media (max-width: 1024px) {e
     .alphabet-index {
         display: none;
     }
@@ -191,3 +137,84 @@
     }
 }
 
+/* Botón de icono sin fondo */
+.icon-button {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    color: var(--neutral-750);
+    border-radius: 50%;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-button:hover {
+    background-color: var(--neutral-250);
+    color: var(--primary-750);
+}
+
+/* Header con título y acciones */
+.page-header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    max-width: 1300px;
+}
+
+/* Barra de selección */
+.selection-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-button);
+    background-color: var(--white);
+    padding: var(--space-body);
+    border-radius: var(--border-radius-card);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    min-width: 400px;
+    max-width: 500px;
+    margin: 10px;
+}
+
+.selection-info {
+    font-size: var(--body-size);
+    color: var(--neutral-750);
+    line-height: 1.4;
+}
+
+.selection-actions {
+    display: flex;
+    gap: var(--space-button);
+    justify-content: flex-end;
+}
+
+
+/* Responsive para la barra de selección */
+@media (max-width: 768px) {
+    .page-header-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-button);
+    }
+    
+    .selection-toolbar {
+        min-width: 100%;
+        max-width: 100%;
+    }
+    
+    .selection-actions {
+        justify-content: stretch;
+    }
+    
+    .selection-btn {
+        flex: 1;
+    }
+}

@@ -12,12 +12,25 @@
   border: 2px solid var(--secondary-750);
   transition: all 0.2s ease-in-out;
   font-family: var(--font-family);
+  position: relative;
 }
 
 .patient-card:hover {
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   transform: translateY(-2px);
   background-color: var(--secondary-250);
+}
+
+.patient-card__checkbox {
+  position: absolute; /* Sacarlo del flujo normal */
+  top: 8px; /* Ajustar según necesites */
+  right: 8px; /* Ajustar según necesites */
+  width: 24px;
+  height: 24px;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  z-index: 10; /* Por encima del contenido de la card */
 }
 
 .patient-card__photo-container {
@@ -36,7 +49,6 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 50%;
 }
 
 .patient-card__icon {
@@ -93,6 +105,7 @@
 
 .patient-card--selected {
   border: 4px solid var(--secondary-750);
+  background-color: var(--secondary-250);
 }
 
 
@@ -108,3 +121,7 @@
   }
 }
 
+.patient-card--selection-mode .patient-card__photo-container {
+  width: 60px; /* Forzar tamaño fijo */
+  height: 60px; /* Forzar tamaño fijo */
+}

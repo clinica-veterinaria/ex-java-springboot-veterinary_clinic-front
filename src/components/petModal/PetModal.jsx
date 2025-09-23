@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import './PetModal.css';
 import Button from '../buttons/Button'
-import { registerPatient } from '../../services/APIPatient';
+// import { registerPatient } from '../../services/APIPatient';
 
 
 
@@ -121,11 +121,30 @@ const AddPetModal = ({
   const handleSave = async () => {
   if (validateForm()) {
     try {
-      const savedPatient = await registerPatient(formData);
-      onSave(savedPatient); 
-      handleCancel(); // Reset form after save
+    //   const savedPatient = await registerPatient(formData); activar cuando este el Back
+      const savedPatient = {
+        id: Date.now() + Math.random(),
+        ...formData
+      }; // quitar cuando este el Back
+      
+      const patientData = {
+        id: savedPatient.id || Date.now() + Math.random(), // Por si la API no devuelve ID
+        name: formData.name,
+        species: formData.breed, 
+        photo: photoPreview, 
+        gender: formData.gender,
+        age: formData.age,
+        ownerName: formData.ownerName,
+        ownerDNI: formData.ownerDNI,
+        email: formData.email,
+        phone: formData.phone
+      };
+      
+      onSave(patientData); 
+      handleCancel(); 
     } catch (error) {
       console.error("Error al guardar paciente:", error);
+      // Aquí podrías mostrar un mensaje de error
     }
   }
 };
