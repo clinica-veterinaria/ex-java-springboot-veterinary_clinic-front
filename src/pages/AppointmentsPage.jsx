@@ -7,10 +7,13 @@ import ButtonAdd from '../components/buttonAdd/ButtonAdd';
 import AppointmentCard from "../components/appointmentCard/AppointmentCard";
 import FeedbackModal from "../components/feedbackModal/FeedbackModal";
 import Navbar from "../components/navbar/Navbar";
+import EditAppt from "../components/editAppt/EditAppt";
 import { Filter } from "lucide-react";
 
 export default function AppointmentsPage() {
     const [showAddModal, setShowAddModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [selectedAppointment, setSelectedAppointment] = useState(null);
     const [feedback, setFeedback] = useState(null);
 
     const nextAppointments = [
@@ -26,7 +29,19 @@ export default function AppointmentsPage() {
     const handleSaveAppointment = () => {
           setShowAddModal(false);
           setFeedback({ message: "Cita añadida con éxito ✅", type: "success" });
-          };
+    };
+
+    const handleOpenEdit = (appt) => {
+        setSelectedAppointment(appt);
+        setShowEditModal(true);
+    };
+
+    const handleEditAppointment = (updatedData, originalData) => {
+        console.log("Cita editada:", { updatedData, originalData });
+        setShowEditModal(false);
+        setFeedback({ message: "Cita editada con éxito ✏️", type: "success" });
+    };
+
           
       
     return(
@@ -73,6 +88,14 @@ export default function AppointmentsPage() {
             {feedback && (
             <FeedbackModal message={feedback.message} type={feedback.type} onClose={() => setFeedback(null)}/>
             )}
+            {showEditModal && (
+            <EditAppt
+            isOpen={showEditModal}
+            appointment={selectedAppointment}
+            onClose={() => setShowEditModal(false)}
+            onSave={handleEditAppointment}/>
+            )}
+
         </div>
     );
 
