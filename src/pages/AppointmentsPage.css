@@ -1,17 +1,8 @@
-.appointments-page {
-    display: grid;
-    grid-template-columns: 240px 1fr;
-    gap: var(--space-button);
-}
-
-aside {
-    position: sticky;
-}
-
 .appointments-page__title {
     font-family: var(--font-family);
     font-size: var(--h1-size);
     font-weight: var(--h1-weight);
+    margin-left: var(--space-section);
 }
 
 .appointments-page__content {

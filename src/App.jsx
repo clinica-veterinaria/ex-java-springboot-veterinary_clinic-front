@@ -1,20 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css'
 import './components/styles/Variables.css';
-import SideMenuAdmin from './components/sideMenuAdmin/SideMenuAdmin';
-import { BrowserRouter } from 'react-router-dom';
-import SearchInput from './components/searchInput/SearchInput';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { testConnection, testPatientCreation } from './services/APIPatient';
 import AppointmentsPage from './pages/AppointmentsPage';
 import HomePage from './pages/HomePage';
+import MainLayout from './components/mainLayout/MainLayout';
 
 
 function App() {
 
   return (
     <BrowserRouter>
-    <HomePage />
-    {/*<AppointmentsPage />*/}
+        <Routes>
+          <Route path="/" element={<MainLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path="home" element={<HomePage />} />
+          <Route path="appointments" element={<AppointmentsPage />} />
+          </Route>
+      </Routes>
     </BrowserRouter>
   )
 }
