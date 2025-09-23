@@ -16,6 +16,7 @@ export default function AppointmentsPage() {
     const [showAddModal, setShowAddModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showOptionsModal, setShowOptionsModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [selectedAppointment, setSelectedAppointment] = useState(null);
     const [feedback, setFeedback] = useState(null);
 
@@ -51,10 +52,20 @@ export default function AppointmentsPage() {
     };
 
     const handleDeleteAppointment = (appt) => {
-        console.log("Eliminar cita:", appt);
-        setShowOptionsModal(false);
+        setSelectedAppointment(appt);
+        setShowOptionsModal(false); 
+        setShowDeleteModal(true); // Muestra el modal de eliminación
+    };
+
+    const handleConfirmDelete = () => {
+        setShowDeleteModal(false); 
         setFeedback({ message: "Cita eliminada 🗑️", type: "success" });
-    };   
+    };
+
+    const handleCancelDelete = () => {
+        setShowDeleteModal(false); 
+    };
+    
       
     return(
         <div className="appointments-page">
@@ -120,6 +131,14 @@ export default function AppointmentsPage() {
                     appointment={selectedAppointment}
                     onClose={() => setShowEditModal(false)}
                     onSave={handleEditAppointment}
+                />
+            )}
+
+            {/* delete modal */}
+            {showDeleteModal && (
+                <DeleteModal
+                    onCancel={handleCancelDelete}
+                    onConfirm={handleConfirmDelete}
                 />
             )}
 
