@@ -12,7 +12,6 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
         time: '',
         reason: '',
         type: 'estandar',
-        status: 'pendiente'
     });
 
     const [availableSlots, setAvailableSlots] = useState([]);
@@ -69,7 +68,6 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
             time: '',
             reason: '',
             type: 'estandar',
-            status: 'pendiente'
         });
         onClose();
     };
