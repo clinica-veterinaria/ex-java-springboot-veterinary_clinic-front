@@ -9,6 +9,7 @@ import FeedbackModal from "../components/feedbackModal/FeedbackModal";
 import AddPetModal from '../components/petModal/PetModal';
 import { Ellipsis } from 'lucide-react';
 import Button from '../components/buttons/Button';
+import DeleteModal from '../components/deleteModal/DeleteModal';
 
 const PatientPage = () => {
     const [showAddModal, setShowAddModal] = useState(false);
@@ -16,6 +17,8 @@ const PatientPage = () => {
     const [isSelectionMode, setIsSelectionMode] = useState(false);
     const [selectedPatients, setSelectedPatients] = useState(new Set());
     const [feedback, setFeedback] = useState(null);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+
 
     // Datos de ejemplo - corregir IDs duplicados
     const [patients, setPatients] = useState([
@@ -44,16 +47,11 @@ const PatientPage = () => {
     // Calcular letras disponibles
     const availableLetters = [...new Set(patients.map(p => p.name.charAt(0).toUpperCase()))];
 
-    // Handlers
+    
     const handlePatientClick = (patient) => {
-        // Solo navegar al perfil si NO estamos en modo selección
         if (!isSelectionMode) {
             console.log('Ver perfil de:', patient);
-            // Aquí navegarías al perfil del paciente
-            // Por ejemplo: navigate(`/patient/${patient.id}`);
         }
-        // Si estamos en modo selección, no hacer nada aquí
-        // La selección se maneja en onSelectionChange
     };
 
     const handleLetterClick = (letter) => {
@@ -70,29 +68,25 @@ const PatientPage = () => {
         setSelectedPatients(newSelected);
     };
 
-    const handleDeleteSelected = () => {
+  const handleDeleteSelected = () => {
         if (selectedPatients.size === 0) return;
+        setShowDeleteModal(true);
+    };
 
-        const selectedNames = patients
-            .filter(p => selectedPatients.has(p.id))
-            .map(p => p.name)
-            .join(', ');
+    const confirmDelete = () => {
+        const remainingPatients = patients.filter(p => !selectedPatients.has(p.id));
+        setPatients(remainingPatients);
+        setSelectedPatients(new Set());
+        setIsSelectionMode(false);
+        setFeedback({
+            message: `${selectedPatients.size} paciente${selectedPatients.size > 1 ? 's eliminados' : ' eliminado'} con éxito ✅`,
+            type: "success"
+        });
+        setShowDeleteModal(false);
+    };
 
-        const confirmed = window.confirm(
-            `¿Estás seguro de que quieres eliminar ${selectedPatients.size === 1 ? 'al paciente' : 'a los pacientes'}: ${selectedNames}?`
-        );
-
-        if (confirmed) {
-            // Eliminar pacientes seleccionados
-            const remainingPatients = patients.filter(p => !selectedPatients.has(p.id));
-            setPatients(remainingPatients);
-            setSelectedPatients(new Set());
-            setIsSelectionMode(false);
-            setFeedback({
-                message: `${selectedPatients.size} paciente${selectedPatients.size > 1 ? 's eliminados' : ' eliminado'} con éxito ✅`,
-                type: "success"
-            });
-        }
+    const cancelDelete = () => {
+        setShowDeleteModal(false);
     };
 
     const handleCancelSelection = () => {
@@ -238,6 +232,14 @@ const PatientPage = () => {
             {feedback && (
                 <FeedbackModal message={feedback.message} type={feedback.type} onClose={() => setFeedback(null)} />
             )}
+
+            {showDeleteModal && (
+                <DeleteModal
+                    onCancel={cancelDelete}
+                    onConfirm={confirmDelete}
+                />
+)}
+
         </div>
     );
 }

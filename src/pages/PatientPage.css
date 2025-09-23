@@ -196,17 +196,6 @@
     justify-content: flex-end;
 }
 
-/* .selection-btn {
-    padding: var(--space-s) var(--space-body);
-    border-radius: var(--border-radius-button);
-    font-size: var(--button-size);
-    font-weight: var(--button-weight);
-    font-family: var(--font-family);
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: all 0.2s ease-in-out;
-} */
-
 
 /* Responsive para la barra de selección */
 @media (max-width: 768px) {
