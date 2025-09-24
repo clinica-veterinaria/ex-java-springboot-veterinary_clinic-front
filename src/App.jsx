@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css'
 import './components/styles/Variables.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { testConnection, testPatientCreation } from './services/APIPatient';
 import AppointmentsPage from './pages/AppointmentsPage';
 import HomePage from './pages/HomePage';
 import MainLayout from './components/mainLayout/MainLayout';

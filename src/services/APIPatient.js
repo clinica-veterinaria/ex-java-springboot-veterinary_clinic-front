@@ -18,6 +18,28 @@ export async function getPatients() {
     throw error;
   }
 }
+export async function updatePatient(patientId, updatedData) {
+  try {
+    const response = await fetch(`${API_URL}/${patientId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedData),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Error ${response.status}: ${errorText}`);
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error(`Error en updatePatient (${patientId}):`, error);
+    throw error;
+  }
+}
 
 // Crear un nuevo paciente
 export async function registerPatient(patient) {

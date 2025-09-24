@@ -10,9 +10,12 @@ import AddPetModal from '../components/petModal/PetModal';
 import { Ellipsis } from 'lucide-react';
 import Button from '../components/buttons/Button';
 import DeleteModal from '../components/deleteModal/DeleteModal';
-import { getPatients, registerPatient, deletePatient } from '../services/APIPatient';
+// Make sure to import updatePatient here
+import { getPatients, registerPatient, deletePatient, updatePatient } from '../services/APIPatient';
 
 const PatientPage = () => {
+    // Add the missing state variable for patients
+    const [patients, setPatients] = useState([]);
     const [showAddModal, setShowAddModal] = useState(false);
     const [activeLetter, setActiveLetter] = useState('');
     const [isSelectionMode, setIsSelectionMode] = useState(false);
@@ -20,7 +23,7 @@ const PatientPage = () => {
     const [feedback, setFeedback] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [currentPatient, setCurrentPatient] = useState(null);
-
+    const [loading, setLoading] = useState(true); // Added for better UX
 
     useEffect(() => {
         async function fetchPatients() {
@@ -29,6 +32,8 @@ const PatientPage = () => {
                 setPatients(data);
             } catch (error) {
                 console.error(error);
+            } finally {
+                setLoading(false);
             }
         }
         fetchPatients();
@@ -220,7 +225,7 @@ const PatientPage = () => {
                     isOpen={showAddModal}
                     onClose={() => { setShowAddModal(false); setCurrentPatient(null); }}
                     onSave={handleSaveAppointment}
-                    editPatient={currentPatient} p
+                    editPatient={currentPatient}
                 />
             )}
             {feedback && (
