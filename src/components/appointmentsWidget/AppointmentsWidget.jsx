@@ -43,17 +43,7 @@ export default function AppointmentsWidget({ appointments = [], onMoreOptions })
         </div>
       </div>
 
-      {/* Appointment Details */}
-      {isModalOpen && selectedAppointment && (
-        <AppointmentDetailsAdmin
-          onClose={handleCloseModal}
-          patient={selectedAppointment.patient}
-          appointmentDatetime={selectedAppointment.appointmentDatetime}
-          reason={selectedAppointment.reason}
-          status={selectedAppointment.status}
-          icon={selectedAppointment.icon}
-        />
-      )}
+
     </>
   );
 };
