@@ -36,6 +36,17 @@
     font-size: 10px;
 }
 
+/* Mantener la columna pero hacerla muy estrecha y vacía */
+.rbc-time-header-gutter {
+    width: 0 !important;
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.rbc-allday-cell {
+    display: none !important;
+}
+
 .rbc-time-slot {
     border-bottom: 1px solid var(--neutral-250);
     min-height: 15px;
@@ -50,7 +61,7 @@
 .rbc-time-header-gutter {
     background-color: var(--primary-250);
     border-right: 1px solid var(--neutral-250);
-    width: 45px;
+    width: 35px;
 }
 
 .rbc-label {
@@ -99,10 +110,6 @@
 
 .rbc-event:hover {
     background-color: #357AB8;
-}
-
-.rbc-time-header-content {
-    border-bottom: 2px solid var(--neutral-250);
 }
 
 .small-calendar-widget .rbc-calendar {
