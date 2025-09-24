@@ -11,18 +11,6 @@ export default function SignInModal({ onCancel, onSave, isLoading, error }) {
     // See password for validation
     const password = watch("password");
 
-    /* Password encrypted with btoa method
-        const onSubmit = (data) => {
-            const encryptedData = {
-            ...data,
-            password: btoa(data.password), // Encrypt password
-            confirmPassword: undefined, // dont send confirmPassword
-            imagen: data.imagen[0] // just the file, not the FileList
-            };
-            
-            if (onSave) onSave(encryptedData);
-            };*/
-
         const onSubmit = (data) => {
 
             const formData = new FormData();
