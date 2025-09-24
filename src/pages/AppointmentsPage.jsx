@@ -8,7 +8,7 @@ import FeedbackModal from "../components/feedbackModal/FeedbackModal";
 import EditAppt from "../components/editAppt/EditAppt";
 import DeleteModal from "../components/deleteModal/DeleteModal";
 import EditDeleteModal from "../components/editDeleteModal/EditDeleteModal";
-import { getUpcomingAppointments, createAppointment, updateAppointment, deleteAppointment } from '../services/AppointmentService';
+import { getUpcomingAppointments, createAppointment, updateAppointment, deleteAppointment, updateAppointmentStatus } from '../services/AppointmentService';
 
 export default function AppointmentsPage() {
     const [showAddModal, setShowAddModal] = useState(false);
@@ -76,6 +76,18 @@ export default function AppointmentsPage() {
     }
   };
 
+  // PUT - Update status
+  const handleStatusChange = async (appt, newStatus) => {
+    try {
+      await updateAppointmentStatus(appt.id, newStatus);
+      setFeedback({ message: `Cita marcada como ${newStatus} ✅`, type: "success" });
+      loadAppointments();
+    } catch (error) {
+      console.error("Error cambiando estado:", error);
+      setFeedback({ message: "Error al cambiar el estado", type: "error" });
+    }
+  };
+
   const handleDeleteAppointment = (appt) => {
     setSelectedAppointment(appt);
     setShowOptionsModal(false);
@@ -120,7 +132,8 @@ export default function AppointmentsPage() {
                                     isNextAppointment={false}
                                     onClick={() => console.log("Ver detalles")}
                                     appointment={appt}
-                                    onOptionsClick={handleOpenOptionsModal} />
+                                    onOptionsClick={handleOpenOptionsModal}
+                                    onStatusChange={(newStatus) => handleStatusChange(appt, newStatus)} />
                                 ))}
                         </div>
 

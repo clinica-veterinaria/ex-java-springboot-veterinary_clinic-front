@@ -9,7 +9,6 @@ const ButtonStatus = ({
 }) => {
   const [status, setStatus] = useState(initialStatus);
   const [isOpen, setIsOpen] = useState(false);
-  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
   const buttonRef = useRef(null);
   const containerRef = useRef(null);
 
@@ -20,17 +19,10 @@ const ButtonStatus = ({
   };
 
   const toggleDropdown = () => {
-    if (status !== 'expirada') {
-      if (!isOpen && buttonRef.current) {
-        const rect = buttonRef.current.getBoundingClientRect();
-        setDropdownPosition({
-          top: rect.bottom + 4,
-          left: rect.left,
-          width: 132
-        });
-      }
-      setIsOpen(!isOpen);
-    }
+    // If its attended menu wont open
+    if (status === 'expirada' || status === 'atendido') return;
+
+    setIsOpen(!isOpen);
   };
 
   const getButtonClass = () => {
@@ -38,7 +30,7 @@ const ButtonStatus = ({
   };
 
   const renderDropdownIcon = () => {
-    if (status === 'expirada') return null;
+    if (status === 'expirada' || status === 'atendido') return null;
     return <span className={`dropdown-icon ${isOpen ? 'dropdown-icon--open' : ''}`}> 
         <ChevronDown size={20} />
     </span>;
@@ -57,7 +49,7 @@ const ButtonStatus = ({
     }
   };
 
-  // Check if appointment is expired (after 20:00 of the appointment date)
+  // Check if appointment expired
   useEffect(() => {
     if (appointmentDate && status === 'pendiente') {
       const appointmentDateTime = new Date(appointmentDate);
@@ -94,7 +86,7 @@ const ButtonStatus = ({
         ref={buttonRef}
         className={getButtonClass()}
         onClick={toggleDropdown}
-        disabled={status === 'expirada'}
+        disabled={status === 'expirada' || status === 'atendido'}
         type="button"
       >
         {getStatusText()}
@@ -102,32 +94,9 @@ const ButtonStatus = ({
       </button>
       
       {isOpen && (
-        <div 
-          style={{
-            position: 'fixed',
-            top: `${dropdownPosition.top}px`,
-            left: `${dropdownPosition.left}px`,
-            width: `${dropdownPosition.width}px`,
-            zIndex: 9999
-          }}
-        >
+        <div className="dropdown-menu">
           {status === 'pendiente' && (
-            <button 
-              className="dropdown-item dropdown-item--atendido"
-              onClick={() => handleStatusChange('atendido')}
-              type="button"
-            >
-              Atendido
-            </button>
-          )}
-          {status === 'atendido' && (
-            <button 
-              className="dropdown-item dropdown-item--pendiente"
-              onClick={() => handleStatusChange('pendiente')}
-              type="button"
-            >
-              Pendiente
-            </button>
+            <button className="dropdown-item dropdown-item--atendido" onClick={() => handleStatusChange('atendido')} type="button">Atendido</button>
           )}
         </div>
       )}
