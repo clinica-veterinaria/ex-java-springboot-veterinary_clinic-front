@@ -3,6 +3,8 @@ import './AddAppt.css';
 import ButtonType from '../buttonType/ButtonType';
 import Button from '../buttons/Button';
 import DateTimePicker from '../dateTimePicker/DateTimePicker';
+import { getAvailableSlots, createAppointment } from "../../services/APIAppointment";
+
 
 const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => {
     const [formData, setFormData] = useState({
@@ -17,47 +19,30 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
     const [availableSlots, setAvailableSlots] = useState([]);
 
     useEffect(() => {
-        if (formData.date) {
-            const fetchAvailableSlots = async () => {
-                try {
-                    // connect with backend
-                    const response = await fetch(`/api/appointments/disponibles?fecha=${formData.date}`);
-                    
-                    if (!response.ok) {
-                        throw new Error('Error al obtener los horarios del servidor');
-                    }
-                    
-                    const data = await response.json();
-                
-                    const allSlotsFromBackend = data.slots; 
-                    
-                    // Max. 10 appointments
-                    const limitedSlots = allSlotsFromBackend.slice(0, 10);
-                    
-                    setAvailableSlots(limitedSlots);
-
-                } catch (error) {
-                    console.error("Error al obtener los horarios disponibles:", error);
-                    setAvailableSlots([]);
-                }
-            };
-
-            fetchAvailableSlots();
-        } else {
-            setAvailableSlots([]); // Clean schedule if there's no selected date
+        if (!formData.date) {
+            setAvailableSlots([]);
+            return;
         }
-    }, [formData.date]); // effect applied when date changes
+        const fetchSlots = async () => {
+            const slots = await getAvailableSlots(formData.date);
+            setAvailableSlots(slots);
+        }
+        fetchSlots();
+    }, [formData.date]);
 
     const handleInputChange = (field, value) => {
-        setFormData(prev => ({
-            ...prev,
-            [field]: value
-        }));
+        setFormData(prev => ({ ...prev, [field]: value }));
     };
 
-    const handleSave = () => {
-        onSave(formData);
-        onClose();
+    const handleSave = async () => {
+        try {
+            await createAppointment(formData);
+            onSave(formData);
+            onClose();
+        } catch (error) {
+            console.error("Error al crear cita:", error);
+            alert("Error al crear la cita");
+        }
     };
 
     const handleCancel = () => {
@@ -74,7 +59,6 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
 
     if (!isOpen) return null;
     
-
     return (
         <div className="modal-overlay">
             <div className="modal-container">

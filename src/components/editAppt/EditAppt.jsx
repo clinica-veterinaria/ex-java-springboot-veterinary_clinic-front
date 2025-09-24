@@ -3,6 +3,7 @@ import './EditAppt.css';
 import ButtonType from '../buttonType/ButtonType';
 import Button from '../buttons/Button';
 import DateTimePicker from '../dateTimePicker/DateTimePicker';
+import { getAvailableSlots, updateAppointment } from '../../services/AppointmentService';
 
 export default function EditAppt({ isOpen = false, onClose = () => {}, onSave = () => {}, appointment }) {
     const [formData, setFormData] = useState({
@@ -18,53 +19,48 @@ export default function EditAppt({ isOpen = false, onClose = () => {}, onSave = 
 
     // Original data
     useEffect(() => {
-        if (appointment) {
-            setFormData({
-                patient: appointment.patient || '',
-                petId: appointment.petId || '',
-                date: appointment.date || '',
-                time: appointment.time || '',
-                reason: appointment.reason || '',
-                type: appointment.type || 'estandar',
-            });
-        }
-    }, [appointment]);
+      if (appointment) {
+          setFormData({
+              patient: appointment.patient || '',
+              petId: appointment.petId || '',
+              date: appointment.date || '',
+              time: appointment.time || '',
+              reason: appointment.reason || '',
+              type: appointment.type || 'estandar',
+          });
+      }
+  }, [appointment]);
 
-    // Load available slots when changing the date
-    useEffect(() => {
-        if (formData.date) {
-            const fetchAvailableSlots = async () => {
-                try {
-                    const response = await fetch(`/api/appointments/disponibles?fecha=${formData.date}`);
-                    if (!response.ok) throw new Error('Error al obtener horarios');
-                    
-                    const data = await response.json();
-                    setAvailableSlots(data.slots.slice(0, 10));
-                } catch (error) {
-                    console.error("Error al obtener horarios disponibles:", error);
-                    setAvailableSlots([]);
-                }
-            };
-            fetchAvailableSlots();
-        } else {
-            setAvailableSlots([]);
-        }
-    }, [formData.date]);
+  // load available slots
+  useEffect(() => {
+      if (!formData.date) {
+        setAvailableSlots([]);
+        return;
+      }
+      const fetchSlots = async () => {
+        const slots = await getAvailableSlots(formData.date);
+        setAvailableSlots(slots);
+      }
+      fetchSlots();
+  }, [formData.date]);
 
-    const handleInputChange = (field, value) => {
-        setFormData(prev => ({
-            ...prev,
-            [field]: value
-        }));
-    };
 
-    const handleSave = () => {
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({...prev,[field]: value}));
+  };
+
+  const handleSave = async () => {
+    try {
+        await updateAppointment(appointment.id, formData);
         onSave(formData, appointment);
         onClose();
-    };
+    } catch (error) {
+        console.error("Error al editar cita:", error);
+        alert("Error al editar la cita");
+    }
+  };
 
-    if (!isOpen) return null;
-
+  if (!isOpen) return null;
 
     return(
         <div className="edit-appointment__overlay">

@@ -7,9 +7,8 @@ import ButtonStatus from '../buttonStatus/ButtonStatus';
 import Button from '../buttons/Button';
 import ButtonText from '../buttonText/ButtonText';
 
-export default function AppointmentDetailsAdmin({ onClose, patient, appointmentDatetime, reason, icon}) {
-    const [status, setStatus] = useState("pendiente");
-
+export default function AppointmentDetailsAdmin({ onClose, patient, appointmentDatetime, reason, icon, status: initialStatus }) {
+    const [status, setStatus] = useState(initialStatus || "pendiente")
 
     return(
         <div className="appointment-admin__overlay">
@@ -30,10 +29,6 @@ export default function AppointmentDetailsAdmin({ onClose, patient, appointmentD
                     <p className="appointment-admin__subtitle">Motivo</p>
                     <p className="appointment-admin__text">{reason}</p>
                     <ButtonText icon={<FontAwesomeIcon icon={faArrowUpRightFromSquare}/>}>Ver ficha paciente</ButtonText>
-                </div>
-                <div className="appointment-admin__buttons">
-                    <Button variant="secondary" onClick={() => setStatus("urgente")}>Urgente</Button>
-                    <Button variant="primary" onClick={() => setStatus("estandar")}>Estándar</Button>
                 </div>
             </div>
         </div>

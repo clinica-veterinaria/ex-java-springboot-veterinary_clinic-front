@@ -113,13 +113,5 @@ p {
     margin-left: 8px;
 }
 
-.appointment-admin__buttons {
-    display: flex;
-    flex-direction: row;
-    gap: var(--space-s);
-    justify-content: center;
-    margin-top: var(--space-card);
-}
-
 
   

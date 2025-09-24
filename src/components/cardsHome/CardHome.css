@@ -42,3 +42,11 @@
     margin: 0;
     text-align: center;
 }
+
+.home-page__cards > a,
+.home-page__cards > a:link,
+.home-page__cards > a:visited,
+.home-page__cards > a:hover,
+.home-page__cards > a:active {
+    text-decoration: none;
+}

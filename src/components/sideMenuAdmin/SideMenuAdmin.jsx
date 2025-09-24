@@ -1,19 +1,12 @@
 import React from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import './SideMenuAdmin.css';
 import Logo from '../../assets/logoPositive.svg';
 import ButtonText from '../buttonText/ButtonText';
 import ButtonProfile from '../buttonProfile/ButtonProfile';
 
 export default function SideMenuAdmin() {
-    const navigate = useNavigate();
     const location = useLocation();
-
-    // Para navegar y asegurarnos de que el botón está seleccionado
-    const handleNavigation = (path) => {
-        navigate(path);
-    };
-  
     const isSelected = (path) => location.pathname === path;
 
     return(
@@ -25,13 +18,23 @@ export default function SideMenuAdmin() {
                     </Link>
                 </div>
                 <div className="menu-admin__buttons">
-                    <ButtonText onClick={() => handleNavigation("/home")} isSelected={isSelected("/home")}>Home</ButtonText>
-                    <ButtonText onClick={() => handleNavigation("/calendar")} isSelected={isSelected("/calendar")}>Calendario</ButtonText>
-                    <ButtonText onClick={() => handleNavigation("/appointments")} isSelected={isSelected("/appointments")}>Citas</ButtonText>
-                    <ButtonText onClick={() => handleNavigation("/patients")} isSelected={isSelected("/patients")}>Pacientes</ButtonText>
+                    <Link to="/home">
+                        <ButtonText isSelected={isSelected("/home")}>Home</ButtonText>
+                    </Link>
+                    <Link to="/calendar">
+                        <ButtonText isSelected={isSelected("/calendar")}>Calendario</ButtonText>
+                    </Link>
+                    <Link to="/appointments">
+                        <ButtonText isSelected={isSelected("/appointments")}>Citas</ButtonText>
+                    </Link>
+                    <Link to="/patients">
+                        <ButtonText isSelected={isSelected("/patients")}>Pacientes</ButtonText>
+                    </Link>
                 </div>
                 <div className="menu-admin__profile">
-                    <ButtonProfile onClick={() => handleNavigation("/profile")} isSelected={isSelected("/profile")}>Margarita</ButtonProfile>
+                    <Link to="/profile">
+                        <ButtonProfile isSelected={isSelected("/profile")}>Margarita</ButtonProfile>
+                    </Link>
                 </div>
             </div>
         </aside>

@@ -134,21 +134,14 @@ const PatientPage = () => {
 
     return (
         <div className="patients-page">
-            <aside className="patients-page__navbar">
-                <SideMenuAdmin />
-            </aside>
 
             {/* CONTENIDO PRINCIPAL */}
             <main className="main-content">
                 <div className="content-area">
-                    <div className="page-header">
-                        <Navbar />
-                    </div>
 
                     {/* HEADER CON TÍTULO Y BOTÓN */}
-                    <div className="page-header-section">
-                        <h1 className="page-title">Pacientes</h1>
-
+                    <div className="page-title">
+                        <h1 >Pacientes</h1>
                     </div>
 
                     <div className="content-with-alphabet">

@@ -4,37 +4,8 @@ import AppointmentCard from '../appointmentCard/AppointmentCard';
 import AppointmentDetailsAdmin from '../appointmentDetailsAdmin/AppointmentDetailsAdmin';
 
 export default function AppointmentsWidget({ appointments = [], onMoreOptions }) {
-    const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const defaultAppointments = [
-    {
-      id: 1,
-      appointmentDatetime: '12 SEP 12:00h',
-      patient: 'Pepita',
-      reason: 'Revisión',
-      status: 'pendiente',
-      type: 'normal'
-    },
-    {
-      id: 2,
-      appointmentDatetime: '12 SEP 14:30h',
-      patient: 'Firulais',
-      reason: 'Vacunación',
-      status: 'pendiente',
-      type: 'urgente'
-    },
-    {
-      id: 3,
-      appointmentDatetime: '12 SEP 16:00h',
-      patient: 'Michi',
-      reason: 'Control rutinario',
-      status: 'atendido',
-      type: 'normal'
-    }
-  ];
-
-  const appointmentsToShow = appointments.length > 0 ? appointments : defaultAppointments;
 
   const handleAppointmentClick = (appointment) => {
     setSelectedAppointment(appointment);
@@ -56,7 +27,7 @@ export default function AppointmentsWidget({ appointments = [], onMoreOptions })
         
         {/* Appointments List */}
         <div className="appointments-widget__list">
-          {appointmentsToShow.map((appointment) => (
+          {appointments.map((appointment) => (
             <AppointmentCard
               key={appointment.id}
               appointmentDatetime={appointment.appointmentDatetime}
@@ -79,6 +50,7 @@ export default function AppointmentsWidget({ appointments = [], onMoreOptions })
           patient={selectedAppointment.patient}
           appointmentDatetime={selectedAppointment.appointmentDatetime}
           reason={selectedAppointment.reason}
+          status={selectedAppointment.status}
           icon={selectedAppointment.icon}
         />
       )}
