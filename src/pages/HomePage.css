@@ -1,4 +1,5 @@
 .home-page__content {
+    top: 96px;
     position: relative;
     display: flex;
     flex-direction: column;
