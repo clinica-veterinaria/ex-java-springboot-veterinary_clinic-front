@@ -11,7 +11,7 @@ export default function SignInModal({ onCancel, onSave, isLoading, error }) {
     // See password for validation
     const password = watch("password");
 
-    // Password encrypted with btoa method
+    /* Password encrypted with btoa method
         const onSubmit = (data) => {
             const encryptedData = {
             ...data,
@@ -21,7 +21,7 @@ export default function SignInModal({ onCancel, onSave, isLoading, error }) {
             };
             
             if (onSave) onSave(encryptedData);
-            };
+            };*/
 
         const onSubmit = (data) => {
 

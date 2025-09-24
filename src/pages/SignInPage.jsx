@@ -1,13 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './SignInPage.css';
 import { useNavigate } from 'react-router-dom';
 import Oliwa from '../assets/logoPositive.svg'
 import { PawPrint } from 'lucide-react';
 import SignInModal from '../components/signInModal/SignInModal';
-import { userRegister } from '../services/APIRegister';
+import { registerUser } from '../services/APIRegister';
 
 
 export default function SignInPage() {
+    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const handleRegistration = async (userData) => {
+        setIsLoading(true);
+        setError(null);
+        try {
+            await registerUser(userData);
+            navigate('/home');
+        } catch (err) {
+            console.error("Error en el registro:", err);
+            setError("Error en el registro. Por favor, revisa tus datos.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <div className="login-page">
             <div className="login-background">
@@ -21,7 +39,7 @@ export default function SignInPage() {
                     <img src={Oliwa} alt="Olivwa Logo" width="500" height="120" />
                 </div>
                 <div className="sign-in__modal-container">
-                <SignInModal></SignInModal>
+                <SignInModal onSave={handleRegistration} onCancel={() => {}} isLoading={isLoading} error={error}/>
                 </div>
             </div>
         </div>
