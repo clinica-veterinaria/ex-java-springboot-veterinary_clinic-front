@@ -1,6 +1,7 @@
 .main-layout__container {
     display: flex; 
     height: 100vh;
+    position: sticky;
 }
 
 .main-layout__main-content {

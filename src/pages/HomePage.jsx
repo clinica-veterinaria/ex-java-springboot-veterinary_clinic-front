@@ -3,6 +3,7 @@ import './HomePage.css';
 import { Link, useLocation } from "react-router-dom";
 import CardHome from "../components/cardsHome/CardHome";
 import NextAppointment from "../components/nextAppointment/NextAppointment";
+import SmallCalendarWidget from "../components/smallCalendarWidget/SmallCalendarWidget";
 
 export default function HomePage(){
     const [nextAppointments, setNextAppointments] = useState([]);
@@ -10,7 +11,6 @@ export default function HomePage(){
 
     const location = useLocation();
     const isSelected = (path) => location.pathname === path;
-
 
     // Get next 3 appointments from backend
     const fetchNextAppointments = async () => {
@@ -67,10 +67,7 @@ export default function HomePage(){
                     <div className="home-page__content">
                         <div className="home-page__planning">
                             <div className="home-page__week-view">
-                                <div className="home-page__title">
-                                    <h2>Semana</h2>
-                                </div>
-                        
+                                <SmallCalendarWidget />
                             </div>    
                             <div className="home-page__next-appointments">
                                 <div className="home-page__title">
@@ -113,5 +110,3 @@ export default function HomePage(){
         </div>
     );
 }
-
-{/* calendario vista semana!!!!!! */}

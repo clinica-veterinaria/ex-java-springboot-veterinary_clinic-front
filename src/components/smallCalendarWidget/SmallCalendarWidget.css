@@ -1,0 +1,58 @@
+.small-calendar-widget {
+    height: 290px;
+    width: 400px;
+    border-radius: var(--border-radius-card);
+    font-family: var(--font-family);
+    font-weight: var(--body-weight);
+    font-size: 12px;
+}
+
+.rbc-calendar {
+    border: none;
+}
+
+.rbc-month-view {
+    /* Opcional: ajusta el padding de la vista */
+    padding: 8px;
+}
+
+.rbc-header {
+    /* Estilo de los días de la semana */
+    font-weight: var(--button-weight);
+    color: var(--black);
+    border-bottom: 2px solid #ccc;
+}
+
+.rbc-header span {
+    text-transform: uppercase;
+}
+
+/* Oculta las celdas de días que no quieres mostrar */
+.rbc-week-view .rbc-time-content,
+.rbc-week-view .rbc-label-col {
+  display: none;
+}
+
+/* Oculta las filas de días que no corresponden a la semana actual si usas la vista de mes */
+.rbc-month-view .rbc-row:nth-child(n+2) {
+    display: none;
+}
+
+.rbc-day-bg {
+    background-color: var(--white);
+}
+
+.rbc-day-bg-today {
+    background-color: var(--secondary-500);
+}
+
+.rbc-date-cell {
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    height: 100%;
+}
+
+.rbc-date-cell.rbc-off-range {
+    display: none;
+}
