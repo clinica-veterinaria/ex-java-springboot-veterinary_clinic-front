@@ -3,7 +3,7 @@ import './AddAppt.css';
 import ButtonType from '../buttonType/ButtonType';
 import Button from '../buttons/Button';
 import DateTimePicker from '../dateTimePicker/DateTimePicker';
-import { getAvailableSlots, createAppointment } from "../../services/APIAppointment";
+import { AppointmentsService } from "../../services/apiService";
 
 
 const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => {
@@ -18,15 +18,21 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
 
     const [availableSlots, setAvailableSlots] = useState([]);
 
+    // Obtener horarios disponibles al cambiar la fecha
     useEffect(() => {
         if (!formData.date) {
             setAvailableSlots([]);
             return;
         }
         const fetchSlots = async () => {
-            const slots = await getAvailableSlots(formData.date);
-            setAvailableSlots(slots);
-        }
+            try {
+                const slots = await AppointmentsService.getAvailableSlots(formData.date);
+                setAvailableSlots(slots);
+            } catch (error) {
+                console.error("Error obteniendo horarios disponibles:", error);
+                setAvailableSlots([]);
+            }
+        };
         fetchSlots();
     }, [formData.date]);
 
@@ -36,7 +42,7 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
 
     const handleSave = async () => {
         try {
-            await createAppointment(formData);
+            await AppointmentsService.create(formData);
             onSave(formData);
             onClose();
         } catch (error) {
@@ -58,7 +64,7 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
     };
 
     if (!isOpen) return null;
-    
+
     return (
         <div className="modal-overlay">
             <div className="modal-container">
@@ -67,7 +73,7 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
                 </div>
 
                 <div className="modal-content">
-                    {/* row 1: name and id */}
+                    {/* Row 1: nombre y ID */}
                     <div className="form-row">
                         <div className="form-field">
                             <label className="form-label">Nombre mascota</label>
@@ -91,11 +97,10 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
                         </div>
                     </div>
 
-                    {/* row 2: date and time */}
+                    {/* Row 2: fecha y hora */}
                     <div className="form-row">
                         <div className="form-field">
                             <label className="form-label">Fecha</label>
-                            {/* Date time picker-date */}
                             <DateTimePicker 
                                 type="date"
                                 value={formData.date}
@@ -105,7 +110,6 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
                         </div>
                         <div className="form-field">
                             <label className="form-label">Hora</label>
-                            {/* Date Time Picker-time */}
                             <DateTimePicker 
                                 type="time"
                                 value={formData.time}
@@ -116,7 +120,7 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
                         </div>
                     </div>
 
-                    {/* row 3: cause */}
+                    {/* Row 3: motivo */}
                     <div className="form-row">
                         <div className="form-field form-field--full">
                             <label className="form-label">Motivo</label>
@@ -130,12 +134,12 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
                         </div>
                     </div>
 
-                    {/* Row 4: type */}
+                    {/* Row 4: tipo */}
                     <div className="form-row">
-                    <ButtonType value={formData.type} onChange={(value) => handleInputChange('type', value)} />
+                        <ButtonType value={formData.type} onChange={(value) => handleInputChange('type', value)} />
                     </div>
 
-                    {/* Buttons */}
+                    {/* Botones */}
                     <div className="modal-actions">
                         <Button variant="secondary" onClick={handleCancel}>Cancelar</Button>
                         <Button variant="primary" onClick={handleSave}>Guardar</Button> 
