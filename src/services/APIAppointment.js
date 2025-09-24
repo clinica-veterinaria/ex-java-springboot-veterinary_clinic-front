@@ -76,6 +76,16 @@ export async function updateAppointment(id, updatedData) {
     }
 }
 
+// PUT- UPDATE STATUS
+export async function updateAppointmentStatus(id, newStatus) {
+  return updateAppointment(id, { status: newStatus });
+}
+
+// PUT - UPDATE TYPE
+export async function updateAppointmentType(id, newType) {
+  return updateAppointment(id, { type: newType });
+}
+
 // DELETE - DELETE APPOINTMENT
 export async function deleteAppointment(id) {
   try {
