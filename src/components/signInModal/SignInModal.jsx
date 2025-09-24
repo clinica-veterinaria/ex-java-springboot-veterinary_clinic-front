@@ -155,6 +155,12 @@ export default function SignInModal({ onCancel, onSave, isLoading, error }) {
                             error={errors.confirmPassword?.message}/>
                     </div>
                     </div>
+                    {/* Errors from API */}
+                    {error && (
+                        <div className="error-message">
+                            {error}
+                        </div>
+                    )}
 
                     {/* Buttons */}
                     <div className="signin-modal__buttons">
