@@ -1,7 +1,7 @@
 .menu-admin {
     background-color: var(--primary-500);
     width: 200px;
-    height: 784px;
+    height: 800px;
     display: flex;
     border-radius: var(--border-radius-card);
     justify-content: center;

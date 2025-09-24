@@ -7,10 +7,14 @@ import './MainLayout.css';
 export default function MainLayout() {
     return (
         <div className="main-layout__container">
-            <SideMenuAdmin />
+            <aside className="menu-admin">
+                <SideMenuAdmin />
+            </aside>
             <div className="main-layout__main-content">
-                <Navbar />
-                <main className="main-layout__page-content">
+                <header className="navbar">
+                    <Navbar />
+                </header>
+                <main className="main-layout__content">
                     <Outlet />
                 </main>
             </div>

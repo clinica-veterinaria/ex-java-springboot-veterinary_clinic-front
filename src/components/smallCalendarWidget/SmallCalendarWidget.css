@@ -1,6 +1,6 @@
 .small-calendar-widget {
     height: 296px;
-    width: 450px;
+    width: 536px;
     border-radius: var(--border-radius-card);
     font-family: var(--font-family);
     font-weight: var(--body-weight);
@@ -27,7 +27,6 @@
     color: var(--neutral-750);
     font-weight: bold;
     padding: 6px 4px;
-    border-bottom: 1px solid #e0e0e0;
     font-size: 11px;
 }
 

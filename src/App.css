@@ -3,5 +3,6 @@
 :root {
     background-color: var(--neutral-250);
     margin: var(--space-margin);
+    height: 100%;
 }
 

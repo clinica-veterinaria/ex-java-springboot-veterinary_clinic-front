@@ -2,8 +2,8 @@
     border-radius: var(--border-radius-card);
     background-color: var(--white);
     border: none;
-    height: 188px;
-    width: 320px;
+    height: 240px;
+    width: 536px;
     justify-content: center;
     display: flex;
     flex-direction: column;

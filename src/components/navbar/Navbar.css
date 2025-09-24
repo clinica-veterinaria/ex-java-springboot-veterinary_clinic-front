@@ -1,9 +1,7 @@
 .navbar {
     display: flex;
     flex-direction: row;
+    justify-content: flex-end;
     gap: var(--space-button);
     align-items: center;
-    position: absolute;
-    margin-left: var(--space-button);
-    justify-content: end;
 }
