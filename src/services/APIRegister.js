@@ -1,12 +1,13 @@
-import axios from 'axios';
-
 const API_URL = 'http://localhost:8080/api/auth'; 
 
-export const registerUser = async (userData) => {
-    const response = await axios.post(`${API_URL}/register`, userData, {
-        headers: {
-            'Content-Type': 'multipart/form-data' 
-        }
+
+// POST - Register
+export async function createAppointment(appointmentData) {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(appointmentData),
     });
-    return response.data;
-};
+    if (!response.ok) throw new Error("Error creating appointment");
+    return response.json();
+  }
