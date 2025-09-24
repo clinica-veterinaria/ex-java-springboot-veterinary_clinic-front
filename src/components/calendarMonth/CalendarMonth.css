@@ -1,7 +1,6 @@
 .calendar-style{
     font-family: var(--font-family);
 }
-/* src/index.css o CalendarMonth.css */
 
 /* Fondo del calendario */
 .rbc-calendar {
@@ -31,6 +30,7 @@
   background-color: #357ab8;
 }
 
+/* Hoy */ 
 .rbc-today{
     background-color: var(--secondary-250);
 }
