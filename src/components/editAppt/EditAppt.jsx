@@ -3,7 +3,7 @@ import './EditAppt.css';
 import ButtonType from '../buttonType/ButtonType';
 import Button from '../buttons/Button';
 import DateTimePicker from '../dateTimePicker/DateTimePicker';
-import { getAvailableSlots, updateAppointment } from '../../services/AppointmentService';
+import { getAvailableSlots, updateAppointment } from '../../services/APIAppointment';
 
 export default function EditAppt({ isOpen = false, onClose = () => {}, onSave = () => {}, appointment }) {
     const [formData, setFormData] = useState({
