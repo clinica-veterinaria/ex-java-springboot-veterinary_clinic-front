@@ -1,50 +1,122 @@
 .small-calendar-widget {
-    height: 290px;
-    width: 400px;
+    height: 296px;
+    width: 450px;
     border-radius: var(--border-radius-card);
     font-family: var(--font-family);
     font-weight: var(--body-weight);
     font-size: 12px;
+    overflow: hidden;
 }
 
 .rbc-calendar {
+    background-color: var(--white);
+    border-radius: 8px;
     border: none;
+    height: 100%;
 }
 
-.rbc-month-view {
-    padding: 8px;
+.rbc-time-header-content .rbc-header:first-child,
+.rbc-time-header-content .rbc-header:last-child,
+.rbc-time-content .rbc-day-slot:first-child,
+.rbc-time-content .rbc-day-slot:last-child {
+    display: none !important;
 }
 
 .rbc-header {
-    font-weight: var(--button-weight);
-    color: var(--black);
+    background-color: var(--primary-250);
+    color: var(--neutral-750);
+    font-weight: bold;
+    padding: 6px 4px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 11px;
 }
 
 .rbc-header span {
     text-transform: uppercase;
+    font-size: 10px;
 }
 
-/* Oculta las celdas de días que no quieres mostrar */
-.rbc-week-view .rbc-time-content,
-.rbc-week-view .rbc-label-col {
-  display: none;
-}
-
-.rbc-day-bg {
+.rbc-time-slot {
+    border-bottom: 1px solid var(--neutral-250);
+    min-height: 15px;
     background-color: var(--white);
 }
 
-.rbc-day-bg-today {
-    background-color: var(--secondary-500);
+.rbc-time-slot:nth-child(3n) {
+    border-bottom: 1px solid var(--neutral-250);
 }
 
-.rbc-date-cell {
-    display: flex;
-    justify-content: left;
-    align-items: left;
-    height: 100%;
+/* hour column */
+.rbc-time-header-gutter {
+    background-color: var(--primary-250);
+    border-right: 1px solid var(--neutral-250);
+    width: 45px;
 }
 
-.rbc-date-cell.rbc-off-range {
-    display: none;
+.rbc-label {
+    font-size: 9px;
+    color: var(--neutral-750);
+    padding: 1px 3px;
+    font-weight: bold;
+}
+
+/* divisions */
+.rbc-time-content {
+    border-top: 1px solid var(--neutral-250);
+}
+
+.rbc-day-slot {
+    border-right: 1px solid var(--neutral-250);
+    background-color: var(--white);
+}
+
+.rbc-today {
+    background-color: var(--secondary-250) !important;
+}
+
+.rbc-current-time-indicator {
+    background-color: var(--primary-500);
+    height: 2px;
+    z-index: 1;
+}
+
+/* Contenedor general */
+.rbc-time-view {
+    border: 1px solid var(--neutral-250);
+    border-radius: 8px;
+    overflow-y: auto;
+}
+
+.rbc-event {
+    background-color: var(--primary-500);
+    color: var(--neutral-750);
+    border-radius: 4px;
+    padding: 2px 4px;
+    font-size: 0.85rem;
+    min-height: 12px;
+    border: none;
+}
+
+.rbc-event:hover {
+    background-color: #357AB8;
+}
+
+.rbc-time-header-content {
+    border-bottom: 2px solid var(--neutral-250);
+}
+
+.small-calendar-widget .rbc-calendar {
+    font-family: var(--font-family);
+}
+
+.rbc-off-range-bg {
+    background-color: var(--neutral-250);
+}
+
+.rbc-time-header {
+    background-color: var(--primary-250);
+}
+
+.rbc-allday-cell {
+    background-color: var(--primary-250);
 }
