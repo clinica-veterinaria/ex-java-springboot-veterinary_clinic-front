@@ -81,6 +81,11 @@ const AddPetModal = ({ isOpen = false, onClose = () => {}, onSave = () => {} }) 
       newErrors.name = 'El nombre es obligatorio';
     }
 
+    if (!formData.petIdentification.trim()) {
+      newErrors.petIdentification = 'La identificación es obligatoria';
+    }
+    
+
     if (!formData.gender.trim()) {
       newErrors.gender = 'El género es obligatorio';
     }
@@ -103,7 +108,7 @@ const AddPetModal = ({ isOpen = false, onClose = () => {}, onSave = () => {} }) 
 
     if (!formData.tutorEmail.trim()) {
       newErrors.tutorEmail = 'El correo electrónico es obligatorio';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.tutorEmail)) {
       newErrors.tutorEmail = 'El correo electrónico no es válido';
     }
 
@@ -134,7 +139,8 @@ const AddPetModal = ({ isOpen = false, onClose = () => {}, onSave = () => {} }) 
         tutorName: formData.tutorName,
         tutorDni: formData.tutorDni,
         tutorEmail: formData.tutorEmail,
-        tutorPhone: formData.tutorPhone
+        tutorPhone: formData.tutorPhone,
+        petIdentification: formData.petIdentification
       };
       
       onSave(patientData); 
@@ -152,6 +158,7 @@ const AddPetModal = ({ isOpen = false, onClose = () => {}, onSave = () => {} }) 
       gender: '',
       breed: '',
       age: '',
+      petIdentification: '',
       tutorName: '',
       tutorDni: '',
       tutorEmail: '',
@@ -216,6 +223,17 @@ const AddPetModal = ({ isOpen = false, onClose = () => {}, onSave = () => {} }) 
                   />
                   {errors.name && <span className="error-message">{errors.name}</span>}
                 </div>
+                <div className="form-field">
+                  <label className="form-label">Identificación</label>
+                    <input
+                      type="text"
+                      className={`form-input ${errors.petIdentification ? 'form-input--error' : ''}`}
+                      placeholder="Ej: 123456"
+                      value={formData.petIdentification}
+                      onChange={(e) => handleInputChange('petIdentification', e.target.value)}
+                    />
+                    {errors.petIdentification && <span className="error-message">{errors.petIdentification}</span>}
+                  </div>
                 <div className="form-field">
                   <label className="form-label">Género</label>
                   <input
