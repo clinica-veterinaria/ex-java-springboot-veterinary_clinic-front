@@ -10,11 +10,12 @@ export async function registerPatient(patient) {
       name: patient.name,
       gender: patient.gender,
       breed: patient.breed,
-      age: patient.age, // String según tu DTO
-      ownerName: patient.ownerName,
-      ownerDNI: patient.ownerDNI,
-      phone: patient.phone,
-      email: patient.email
+      age: Number(patient.age), 
+      petIdentification: patient.petIdentification,
+      tutorName: patient.tutorName,
+      tutorDni: patient.tutorDni,
+      tutorPhone: patient.tutorPhone,
+      tutorEmail: patient.tutorEmail
     };
 
     console.log("Datos estructurados para enviar:", patientData);
@@ -75,10 +76,10 @@ export async function testPatientCreation() {
     gender: "Macho",
     breed: "Pastor Alemán",
     age: "3 años",
-    ownerName: "Juan Pérez Test",
-    ownerDNI: "12345678-A",
-    phone: "666777888",
-    email: "test@example.com"
+    tutorName: "Juan Pérez Test",
+    tutorDni: "12345678-A",
+    tutorPhone: "666777888",
+    tutorEmail: "test@example.com"
   };
 
   try {

@@ -1,24 +1,21 @@
 import React, { useState, useRef } from 'react';
 import './PetModal.css';
 import Button from '../buttons/Button'
-// import { registerPatient } from '../../services/APIPatient';
+import { registerPatient } from '../../services/APIPatient';
 
 
 
-const AddPetModal = ({ 
-  isOpen = false, 
-  onClose = () => {}, 
-  onSave = () => {} 
-}) => {
+const AddPetModal = ({ isOpen = false, onClose = () => {}, onSave = () => {} }) => {
   const [formData, setFormData] = useState({
     name: '',
     gender: '',
     breed: '',
     age: '',
-    ownerName: '',
-    ownerDNI: '',
-    email: '',
-    phone: '',
+    petIdentification: "",
+    tutorName: '',
+    tutorDni: '',
+    tutorEmail: '',
+    tutorPhone: '',
     photo: null
   });
 
@@ -96,22 +93,22 @@ const AddPetModal = ({
       newErrors.age = 'La edad es obligatoria';
     }
 
-    if (!formData.ownerName.trim()) {
-      newErrors.ownerName = 'El nombre del dueño es obligatorio';
+    if (!formData.tutorName.trim()) {
+      newErrors.tutorName = 'El nombre del dueño es obligatorio';
     }
 
-    if (!formData.ownerDNI.trim()) {
-      newErrors.ownerDNI = 'El DNI es obligatorio';
+    if (!formData.tutorDni.trim()) {
+      newErrors.tutorDni = 'El DNI es obligatorio';
     }
 
-    if (!formData.email.trim()) {
-      newErrors.email = 'El correo electrónico es obligatorio';
+    if (!formData.tutorEmail.trim()) {
+      newErrors.tutorEmail = 'El correo electrónico es obligatorio';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'El correo electrónico no es válido';
+      newErrors.tutorEmail = 'El correo electrónico no es válido';
     }
 
-    if (!formData.phone.trim()) {
-      newErrors.phone = 'El teléfono es obligatorio';
+    if (!formData.tutorPhone.trim()) {
+      newErrors.tutorPhone = 'El teléfono es obligatorio';
     }
 
     setErrors(newErrors);
@@ -134,10 +131,10 @@ const AddPetModal = ({
         photo: photoPreview, 
         gender: formData.gender,
         age: formData.age,
-        ownerName: formData.ownerName,
-        ownerDNI: formData.ownerDNI,
-        email: formData.email,
-        phone: formData.phone
+        tutorName: formData.tutorName,
+        tutorDni: formData.tutorDni,
+        tutorEmail: formData.tutorEmail,
+        tutorPhone: formData.tutorPhone
       };
       
       onSave(patientData); 
@@ -155,10 +152,10 @@ const AddPetModal = ({
       gender: '',
       breed: '',
       age: '',
-      ownerName: '',
-      ownerDNI: '',
-      email: '',
-      phone: '',
+      tutorName: '',
+      tutorDni: '',
+      tutorEmail: '',
+      tutorPhone: '',
       photo: null
     });
     setErrors({});
@@ -266,23 +263,23 @@ const AddPetModal = ({
                 <label className="form-label">Nombre del dueño</label>
                 <input
                   type="text"
-                  className={`form-input ${errors.ownerName ? 'form-input--error' : ''}`}
-                  placeholder="Ej: Vicente Benito"
-                  value={formData.ownerName}
-                  onChange={(e) => handleInputChange('ownerName', e.target.value)}
+                  className={`form-input ${errors.tutorName ? 'form-input--error' : ''}`}
+                  placeholder="Ej: Vicenta Benito"
+                  value={formData.tutorName}
+                  onChange={(e) => handleInputChange('tutorName', e.target.value)}
                 />
-                {errors.ownerName && <span className="error-message">{errors.ownerName}</span>}
+                {errors.ownerName && <span className="error-message">{errors.tutorName}</span>}
               </div>
               <div className="form-field">
                 <label className="form-label">DNI</label>
                 <input
                   type="text"
-                  className={`form-input ${errors.ownerDNI ? 'form-input--error' : ''}`}
+                  className={`form-input ${errors.tutorDni ? 'form-input--error' : ''}`}
                   placeholder="12.345.678-A"
-                  value={formData.ownerDNI}
-                  onChange={(e) => handleInputChange('ownerDNI', e.target.value)}
+                  value={formData.tutorDni}
+                  onChange={(e) => handleInputChange('tutorDni', e.target.value)}
                 />
-                {errors.ownerDNI && <span className="error-message">{errors.ownerDNI}</span>}
+                {errors.tutorDni && <span className="error-message">{errors.tutorDni}</span>}
               </div>
             </div>
 
@@ -291,23 +288,23 @@ const AddPetModal = ({
                 <label className="form-label">Correo electrónico</label>
                 <input
                   type="email"
-                  className={`form-input ${errors.email ? 'form-input--error' : ''}`}
-                  placeholder="Ej: vicente1A@gmail.com"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  className={`form-input ${errors.tutorEmail ? 'form-input--error' : ''}`}
+                  placeholder="Ej: vicentabenito21@gmail.com"
+                  value={formData.tutorEmail}
+                  onChange={(e) => handleInputChange('tutorEmail', e.target.value)}
                 />
-                {errors.email && <span className="error-message">{errors.email}</span>}
+                {errors.tutorEmail && <span className="error-message">{errors.tutorEmail}</span>}
               </div>
               <div className="form-field">
                 <label className="form-label">Teléfono de contacto</label>
                 <input
                   type="tel"
-                  className={`form-input ${errors.phone ? 'form-input--error' : ''}`}
+                  className={`form-input ${errors.tutorPhone ? 'form-input--error' : ''}`}
                   placeholder="666666666"
-                  value={formData.phone}
-                  onChange={(e) => handleInputChange('phone', e.target.value)}
+                  value={formData.tutorPhone}
+                  onChange={(e) => handleInputChange('tutorPhone', e.target.value)}
                 />
-                {errors.phone && <span className="error-message">{errors.phone}</span>}
+                {errors.tutorPhone && <span className="error-message">{errors.tutorPhone}</span>}
               </div>
             </div>
           </div>
