@@ -124,3 +124,99 @@
     margin-top: var(--space-s);
   }
   
+/* Tablet - 768px and less */
+@media (max-width: 768px) {
+    .signin-modal {
+        width: 90vw;
+        max-width: 450px;
+        margin: 20px auto;
+        padding: 16px 16px 20px;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .signin-modal__title {
+        font-size: calc(var(--h2-size) * 0.9);
+        margin-bottom: calc(var(--space-button) * 0.8);
+    }
+
+    .signin-modal__form-body {
+        gap: calc(var(--space-card) * 0.8);
+    }
+
+    .signin-modal__image-section {
+        width: 150px;
+    }
+
+    .signin-modal__image-label {
+        width: 150px;
+        height: 128px;
+    }
+
+    .signin-modal__fields {
+        gap: 20px 12px;
+    }
+
+    .signin-modal__buttons {
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+}
+
+/* Mobile - 480px and less */
+@media (max-width: 480px) {
+    .signin-modal {
+        width: 95vw;
+        max-width: none;
+        margin: 10px auto;
+        padding: 12px 12px 16px;
+        max-height: 95vh;
+    }
+
+    .signin-modal__title {
+        font-size: calc(var(--h2-size) * 0.8);
+        margin-bottom: calc(var(--space-button) * 0.6);
+    }
+
+    .signin-modal__form {
+        gap: calc(var(--space-button) * 0.8);
+    }
+
+    .signin-modal__form-body {
+        gap: calc(var(--space-card) * 0.6);
+    }
+
+    .signin-modal__image-section {
+        width: 120px;
+    }
+
+    .signin-modal__image-label {
+        width: 120px;
+        height: 102px;
+    }
+
+    .signin-modal__image-placeholder {
+        padding: 15px;
+    }
+
+    .signin-modal__image-placeholder span,
+    .signin-modal__image-placeholder p {
+        font-size: calc(var(--body-size) * 0.9);
+    }
+
+    .signin-modal__fields {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .signin-modal__buttons {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .signin-modal__buttons > * {
+        width: 100%;
+        max-width: 280px;
+    }
+}
