@@ -12,15 +12,12 @@
 }
 
 .rbc-month-view {
-    /* Opcional: ajusta el padding de la vista */
     padding: 8px;
 }
 
 .rbc-header {
-    /* Estilo de los días de la semana */
     font-weight: var(--button-weight);
     color: var(--black);
-    border-bottom: 2px solid #ccc;
 }
 
 .rbc-header span {
@@ -31,11 +28,6 @@
 .rbc-week-view .rbc-time-content,
 .rbc-week-view .rbc-label-col {
   display: none;
-}
-
-/* Oculta las filas de días que no corresponden a la semana actual si usas la vista de mes */
-.rbc-month-view .rbc-row:nth-child(n+2) {
-    display: none;
 }
 
 .rbc-day-bg {
