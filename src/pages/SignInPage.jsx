@@ -1,8 +1,10 @@
 import React from 'react';
 import './SignInPage.css';
+import { useNavigate } from 'react-router-dom';
 import Oliwa from '../assets/logoPositive.svg'
 import { PawPrint } from 'lucide-react';
 import SignInModal from '../components/signInModal/SignInModal';
+import { userRegister } from '../services/APIRegister';
 
 
 export default function SignInPage() {

@@ -4,7 +4,7 @@ import './SignInModal.css';
 import Button from '../buttons/Button';
 import InputField from '../inputField/InputField';
 
-export default function SignInModal({ onCancel, onSave }) {
+export default function SignInModal({ onCancel, onSave, isLoading, error }) {
     const { register, handleSubmit, formState: { errors }, watch } = useForm();
     const [preview, setPreview] = useState(null);
     
@@ -22,6 +22,21 @@ export default function SignInModal({ onCancel, onSave }) {
             
             if (onSave) onSave(encryptedData);
             };
+
+        const onSubmit = (data) => {
+
+            const formData = new FormData();
+            formData.append('nombre', data.nombre);
+            formData.append('dni', data.dni);
+            formData.append('email', data.email);
+            formData.append('telefono', data.telefono);
+            formData.append('password', btoa(data.password));
+            formData.append('imagen', data.imagen[0]); 
+        
+               
+            if (onSave) onSave(formData);
+        };
+        
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -143,8 +158,8 @@ export default function SignInModal({ onCancel, onSave }) {
 
                     {/* Buttons */}
                     <div className="signin-modal__buttons">
-                        <Button variant="secondary" type="button" onClick={onCancel}>Cancelar</Button>
-                        <Button variant="primary" type="submit">Registrarse</Button>
+                        <Button variant="secondary" type="button" disabled={isLoading} onClick={onCancel}>Cancelar</Button>
+                        <Button variant="primary" type="submit" disabled={isLoading}>{isLoading ? "Registrando..." : "Registrarse"}</Button>
                     </div>
                 </form>
             </div>
