@@ -75,3 +75,82 @@ p{
     flex-wrap: wrap;
     align-content: space-around;
 }
+
+/* Tablet - 768px and less */
+@media (max-width: 768px) {
+    .calendar-page__title {
+        font-size: calc(var(--h1-size) * 0.8);
+        margin-left: calc(var(--space-section) * 0.7);
+        text-align: center;
+        margin-right: calc(var(--space-section) * 0.7);
+    }
+
+    .calendar-page__flying-button {
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .calendar-content-area {
+        padding: calc(var(--space-section) * 0.7);
+        padding-bottom: 100px;
+        max-width: 100%;
+    }
+
+    .calendar-main-content {
+        flex-direction: column;
+        height: auto;
+        overflow: visible;
+    }
+
+    .calendar-header {
+        font-size: calc(var(--h1-size) * 0.8);
+        text-align: center;
+        padding: calc(var(--space-section) * 0.5) 0;
+    }
+
+    .appointment-container {
+        align-content: center;
+    }
+
+    .calendar-page__next {
+        margin-top: calc(var(--space-section) * 0.7);
+        gap: calc(var(--space-card) * 0.8);
+        align-items: center;
+    }
+}
+
+/* Mobile - 480px and less */
+@media (max-width: 480px) {
+    .calendar-page__title {
+        font-size: calc(var(--h1-size) * 0.7);
+        margin-left: calc(var(--space-section) * 0.5);
+        margin-right: calc(var(--space-section) * 0.5);
+    }
+
+    .calendar-page__subtitle {
+        font-size: calc(var(--h2-size) * 0.8);
+        text-align: center;
+    }
+
+    .calendar-page__flying-button {
+        bottom: 15px;
+        right: 15px;
+        transform: scale(0.9);
+    }
+
+    .calendar-content-area {
+        padding: calc(var(--space-section) * 0.5);
+        padding-bottom: 120px;
+        min-height: auto;
+    }
+
+    .calendar-header {
+        font-size: calc(var(--h1-size) * 0.7);
+        padding: calc(var(--space-section) * 0.3) 0;
+    }
+
+    .calendar-page__next {
+        margin-top: calc(var(--space-section) * 0.5);
+        gap: calc(var(--space-card) * 0.6);
+    }
+}
