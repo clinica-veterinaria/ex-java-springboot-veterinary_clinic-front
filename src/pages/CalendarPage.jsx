@@ -10,6 +10,7 @@ import FeedbackModal from "../components/feedbackModal/FeedbackModal";
 import EditAppt from "../components/editAppt/EditAppt";
 import DeleteModal from "../components/deleteModal/DeleteModal";
 import EditDeleteModal from "../components/editDeleteModal/EditDeleteModal";
+import AppointmentDetailsAdmin  from '../components/appointmentDetailsAdmin/AppointmentDetailsAdmin'
 import { getUpcomingAppointments, createAppointment, updateAppointment, deleteAppointment, updateAppointmentStatus } from '../services/APIAppointment';
 
 export default function CalendarPage() {
@@ -22,34 +23,35 @@ export default function CalendarPage() {
     const [feedback, setFeedback] = useState(null);
     // const [nextAppointments, setNextAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [showDetailsModal, setShowDetailsModal] = useState(false);
 
 
     const [nextAppointments, setNextAppointments] = useState([
-    {
-      id: 1,
-      date: '2025-09-24T10:00:00',
-      patient: 'Pepita',
-      reason: 'Revisión',
-      status: 'pending',
-    },
-    {
-      id: 2,
-      date: '2025-09-25T14:30:00',
-      patient: 'Max',
-      reason: 'Vacunación',
-      status: 'confirmed',
-    },
-    {
-      id: 3,
-      date: '2025-09-26T16:00:00',
-      patient: 'Luna',
-      reason: 'Consulta',
-      status: 'pending',
-    },
-  ]);
+        {
+            id: 1,
+            date: '2025-09-24T10:00:00',
+            patient: 'Pepita',
+            reason: 'Revisión',
+            status: 'pending',
+        },
+        {
+            id: 2,
+            date: '2025-09-25T14:30:00',
+            patient: 'Max',
+            reason: 'Vacunación',
+            status: 'confirmed',
+        },
+        {
+            id: 3,
+            date: '2025-09-26T16:00:00',
+            patient: 'Luna',
+            reason: 'Consulta',
+            status: 'pending',
+        },
+    ]);
     // GET - Upcoming appointments
-    useEffect(() => { 
-        loadAppointments(); 
+    useEffect(() => {
+        loadAppointments();
     }, []);
 
     const loadAppointments = async () => {
@@ -58,9 +60,9 @@ export default function CalendarPage() {
             // Descomenta cuando tengas el backend funcionando
             // const data = await getUpcomingAppointments(10);
             // setNextAppointments(data.appointments || data);
-            
+
             // Datos temporales para evitar errores
-            
+
         } catch (error) {
             console.error("Error al cargar las próximas citas:", error);
             setFeedback({ message: "Error al cargar las próximas citas", type: "error" });
@@ -84,7 +86,7 @@ export default function CalendarPage() {
         try {
             // Descomenta cuando tengas el backend
             // await createAppointment(appointmentData);
-            
+
             // Temporal - simular creación
             const newAppointment = {
                 id: Date.now(),
@@ -95,7 +97,7 @@ export default function CalendarPage() {
                 status: 'pending'
             };
             setNextAppointments(prev => [...prev, newAppointment]);
-            
+
             setShowAddModal(false);
             setFeedback({ message: "Cita añadida con éxito ✅", type: "success" });
             // loadAppointments(); // Descomenta cuando uses el backend
@@ -103,6 +105,10 @@ export default function CalendarPage() {
             console.error("Error creando cita:", error);
             setFeedback({ message: "Error al crear la cita", type: "error" });
         }
+    };
+    const handleOpenDetails = (appointment) => {
+        setSelectedAppointment(appointment);
+        setShowDetailsModal(true);
     };
 
     const handleOpenOptionsModal = (appt) => {
@@ -121,16 +127,16 @@ export default function CalendarPage() {
         try {
             // Descomenta cuando tengas el backend
             // await updateAppointment(selectedAppointment.id, updatedData);
-            
+
             // Temporal - simular edición
-            setNextAppointments(prev => 
-                prev.map(apt => 
-                    apt.id === selectedAppointment.id 
+            setNextAppointments(prev =>
+                prev.map(apt =>
+                    apt.id === selectedAppointment.id
                         ? { ...apt, ...updatedData }
                         : apt
                 )
             );
-            
+
             setShowEditModal(false);
             setFeedback({ message: "Cita editada con éxito ✏️", type: "success" });
             // loadAppointments(); // Descomenta cuando uses el backend
@@ -151,12 +157,12 @@ export default function CalendarPage() {
         try {
             // Descomenta cuando tengas el backend
             // await deleteAppointment(selectedAppointment.id);
-            
+
             // Temporal - simular eliminación
-            setNextAppointments(prev => 
+            setNextAppointments(prev =>
                 prev.filter(apt => apt.id !== selectedAppointment.id)
             );
-            
+
             setShowDeleteModal(false);
             setFeedback({ message: "Cita eliminada 🗑️", type: "success" });
             // loadAppointments(); // Descomenta cuando uses el backend
@@ -173,16 +179,16 @@ export default function CalendarPage() {
         try {
             // Descomenta cuando tengas el backend
             // await updateAppointmentStatus(appointment.id, newStatus);
-            
+
             // Temporal - simular cambio de status
-            setNextAppointments(prev => 
-                prev.map(apt => 
-                    apt.id === appointment.id 
+            setNextAppointments(prev =>
+                prev.map(apt =>
+                    apt.id === appointment.id
                         ? { ...apt, status: newStatus }
                         : apt
                 )
             );
-            
+
             setFeedback({ message: "Estado actualizado correctamente", type: "success" });
         } catch (error) {
             console.error("Error cambiando estado:", error);
@@ -211,50 +217,50 @@ export default function CalendarPage() {
 
                 <div className="calendar-content-area">
                     <div className="calendar-header">
-                        <h1 className="calendar-title">Calendario</h1>
+                        <h1>Calendario</h1>
                     </div>
                     <div className="appointment-container">
-                    {/* Calendario principal */}
-                    <MyCalendar 
-                        appointments={nextAppointments}
-                        onDateSelect={handleDateSelect}
-                        onEventSelect={handleEventSelect}
-                    />
+                        {/* Calendario principal */}
+                        <MyCalendar
+                            appointments={nextAppointments}
+                            onDateSelect={handleDateSelect}
+                            onEventSelect={handleEventSelect}
+                        />
 
-                    
-                    {/* Lista de citas del día seleccionado */}
-                    <div className="calendar-page__next">
-                        <h2 className="calendar-page__subtitle">
-                            Citas de {selectedDate.toLocaleDateString('es-ES', { 
-                                weekday: 'long', 
-                                day: 'numeric', 
-                                month: 'long' 
-                            })}
-                        </h2>
-                        
-                        {loading ? (
-                            <p>Cargando citas...</p>
-                        ) : getAppointmentsForDate(selectedDate).length > 0 ? (
-                            getAppointmentsForDate(selectedDate).map(appt => (
-                                <AppointmentCard
-                                    key={appt.id}
-                                    appointmentDatetime={appt.date}
-                                    patient={appt.patient}
-                                    reason={appt.reason}
-                                    type={appt.type}
-                                    status={appt.status}
-                                    isNextAppointment={false}
-                                    onClick={() => console.log("Ver detalles")}
-                                    appointment={appt}
-                                    onOptionsClick={handleOpenOptionsModal}
-                                    onStatusChange={(newStatus) => handleStatusChange(appt, newStatus)}
-                                />
-                            ))
-                        ) : (
-                            <p className="no-appointments">No hay citas programadas para este día</p>
-                        )}
-                    </div>
+
+                        {/* Lista de citas del día seleccionado */}
+                        <div className="calendar-page__next">
+                            <h2 className="calendar-page__subtitle">
+                                Citas de {selectedDate.toLocaleDateString('es-ES', {
+                                    weekday: 'long',
+                                    day: 'numeric',
+                                    month: 'long'
+                                })}
+                            </h2>
+
+                            {loading ? (
+                                <p>Cargando citas...</p>
+                            ) : getAppointmentsForDate(selectedDate).length > 0 ? (
+                                getAppointmentsForDate(selectedDate).map(appt => (
+                                    <AppointmentCard
+                                        key={appt.id}
+                                        appointmentDatetime={appt.date}
+                                        patient={appt.patient}
+                                        reason={appt.reason}
+                                        type={appt.type}
+                                        status={appt.status}
+                                        isNextAppointment={false}
+                                        onClick={() => handleOpenDetails(appt)}
+                                        appointment={appt}
+                                        onOptionsClick={handleOpenOptionsModal}
+                                        onStatusChange={(newStatus) => handleStatusChange(appt, newStatus)}
+                                    />
+                                ))
+                            ) : (
+                                <p className="no-appointments">No hay citas programadas para este día</p>
+                            )}
                         </div>
+                    </div>
                     <div className="appointments-page__flying-button">
                         <ButtonAdd onClick={handleOpenAdd} />
                     </div>
@@ -263,18 +269,18 @@ export default function CalendarPage() {
 
             {/* Modales */}
             {showAddModal && (
-                <AddAppt 
-                    isOpen={showAddModal} 
-                    onClose={() => setShowAddModal(false)} 
-                    onSave={handleSaveAppointment} 
+                <AddAppt
+                    isOpen={showAddModal}
+                    onClose={() => setShowAddModal(false)}
+                    onSave={handleSaveAppointment}
                 />
             )}
 
             {feedback && (
-                <FeedbackModal 
-                    message={feedback.message} 
-                    type={feedback.type} 
-                    onClose={() => setFeedback(null)} 
+                <FeedbackModal
+                    message={feedback.message}
+                    type={feedback.type}
+                    onClose={() => setFeedback(null)}
                 />
             )}
 
@@ -302,6 +308,17 @@ export default function CalendarPage() {
                 <DeleteModal
                     onCancel={handleCancelDelete}
                     onConfirm={handleConfirmDelete}
+                />
+            )}
+            {showDetailsModal && selectedAppointment && (
+                <AppointmentDetailsAdmin
+                    isOpen={showDetailsModal}
+                    onClose={() => setShowDetailsModal(false)}
+                    patient={selectedAppointment.patient}
+                    appointmentDatetime={selectedAppointment.date} // Asegúrate de que esta prop coincida
+                    reason={selectedAppointment.reason}
+                    status={selectedAppointment.status}
+                // Agrega otras props necesarias
                 />
             )}
         </div>
