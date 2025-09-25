@@ -1,6 +1,6 @@
 .small-calendar-widget {
     height: 296px;
-    width: 536px;
+    width: 518px;
     border-radius: var(--border-radius-card);
     font-family: var(--font-family);
     font-weight: var(--body-weight);
@@ -15,11 +15,36 @@
     height: 100%;
 }
 
+/* ELIMINADO: Las reglas que ocultaban primera y última columna */
+/* Ocultar sábado y domingo (depende de si la semana empieza en domingo o lunes) */
+/* Si la semana empieza en domingo: ocultar primera (domingo) y última (sábado) */
 .rbc-time-header-content .rbc-header:first-child,
 .rbc-time-header-content .rbc-header:last-child,
 .rbc-time-content .rbc-day-slot:first-child,
 .rbc-time-content .rbc-day-slot:last-child {
     display: none !important;
+}
+
+/* Movido arriba junto con .rbc-day-slot */
+
+.rbc-header span {
+    text-transform: uppercase;
+    font-size: 10px;
+}
+
+/* Columna de horas - mantener visible con ancho fijo */
+.rbc-time-header-gutter {
+    background-color: var(--primary-250);
+    border-right: 1px solid var(--neutral-250);
+    width: 72px !important; /* Ancho fijo para la columna de horas */
+}
+
+/* Ajustar el ancho de las columnas de días para alineación perfecta */
+.rbc-day-slot {
+    border-right: 1px solid var(--neutral-250);
+    background-color: var(--white);
+    width: calc((536px - 70px - 6px) / 5) !important; /* (ancho total - columna horas - bordes) / 5 días */
+    flex: none !important;
 }
 
 .rbc-header {
@@ -28,18 +53,8 @@
     font-weight: bold;
     padding: 6px 4px;
     font-size: 11px;
-}
-
-.rbc-header span {
-    text-transform: uppercase;
-    font-size: 10px;
-}
-
-/* Mantener la columna pero hacerla muy estrecha y vacía */
-.rbc-time-header-gutter {
-    width: 0 !important;
-    background-color: transparent !important;
-    border: none !important;
+    width: calc((536px - 70px - 6px) / 5) !important; /* Mismo ancho que las celdas de días */
+    flex: none !important;
 }
 
 .rbc-allday-cell {
@@ -54,13 +69,6 @@
 
 .rbc-time-slot:nth-child(3n) {
     border-bottom: 1px solid var(--neutral-250);
-}
-
-/* hour column */
-.rbc-time-header-gutter {
-    background-color: var(--primary-250);
-    border-right: 1px solid var(--neutral-250);
-    width: 35px;
 }
 
 .rbc-label {
@@ -94,7 +102,6 @@
 .rbc-time-view {
     border: 1px solid var(--neutral-250);
     border-radius: 8px;
-    overflow-y: auto;
 }
 
 .rbc-event {
