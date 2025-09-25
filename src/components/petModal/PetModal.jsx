@@ -5,13 +5,12 @@ import { registerPatient } from '../../services/APIPatient';
 
 
 
-const AddPetModal = ({ isOpen = false, onClose = () => {}, onSave = () => {} }) => {
+const AddPetModal = ({ isOpen = false, onClose = () => { }, onSave = () => { } }) => {
   const [formData, setFormData] = useState({
     name: '',
     gender: '',
     breed: '',
     age: '',
-    petIdentification: "",
     tutorName: '',
     tutorDni: '',
     tutorEmail: '',
@@ -28,7 +27,7 @@ const AddPetModal = ({ isOpen = false, onClose = () => {}, onSave = () => {} }) 
       ...prev,
       [field]: value
     }));
-    
+
     // Clear error when user starts typing
     if (errors[field]) {
       setErrors(prev => ({
@@ -59,14 +58,14 @@ const AddPetModal = ({ isOpen = false, onClose = () => {}, onSave = () => {} }) 
       }
 
       setFormData(prev => ({ ...prev, photo: file }));
-      
+
       // Create preview
       const reader = new FileReader();
       reader.onload = (e) => {
         setPhotoPreview(e.target.result);
       };
       reader.readAsDataURL(file);
-      
+
       // Clear photo error
       if (errors.photo) {
         setErrors(prev => ({ ...prev, photo: '' }));
@@ -81,11 +80,6 @@ const AddPetModal = ({ isOpen = false, onClose = () => {}, onSave = () => {} }) 
       newErrors.name = 'El nombre es obligatorio';
     }
 
-    if (!formData.petIdentification.trim()) {
-      newErrors.petIdentification = 'La identificación es obligatoria';
-    }
-    
-
     if (!formData.gender.trim()) {
       newErrors.gender = 'El género es obligatorio';
     }
@@ -94,8 +88,12 @@ const AddPetModal = ({ isOpen = false, onClose = () => {}, onSave = () => {} }) 
       newErrors.breed = 'La raza es obligatoria';
     }
 
-    if (!formData.age.trim()) {
+
+    if (!formData.age.trim()) { // <-- .trim() ahora funciona porque es un string
       newErrors.age = 'La edad es obligatoria';
+    } else if (isNaN(parseInt(formData.age)) || parseInt(formData.age) <= 0) {
+      // Ahora la validación revisa el string
+      newErrors.age = 'La edad debe ser un número válido';
     }
 
     if (!formData.tutorName.trim()) {
@@ -121,34 +119,30 @@ const AddPetModal = ({ isOpen = false, onClose = () => {}, onSave = () => {} }) 
   };
 
   const handleSave = async () => {
-  if (validateForm()) {
-    try {
-    //   const savedPatient = await registerPatient(formData); activar cuando este el Back
-      const savedPatient = {
-        id: Date.now() + Math.random(),
-        ...formData
-      }; // quitar cuando este el Back
-      
-      const patientData = {
-        id: savedPatient.id || Date.now() + Math.random(), // Por si la API no devuelve ID
-        name: formData.name,
-        species: formData.breed, 
-        photo: photoPreview, 
-        gender: formData.gender,
-        age: formData.age,
-        tutorName: formData.tutorName,
-        tutorDni: formData.tutorDni,
-        tutorEmail: formData.tutorEmail,
-        tutorPhone: formData.tutorPhone,
-        petIdentification: formData.petIdentification
-      };
-      
-      onSave(patientData); 
-      handleCancel(); 
-    } catch (error) {
-      console.error("Error al guardar paciente:", error);
-      // Aquí podrías mostrar un mensaje de error
-    }
+  if (!validateForm()) return;
+
+  try {
+    console.log("Datos de formData antes de construir el JSON:", formData);
+    // Preparar los datos del paciente (sin photo, la añadiremos aparte)
+    const patientData = {
+      name: formData.name,
+      age: parseInt(formData.age) || 0,
+      breed: formData.breed,
+      gender: formData.gender,
+      tutorName: formData.tutorName,
+      tutorDni: formData.tutorDni,
+      tutorPhone: formData.tutorPhone,
+      tutorEmail: formData.tutorEmail,
+      petIdentification: formData.petIdentification,
+    };
+
+   const savedPatient = await registerPatient(patientData, formData.photo); 
+    onSave(savedPatient); // Actualiza la lista en PatientPage
+    handleCancel();        // Cierra el modal
+
+  } catch (error) {
+    console.error("Error al guardar paciente:", error);
+    alert("Hubo un error al guardar la mascota");
   }
 };
 
@@ -158,7 +152,6 @@ const AddPetModal = ({ isOpen = false, onClose = () => {}, onSave = () => {} }) 
       gender: '',
       breed: '',
       age: '',
-      petIdentification: '',
       tutorName: '',
       tutorDni: '',
       tutorEmail: '',
@@ -184,7 +177,7 @@ const AddPetModal = ({ isOpen = false, onClose = () => {}, onSave = () => {} }) 
           <div className="pet-info-section">
             {/* Photo upload */}
             <div className="photo-upload-container">
-              <div 
+              <div
                 className={`photo-upload-area ${errors.photo ? 'photo-upload-area--error' : ''}`}
                 onClick={handlePhotoSelect}
               >
@@ -223,17 +216,6 @@ const AddPetModal = ({ isOpen = false, onClose = () => {}, onSave = () => {} }) 
                   />
                   {errors.name && <span className="error-message">{errors.name}</span>}
                 </div>
-                <div className="form-field">
-                  <label className="form-label">Identificación</label>
-                    <input
-                      type="text"
-                      className={`form-input ${errors.petIdentification ? 'form-input--error' : ''}`}
-                      placeholder="Ej: 123456"
-                      value={formData.petIdentification}
-                      onChange={(e) => handleInputChange('petIdentification', e.target.value)}
-                    />
-                    {errors.petIdentification && <span className="error-message">{errors.petIdentification}</span>}
-                  </div>
                 <div className="form-field">
                   <label className="form-label">Género</label>
                   <input

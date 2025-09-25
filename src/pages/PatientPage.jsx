@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './PatientPage.css';
 import { CardPatient } from '../components/cardPatient/CardPatient';
 import SideMenuAdmin from '../components/sideMenuAdmin/SideMenuAdmin';
@@ -10,48 +10,42 @@ import AddPetModal from '../components/petModal/PetModal';
 import { Ellipsis } from 'lucide-react';
 import Button from '../components/buttons/Button';
 import DeleteModal from '../components/deleteModal/DeleteModal';
+// Make sure to import updatePatient here
+import { getPatients, registerPatient, deletePatient, updatePatient } from '../services/APIPatient';
 
 const PatientPage = () => {
+    // Add the missing state variable for patients
+    const [patients, setPatients] = useState([]);
     const [showAddModal, setShowAddModal] = useState(false);
     const [activeLetter, setActiveLetter] = useState('');
     const [isSelectionMode, setIsSelectionMode] = useState(false);
     const [selectedPatients, setSelectedPatients] = useState(new Set());
     const [feedback, setFeedback] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [currentPatient, setCurrentPatient] = useState(null);
+    const [loading, setLoading] = useState(true); // Added for better UX
 
-
-    // Datos de ejemplo - corregir IDs duplicados
-    const [patients, setPatients] = useState([
-        { id: 1, name: "Pepita", photo: null, species: "Perro" },
-        { id: 2, name: "Max", photo: null, species: "Perro" },
-        { id: 3, name: "Luna", photo: null, species: "Gato" },
-        { id: 4, name: "Rocky", photo: null, species: "Perro" },
-        { id: 5, name: "Bella", photo: null, species: "Gato" },
-        { id: 6, name: "Charlie", photo: null, species: "Perro" },
-        { id: 7, name: "Milo", photo: null, species: "Perro" },
-        { id: 8, name: "Coco", photo: null, species: "Perro" },
-        { id: 9, name: "Nala", photo: null, species: "Gato" },
-        { id: 10, name: "Simba", photo: null, species: "Gato" },
-        { id: 11, name: "Simba", photo: null, species: "Gato" },
-        { id: 12, name: "Simba", photo: null, species: "Gato" },
-        { id: 13, name: "Simba", photo: null, species: "Gato" },
-        { id: 14, name: "Simba", photo: null, species: "Gato" },
-        { id: 15, name: "Simba", photo: null, species: "Gato" },
-        { id: 16, name: "Simba", photo: null, species: "Gato" },
-        { id: 17, name: "Simba", photo: null, species: "Gato" },
-        { id: 18, name: "Simba", photo: null, species: "Gato" },
-        { id: 19, name: "Simba", photo: null, species: "Gato" },
-        { id: 20, name: "Simba", photo: null, species: "Gato" },
-    ]);
+    useEffect(() => {
+        async function fetchPatients() {
+            try {
+                const data = await getPatients();
+                setPatients(data);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchPatients();
+    }, []);
 
     // Calcular letras disponibles
     const availableLetters = [...new Set(patients.map(p => p.name.charAt(0).toUpperCase()))];
 
-    
+
     const handlePatientClick = (patient) => {
-        if (!isSelectionMode) {
-            console.log('Ver perfil de:', patient);
-        }
+        setCurrentPatient(patient);
+        setShowAddModal(true);
     };
 
     const handleLetterClick = (letter) => {
@@ -68,21 +62,27 @@ const PatientPage = () => {
         setSelectedPatients(newSelected);
     };
 
-  const handleDeleteSelected = () => {
+    const handleDeleteSelected = () => {
         if (selectedPatients.size === 0) return;
         setShowDeleteModal(true);
     };
 
-    const confirmDelete = () => {
-        const remainingPatients = patients.filter(p => !selectedPatients.has(p.id));
-        setPatients(remainingPatients);
-        setSelectedPatients(new Set());
-        setIsSelectionMode(false);
-        setFeedback({
-            message: `${selectedPatients.size} paciente${selectedPatients.size > 1 ? 's eliminados' : ' eliminado'} con éxito ✅`,
-            type: "success"
-        });
-        setShowDeleteModal(false);
+    const confirmDelete = async () => {
+        try {
+            await Promise.all([...selectedPatients].map(id => deletePatient(id)));
+            const remainingPatients = patients.filter(p => !selectedPatients.has(p.id));
+            setPatients(remainingPatients);
+            setSelectedPatients(new Set());
+            setIsSelectionMode(false);
+            setFeedback({
+                message: `${selectedPatients.size} paciente${selectedPatients.size > 1 ? 's eliminados' : ' eliminado'} con éxito ✅`,
+                type: "success"
+            });
+            setShowDeleteModal(false);
+        } catch (error) {
+            console.error(error);
+            setFeedback({ message: "Error eliminando pacientes ❌", type: "error" });
+        }
     };
 
     const cancelDelete = () => {
@@ -108,21 +108,22 @@ const PatientPage = () => {
 
 
 
-    const handleSaveAppointment = (newPatientData) => {
-        // Los datos ya vienen estructurados desde el modal
-        const newPatient = {
-            ...newPatientData, // Spread todos los datos del modal
-            // Si necesitas generar un ID único cuando la API no lo devuelve:
-            id: newPatientData.id || Date.now() + Math.random()
-        };
+    const handlePatientSave = (savedPatient) => {
+    
+    if (!savedPatient) return; // Validación de seguridad
 
-        setPatients(prevPatients => [...prevPatients, newPatient]);
-        setShowAddModal(false);
-        setFeedback({
-            message: `${newPatient.name} añadido con éxito ✅`,
-            type: "success"
-        });
-    };
+    // 1. Determinar si es una edición o una creación
+    if (patients.some(p => p.id === savedPatient.id)) {
+        // Editando paciente existente
+        setPatients(prev => prev.map(p => p.id === savedPatient.id ? savedPatient : p));
+        setFeedback({ message: `${savedPatient.name} actualizado ✅`, type: "success" });
+    } else {
+        // Nuevo paciente (¡ESTO RESUELVE TU PROBLEMA DE VISUALIZACIÓN!)
+        setPatients(prev => [...prev, savedPatient]);
+        setFeedback({ message: `${savedPatient.name} añadido ✅`, type: "success" });
+    }
+
+};
 
     const sortedPatients = [...patients].sort((a, b) =>
         a.name.localeCompare(b.name, 'es', { sensitivity: 'base' })
@@ -218,8 +219,9 @@ const PatientPage = () => {
             {showAddModal && (
                 <AddPetModal
                     isOpen={showAddModal}
-                    onClose={() => setShowAddModal(false)}
-                    onSave={handleSaveAppointment}
+                    onClose={() => { setShowAddModal(false); setCurrentPatient(null); }}
+                    onSave={handlePatientSave}
+                    editPatient={currentPatient}
                 />
             )}
             {feedback && (
@@ -231,7 +233,7 @@ const PatientPage = () => {
                     onCancel={cancelDelete}
                     onConfirm={confirmDelete}
                 />
-)}
+            )}
 
         </div>
     );
