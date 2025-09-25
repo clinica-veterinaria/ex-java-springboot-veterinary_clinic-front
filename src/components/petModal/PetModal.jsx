@@ -88,8 +88,12 @@ const AddPetModal = ({ isOpen = false, onClose = () => { }, onSave = () => { } }
       newErrors.breed = 'La raza es obligatoria';
     }
 
-    if (!formData.age.trim()) {
+
+    if (!formData.age.trim()) { // <-- .trim() ahora funciona porque es un string
       newErrors.age = 'La edad es obligatoria';
+    } else if (isNaN(parseInt(formData.age)) || parseInt(formData.age) <= 0) {
+      // Ahora la validación revisa el string
+      newErrors.age = 'La edad debe ser un número válido';
     }
 
     if (!formData.tutorName.trim()) {
@@ -115,17 +119,32 @@ const AddPetModal = ({ isOpen = false, onClose = () => { }, onSave = () => { } }
   };
 
   const handleSave = async () => {
-    if (validateForm()) {
-      try {
-        const savedPatient = await registerPatient(formData);
-        onSave(savedPatient);
-        handleCancel();
-      } catch (error) {
-        console.error("Error al guardar paciente:", error);
-        alert("Hubo un error al guardar la mascota");
-      }
-    }
-  };
+  if (!validateForm()) return;
+
+  try {
+    console.log("Datos de formData antes de construir el JSON:", formData);
+    // Preparar los datos del paciente (sin photo, la añadiremos aparte)
+    const patientData = {
+      name: formData.name,
+      age: parseInt(formData.age) || 0,
+      breed: formData.breed,
+      gender: formData.gender,
+      tutorName: formData.tutorName,
+      tutorDni: formData.tutorDni,
+      tutorPhone: formData.tutorPhone,
+      tutorEmail: formData.tutorEmail,
+      petIdentification: formData.petIdentification,
+    };
+
+   const savedPatient = await registerPatient(patientData, formData.photo); 
+    onSave(savedPatient); // Actualiza la lista en PatientPage
+    handleCancel();        // Cierra el modal
+
+  } catch (error) {
+    console.error("Error al guardar paciente:", error);
+    alert("Hubo un error al guardar la mascota");
+  }
+};
 
   const handleCancel = () => {
     setFormData({
@@ -196,7 +215,7 @@ const AddPetModal = ({ isOpen = false, onClose = () => { }, onSave = () => { } }
                     onChange={(e) => handleInputChange('name', e.target.value)}
                   />
                   {errors.name && <span className="error-message">{errors.name}</span>}
-                </div>                  
+                </div>
                 <div className="form-field">
                   <label className="form-label">Género</label>
                   <input

@@ -108,26 +108,22 @@ const PatientPage = () => {
 
 
 
-    const handleSaveAppointment = async (patientData) => {
-        try {
-            let savedPatient;
-            if (patientData.id) {
-                // Editando paciente existente
-                savedPatient = await updatePatient(patientData.id, patientData);
-                setPatients(prev => prev.map(p => p.id === savedPatient.id ? savedPatient : p));
-                setFeedback({ message: `${savedPatient.name} actualizado ✅`, type: "success" });
-            } else {
-                // Nuevo paciente
-                savedPatient = await registerPatient(patientData);
-                setPatients(prev => [...prev, savedPatient]);
-                setFeedback({ message: `${savedPatient.name} añadido ✅`, type: "success" });
-            }
-            setShowAddModal(false);
-        } catch (error) {
-            console.error(error);
-            setFeedback({ message: "Error guardando paciente ❌", type: "error" });
-        }
-    };
+    const handlePatientSave = (savedPatient) => {
+    
+    if (!savedPatient) return; // Validación de seguridad
+
+    // 1. Determinar si es una edición o una creación
+    if (patients.some(p => p.id === savedPatient.id)) {
+        // Editando paciente existente
+        setPatients(prev => prev.map(p => p.id === savedPatient.id ? savedPatient : p));
+        setFeedback({ message: `${savedPatient.name} actualizado ✅`, type: "success" });
+    } else {
+        // Nuevo paciente (¡ESTO RESUELVE TU PROBLEMA DE VISUALIZACIÓN!)
+        setPatients(prev => [...prev, savedPatient]);
+        setFeedback({ message: `${savedPatient.name} añadido ✅`, type: "success" });
+    }
+
+};
 
     const sortedPatients = [...patients].sort((a, b) =>
         a.name.localeCompare(b.name, 'es', { sensitivity: 'base' })
@@ -224,7 +220,7 @@ const PatientPage = () => {
                 <AddPetModal
                     isOpen={showAddModal}
                     onClose={() => { setShowAddModal(false); setCurrentPatient(null); }}
-                    onSave={handleSaveAppointment}
+                    onSave={handlePatientSave}
                     editPatient={currentPatient}
                 />
             )}

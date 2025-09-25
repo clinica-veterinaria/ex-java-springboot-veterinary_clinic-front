@@ -42,25 +42,33 @@ export async function updatePatient(patientId, updatedData) {
 }
 
 // Crear un nuevo paciente
-export async function registerPatient(patient) {
+// services/APIPatient.js
+export async function registerPatient(patientData, imageFile) {
   try {
-    // Asegúrate de convertir edad a número si tu backend espera Integer
-    const patientData = {
-      name: patient.name,
-      gender: patient.gender,
-      breed: patient.breed,
-      age: Number(patient.age),
-      petIdentification: patient.petIdentification,
-      tutorName: patient.tutorName,
-      tutorDni: patient.tutorDni,
-      tutorPhone: patient.tutorPhone,
-      tutorEmail: patient.tutorEmail,
-    };
+    // 1. Creación e inicialización del objeto FormData (CORREGIDO)
+    const formDataToSend = new FormData(); // Usamos 'formDataToSend' como el objeto principal
 
+    // 2. Log de depuración (patientData ahora es el JSON del paciente)
+    console.log("Datos del paciente (JSON) para enviar:", patientData);
+
+    // 3. Añadir el JSON del paciente (CORREGIDO: usando formDataToSend)
+    formDataToSend.append(
+      'patient',
+      new Blob([JSON.stringify(patientData)], {
+        type: 'application/json'
+      })
+    );
+
+    // 4. Añadir la imagen si existe (CORREGIDO: usando imageFile y formDataToSend)
+    if (imageFile) {
+      formDataToSend.append('image', imageFile);
+    }
+
+    // 5. Envío de la petición
     const response = await fetch(API_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(patientData),
+      body: formDataToSend, // Usamos el objeto FormData que acabamos de construir
+      // Importante: NO se añade Content-Type manualmente aquí.
     });
 
     if (!response.ok) {
@@ -75,7 +83,6 @@ export async function registerPatient(patient) {
     throw error;
   }
 }
-
 // Eliminar paciente por ID
 export async function deletePatient(patientId) {
   try {
