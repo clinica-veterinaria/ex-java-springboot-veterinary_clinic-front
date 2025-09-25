@@ -15,18 +15,18 @@ export function formatDateTime(datetime) {
 
 // GET - UPCOMING APPOINTMENTS MAX.3
 export async function getUpcomingAppointments(limit = 3) {
-    try {
+  try {
       const response = await fetch(`${API_URL}/upcoming?limit=${limit}`);
-      if (!response.ok) throw new Error("Error fetching appointments");
+      if (!response.ok) {
+          throw new Error(`Error fetching appointments: ${response.statusText}`);
+      }
       const data = await response.json();
-
-      // Format dates before return
-      data.appointments?.forEach(a => a.appointmentDatetime = formatDateTime(a.appointmentDatetime));
-      return data;
-    } catch (error) {
-      console.error(error);
+      
+      return data; 
+  } catch (error) {
+      console.error("Error en la función getUpcomingAppointments", error);
       throw error;
-    }
+  }
 }
 
 // GET -AVAILABLE SLOTS

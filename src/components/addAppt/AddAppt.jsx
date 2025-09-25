@@ -8,8 +8,8 @@ import { getAvailableSlots, createAppointment } from "../../services/APIAppointm
 
 const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => {
     const [formData, setFormData] = useState({
-        patient: '',
-        petId: '',
+        patientName: '',
+        patientId: '',
         date: '',
         time: '',
         reason: '',
@@ -36,7 +36,16 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
 
     const handleSave = async () => {
         try {
-            await createAppointment(formData);
+            const appointmentDatetime = `${formData.date}T${formData.time}:00`;
+    
+            const appointmentData = {
+                appointmentDatetime: appointmentDatetime,
+                type: formData.type.toUpperCase(),
+                reason: formData.reason,
+                patientId: Number(formData.patientId)
+            };
+    
+            await createAppointment(appointmentData);
             onSave(formData);
             onClose();
         } catch (error) {
@@ -44,11 +53,12 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
             alert("Error al crear la cita");
         }
     };
+    
 
     const handleCancel = () => {
         setFormData({
-            patient: '',
-            petId: '',
+            patientName: '',
+            patientId: '',
             date: '',
             time: '',
             reason: '',
@@ -75,8 +85,8 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
                                 type="text"
                                 className="form-input"
                                 placeholder="Ej: Valentín"
-                                value={formData.patient}
-                                onChange={(e) => handleInputChange('patient', e.target.value)}
+                                value={formData.patientName}
+                                onChange={(e) => handleInputChange('patientName', e.target.value)}
                             />
                         </div>
                         <div className="form-field">
@@ -85,8 +95,8 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
                                 type="text"
                                 className="form-input"
                                 placeholder="Ej: 15032"
-                                value={formData.petId}
-                                onChange={(e) => handleInputChange('petId', e.target.value)}
+                                value={formData.patientId}
+                                onChange={(e) => handleInputChange('patientId', e.target.value)}
                             />
                         </div>
                     </div>

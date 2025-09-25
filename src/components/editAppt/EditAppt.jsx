@@ -8,7 +8,7 @@ import { getAvailableSlots, updateAppointment } from '../../services/APIAppointm
 export default function EditAppt({ isOpen = false, onClose = () => {}, onSave = () => {}, appointment }) {
     const [formData, setFormData] = useState({
         patient: '',
-        petId: '',
+        patientId: '',
         date: '',
         time: '',
         reason: '',
@@ -19,17 +19,19 @@ export default function EditAppt({ isOpen = false, onClose = () => {}, onSave = 
 
     // Original data
     useEffect(() => {
-      if (appointment) {
-          setFormData({
-              patient: appointment.patient || '',
-              petId: appointment.petId || '',
-              date: appointment.date || '',
-              time: appointment.time || '',
-              reason: appointment.reason || '',
-              type: appointment.type || 'estandar',
-          });
-      }
-  }, [appointment]);
+        if (appointment) {
+            const [date, time] = appointment.appointmentDatetime.split('T');
+    
+            setFormData({
+                patient: appointment.patientName || '', 
+                patientId: appointment.patientId || '',
+                date: date || '',
+                time: time.slice(0, 5) || '', 
+                reason: appointment.reason || '',
+                type: appointment.type.toUpperCase() || 'estandar',
+            });
+        }
+    }, [appointment]);
 
   // load available slots
   useEffect(() => {
@@ -51,14 +53,25 @@ export default function EditAppt({ isOpen = false, onClose = () => {}, onSave = 
 
   const handleSave = async () => {
     try {
-        await updateAppointment(appointment.id, formData);
-        onSave(formData, appointment);
+        const appointmentDatetime = `${formData.date}T${formData.time}:00`;
+
+        const updatedData = {
+            appointmentDatetime: appointmentDatetime,
+            type: formData.type.toUpperCase(),
+            reason: formData.reason,
+            patientId: Number(formData.patientId), 
+            status: appointment.status 
+        };
+        
+        await updateAppointment(appointment.id, updatedData);
+        onSave(updatedData);
         onClose();
+
     } catch (error) {
         console.error("Error al editar cita:", error);
         alert("Error al editar la cita");
-    }
-  };
+        }
+    };
 
   if (!isOpen) return null;
 
@@ -85,8 +98,8 @@ export default function EditAppt({ isOpen = false, onClose = () => {}, onSave = 
                             <input
                                 type="text"
                                 className="form-input"
-                                value={formData.petId}
-                                onChange={(e) => handleInputChange('petId', e.target.value)}
+                                value={formData.patientId}
+                                onChange={(e) => handleInputChange('patientId', e.target.value)}
                             />
                         </div>
                     </div>
