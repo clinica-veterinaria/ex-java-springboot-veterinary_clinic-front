@@ -23,5 +23,4 @@
 .main-layout__content {
     flex-grow: 1;
     overflow-y: auto; 
-    padding: var(--space-section); 
 }
