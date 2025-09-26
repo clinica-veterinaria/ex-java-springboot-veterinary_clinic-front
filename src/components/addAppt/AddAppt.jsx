@@ -35,14 +35,21 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
     };
 
     const handleSave = async () => {
+
+        const typeMapping = {
+            'estandar': 'STANDARD',
+            'urgente': 'URGENT'
+        };
+
         try {
-    
             const appointmentData = {
                 appointmentDatetime: `${formData.date}T${formData.time}:00`,
-                type: formData.type.toUpperCase(),
+                type: typeMapping[formData.type] || 'STANDARD',
                 reason: formData.reason,
                 patientId: Number(formData.patientId)
             };
+    
+            console.log(appointmentData);
     
             await createAppointment(appointmentData);
             onSave(formData);
