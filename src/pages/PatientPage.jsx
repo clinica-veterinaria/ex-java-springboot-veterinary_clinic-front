@@ -12,7 +12,7 @@ import Button from '../components/buttons/Button';
 import DeleteModal from '../components/deleteModal/DeleteModal';
 // Make sure to import updatePatient here
 import { getPatients, registerPatient, deletePatient, updatePatient } from '../services/APIPatient';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 const PatientPage = () => {
     // Add the missing state variable for patients
@@ -41,16 +41,14 @@ const PatientPage = () => {
         fetchPatients();
     }, []);
 
-    // Calcular letras disponibles
     const availableLetters = [...new Set(patients.map(p => p.name.charAt(0).toUpperCase()))];
 
 
- const handlePatientClick = (patient) => {
-    if (!isSelectionMode) {
-        // Pasamos el paciente entero en el state
-        navigate(`/patients/${patient.id}`, { state: { patient } });
-    }
-};
+    const handlePatientClick = (patient) => {
+        if (!isSelectionMode) {
+            navigate(`/patients/${patient.id}`, { state: { patient } });
+        }
+    };
 
     const handleLetterClick = (letter) => {
         setActiveLetter(letter === activeLetter ? '' : letter);
@@ -113,21 +111,21 @@ const PatientPage = () => {
 
 
     const handlePatientSave = (savedPatient) => {
-    
-    if (!savedPatient) return; // Validación de seguridad
 
-    // 1. Determinar si es una edición o una creación
-    if (patients.some(p => p.id === savedPatient.id)) {
-        // Editando paciente existente
-        setPatients(prev => prev.map(p => p.id === savedPatient.id ? savedPatient : p));
-        setFeedback({ message: `${savedPatient.name} actualizado ✅`, type: "success" });
-    } else {
-        // Nuevo paciente (¡ESTO RESUELVE TU PROBLEMA DE VISUALIZACIÓN!)
-        setPatients(prev => [...prev, savedPatient]);
-        setFeedback({ message: `${savedPatient.name} añadido ✅`, type: "success" });
-    }
+        if (!savedPatient) return; // Validación de seguridad
 
-};
+        // 1. Determinar si es una edición o una creación
+        if (patients.some(p => p.id === savedPatient.id)) {
+            // Editando paciente existente
+            setPatients(prev => prev.map(p => p.id === savedPatient.id ? savedPatient : p));
+            setFeedback({ message: `${savedPatient.name} actualizado ✅`, type: "success" });
+        } else {
+            // Nuevo paciente (¡ESTO RESUELVE TU PROBLEMA DE VISUALIZACIÓN!)
+            setPatients(prev => [...prev, savedPatient]);
+            setFeedback({ message: `${savedPatient.name} añadido ✅`, type: "success" });
+        }
+
+    };
 
     const sortedPatients = [...patients].sort((a, b) =>
         a.name.localeCompare(b.name, 'es', { sensitivity: 'base' })
