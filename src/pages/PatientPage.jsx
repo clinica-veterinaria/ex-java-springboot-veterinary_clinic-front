@@ -12,9 +12,11 @@ import Button from '../components/buttons/Button';
 import DeleteModal from '../components/deleteModal/DeleteModal';
 // Make sure to import updatePatient here
 import { getPatients, registerPatient, deletePatient, updatePatient } from '../services/APIPatient';
+import { useNavigate } from 'react-router-dom'; 
 
 const PatientPage = () => {
     // Add the missing state variable for patients
+    const navigate = useNavigate();
     const [patients, setPatients] = useState([]);
     const [showAddModal, setShowAddModal] = useState(false);
     const [activeLetter, setActiveLetter] = useState('');
@@ -43,10 +45,12 @@ const PatientPage = () => {
     const availableLetters = [...new Set(patients.map(p => p.name.charAt(0).toUpperCase()))];
 
 
-    const handlePatientClick = (patient) => {
-        setCurrentPatient(patient);
-        setShowAddModal(true);
-    };
+ const handlePatientClick = (patient) => {
+    if (!isSelectionMode) {
+        // Pasamos el paciente entero en el state
+        navigate(`/patients/${patient.id}`, { state: { patient } });
+    }
+};
 
     const handleLetterClick = (letter) => {
         setActiveLetter(letter === activeLetter ? '' : letter);
