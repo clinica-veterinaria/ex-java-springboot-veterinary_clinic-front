@@ -8,7 +8,7 @@ import FeedbackModal from "../components/feedbackModal/FeedbackModal";
 import EditAppt from "../components/editAppt/EditAppt";
 import DeleteModal from "../components/deleteModal/DeleteModal";
 import EditDeleteModal from "../components/editDeleteModal/EditDeleteModal";
-import { getUpcomingAppointments, createAppointment, updateAppointment, deleteAppointment, updateAppointmentStatus } from '../services/APIAppointment';
+import { getUpcomingAppointments, updateAppointment, deleteAppointment, updateAppointmentStatus } from '../services/APIAppointment';
 
 export default function AppointmentsPage() {
     const [showAddModal, setShowAddModal] = useState(false);
@@ -38,6 +38,11 @@ export default function AppointmentsPage() {
     }
   };
 
+  const refreshAppointments = () => {
+    loadAppointments();
+    setShowAddModal(false); 
+  };
+
   const handleOpenAdd = () => setShowAddModal(true);
 
   const handleAppointmentClick = (appt) => {
@@ -45,17 +50,9 @@ export default function AppointmentsPage() {
     setShowDetailsModal(true);
   };
 
-  // POST - Create appointment
-  const handleSaveAppointment = async (appointmentData) => {
-    try {
-      await createAppointment(appointmentData);
-      setShowAddModal(false);
-      setFeedback({ message: "Cita añadida con éxito ✅", type: "success" });
-      loadAppointments();
-    } catch (error) {
-      console.error("Error creando cita:", error);
-      setFeedback({ message: "Error al crear la cita", type: "error" });
-    }
+  // Save appointment - GET in "AddAppt modal"
+  const handleSaveAppointment = () => {
+    refreshAppointments();
   };
 
   const handleOpenOptionsModal = (appt) => {
