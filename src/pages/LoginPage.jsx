@@ -57,11 +57,10 @@ const LoginPage = ({ onLogin = () => { }, onGoToRegister = () => { } }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
-            const encodedPassword = btoa(formData.password);
 
             const safeData = {
-                ...formData,
-                password: encodedPassword
+                identifier: formData.identifier,
+                password: formData.password
             };
 
             onLogin(safeData);

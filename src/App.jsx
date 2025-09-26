@@ -9,24 +9,25 @@ import PatientPage from './pages/PatientPage';
 import CalendarPage from './pages/CalendarPage';
 import LoginPage from './pages/LoginPage';
 import SignInPage from './pages/SignInPage';
+import AuthHandler from './pages/AuthHandler';
 
 
 function App() {
 
+
   return (
     <BrowserRouter>
-    
-        <Routes>
-          <Route path="/" element={<MainLayout />}>
+
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
           <Route path="home" element={<HomePage />} />
           <Route path="calendar" element={<CalendarPage />} />
           <Route path="appointments" element={<AppointmentsPage />} />
           <Route path="patients" element={<PatientPage />} />
-          
-          <Route path="login" element={<LoginPage />} />
-          <Route path="signin" element={<SignInPage />} />
-          </Route>
+        </Route>
+        <Route path="login" element={<AuthHandler isLoginView={true} />} />
+        <Route path="signin" element={<AuthHandler isLoginView={false} />} />
       </Routes>
     </BrowserRouter>
   )
