@@ -94,11 +94,18 @@ export async function updateAppointmentType(id, newType) {
 export async function deleteAppointment(id) {
   try {
     const response = await fetch(`${API_URL}/appointments/${id}`, { method: "DELETE" });
-    if (!response.ok) throw new Error("Error deleting appointment");
-    return  response.status === 204 ? null : response.json();
+    if (!response.ok) {
+        throw new Error("Error deleting appointment");
+    }
+
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+        return response.json();
+    }
+    return null; 
     
   } catch (error) {
-    console.error(error);
+    console.error("API Error in deleteAppointment:", error);
     throw error;
   }
 }
