@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './PatientPage.css';
 import { CardPatient } from '../components/cardPatient/CardPatient';
+import { registerPatient } from '../services/APIPatient';
 import SideMenuAdmin from '../components/sideMenuAdmin/SideMenuAdmin';
 import ButtonAdd from '../components/buttonAdd/ButtonAdd';
 import AlphabetIndex from '../components/alphabetIndex/AlphabetIndex';
@@ -20,29 +21,16 @@ const PatientPage = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
 
-    // Datos de ejemplo - corregir IDs duplicados
-    const [patients, setPatients] = useState([
-        { id: 1, name: "Pepita", photo: null, species: "Perro" },
-        { id: 2, name: "Max", photo: null, species: "Perro" },
-        { id: 3, name: "Luna", photo: null, species: "Gato" },
-        { id: 4, name: "Rocky", photo: null, species: "Perro" },
-        { id: 5, name: "Bella", photo: null, species: "Gato" },
-        { id: 6, name: "Charlie", photo: null, species: "Perro" },
-        { id: 7, name: "Milo", photo: null, species: "Perro" },
-        { id: 8, name: "Coco", photo: null, species: "Perro" },
-        { id: 9, name: "Nala", photo: null, species: "Gato" },
-        { id: 10, name: "Simba", photo: null, species: "Gato" },
-        { id: 11, name: "Simba", photo: null, species: "Gato" },
-        { id: 12, name: "Simba", photo: null, species: "Gato" },
-        { id: 13, name: "Simba", photo: null, species: "Gato" },
-        { id: 14, name: "Simba", photo: null, species: "Gato" },
-        { id: 15, name: "Simba", photo: null, species: "Gato" },
-        { id: 16, name: "Simba", photo: null, species: "Gato" },
-        { id: 17, name: "Simba", photo: null, species: "Gato" },
-        { id: 18, name: "Simba", photo: null, species: "Gato" },
-        { id: 19, name: "Simba", photo: null, species: "Gato" },
-        { id: 20, name: "Simba", photo: null, species: "Gato" },
-    ]);
+    // Pacientes reales desde backend
+    const [patients, setPatients] = useState([]);
+
+    useEffect(() => {
+        // Cargar todos los pacientes al montar
+        fetch('http://localhost:8080/patients')
+            .then(res => res.json())
+            .then(data => setPatients(data))
+            .catch(() => setFeedback({ message: 'Error al cargar pacientes', type: 'error' }));
+    }, []);
 
     // Calcular letras disponibles
     const availableLetters = [...new Set(patients.map(p => p.name.charAt(0).toUpperCase()))];
@@ -108,20 +96,16 @@ const PatientPage = () => {
 
 
 
-    const handleSaveAppointment = (newPatientData) => {
-        // Los datos ya vienen estructurados desde el modal
-        const newPatient = {
-            ...newPatientData, // Spread todos los datos del modal
-            // Si necesitas generar un ID único cuando la API no lo devuelve:
-            id: newPatientData.id || Date.now() + Math.random()
-        };
-
-        setPatients(prevPatients => [...prevPatients, newPatient]);
-        setShowAddModal(false);
-        setFeedback({
-            message: `${newPatient.name} añadido con éxito ✅`,
-            type: "success"
-        });
+    // Guardar paciente usando la API real
+    const handleSaveAppointment = async (newPatientData) => {
+        try {
+            const saved = await registerPatient(newPatientData);
+            setPatients(prev => [...prev, saved]);
+            setShowAddModal(false);
+            setFeedback({ message: `${saved.name} añadido con éxito ✅`, type: 'success' });
+        } catch {
+            setFeedback({ message: 'Error al registrar paciente', type: 'error' });
+        }
     };
 
     const sortedPatients = [...patients].sort((a, b) =>

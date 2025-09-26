@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080/api/appointments";
+const API_URL = "http://localhost:8080/appointments";
 
 export function formatDateTime(datetime) {
     if (!datetime) return "";
@@ -45,10 +45,18 @@ export async function getAvailableSlots(date) {
 // POST - CREATE APPOINTMENT
 export async function createAppointment(appointmentData) {
     try {
+      // Adaptar los datos a la estructura esperada por el backend
+      const data = {
+        patientId: appointmentData.patientId,
+        appointmentDatetime: appointmentData.appointmentDatetime,
+        type: appointmentData.type,
+        status: appointmentData.status, // opcional
+        reason: appointmentData.reason  // opcional
+      };
       const response = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(appointmentData),
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) throw new Error("Error creating appointment");

@@ -19,35 +19,29 @@ export default function AppointmentsPage() {
     const [feedback, setFeedback] = useState(null);
 
     const [nextAppointments, setNextAppointments] = useState([]);
-    const [loading, setLoading] = useState(true);
 
   // GET- Upcoming appointments
   useEffect(() => {loadAppointments();}, []);
 
   const loadAppointments = async () => {
     try {
-      setLoading(true);
       const data = await getUpcomingAppointments(3);
-      setNextAppointments(data.appointments || data); // depends backend names
-    } catch (error) {
-      console.error("Error al cargar las próximas citas:", error);
+      setNextAppointments(data.appointments || data); // depende del backend
+    } catch {
       setFeedback({ message: "Error al cargar las próximas citas", type: "error" });
-    } finally {
-      setLoading(false);
     }
   };
-
   const handleOpenAdd = () => setShowAddModal(true);
 
   // POST - Create appointment
+  // Guardar cita usando la API real
   const handleSaveAppointment = async (appointmentData) => {
     try {
       await createAppointment(appointmentData);
       setShowAddModal(false);
       setFeedback({ message: "Cita añadida con éxito ✅", type: "success" });
       loadAppointments();
-    } catch (error) {
-      console.error("Error creando cita:", error);
+    } catch {
       setFeedback({ message: "Error al crear la cita", type: "error" });
     }
   };

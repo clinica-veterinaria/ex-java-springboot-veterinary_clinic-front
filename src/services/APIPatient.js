@@ -1,3 +1,14 @@
+// Obtener paciente por ID
+export async function getPatientById(id) {
+  try {
+    const response = await fetch(`${API_URL}/patients/${id}`);
+    if (!response.ok) throw new Error("Error obteniendo paciente por ID");
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 // services/APIPatient.js
 const API_URL = "http://localhost:8080"; // Backend Spring Boot
 
@@ -5,20 +16,20 @@ export async function registerPatient(patient) {
   try {
     console.log("Enviando datos al backend:", patient); // ✅ Para debugging
     
-    // ✅ Estructurar datos según PatientRequestDTO esperado
+    // Estructurar datos según lo que espera el backend
     const patientData = {
       name: patient.name,
-      gender: patient.gender,
+      age: Number(patient.age), // debe ser número
       breed: patient.breed,
-      age: patient.age, // String según tu DTO
-      ownerName: patient.ownerName,
-      ownerDNI: patient.ownerDNI,
-      phone: patient.phone,
-      email: patient.email
+      gender: patient.gender,
+      petIdentification: patient.petIdentification,
+      tutorName: patient.ownerName,    // ownerName → tutorName
+      tutorDni: patient.ownerDNI,      // ownerDNI → tutorDni
+      tutorPhone: patient.phone,       // phone → tutorPhone
+      tutorEmail: patient.email        // email → tutorEmail
     };
 
     console.log("Datos estructurados para enviar:", patientData);
-    
     const response = await fetch(`${API_URL}/patients`, {
       method: "POST",
       headers: {
@@ -26,7 +37,6 @@ export async function registerPatient(patient) {
       },
       body: JSON.stringify(patientData),
     });
-
     console.log("Response status:", response.status); // ✅ Para debugging
 
     if (!response.ok) {
