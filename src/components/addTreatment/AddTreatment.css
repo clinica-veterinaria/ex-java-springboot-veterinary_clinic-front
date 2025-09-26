@@ -1,0 +1,29 @@
+/* --- Button Styles --- */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--border-radius-card);
+    font-family: var(--font-family);
+    font-size: var(--body-size);
+    font-weight: var(--button-weight);
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary {
+    background-color: #8B5CF6;
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background-color: #7C3AED;
+}
+
+.btn-secondary {
+    background-color: #E5E7EB;
+    color: #374151;
+}
+
+.btn-secondary:hover {
+    background-color: #D1D5DB;
+}
