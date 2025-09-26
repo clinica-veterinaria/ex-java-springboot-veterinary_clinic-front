@@ -9,6 +9,8 @@ import PatientPage from './pages/PatientPage';
 import CalendarPage from './pages/CalendarPage';
 import LoginPage from './pages/LoginPage';
 import SignInPage from './pages/SignInPage';
+import HomeUserPage from './pages/HomeUserPage';
+import UserLayout from './components/userLayout/UserLayout';
 import AuthHandler from './pages/AuthHandler';
 import PatientProfile from './pages/PatientProfile';
 
@@ -26,8 +28,13 @@ function App() {
           <Route path="calendar" element={<CalendarPage />} />
           <Route path="appointments" element={<AppointmentsPage />} />
           <Route path="patients" element={<PatientPage />} />
-           <Route path="patients/:id" element={<PatientProfile />} />
-        </Route>
+          <Route path="patients/:id" element={<PatientProfile />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="signin" element={<SignInPage />} />
+          </Route>
+          <Route path="/user" element={<UserLayout />}>
+            <Route index element={<HomeUserPage />} />
+          </Route>
         <Route path="login" element={<AuthHandler isLoginView={true} />} />
         <Route path="signin" element={<AuthHandler isLoginView={false} />} />
       </Routes>
