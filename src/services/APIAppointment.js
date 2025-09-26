@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080/api/appointments";
+const API_URL = "http://localhost:8080";
 
 export function formatDateTime(datetime) {
     if (!datetime) return "";
@@ -16,7 +16,7 @@ export function formatDateTime(datetime) {
 // GET - UPCOMING APPOINTMENTS MAX.3
 export async function getUpcomingAppointments(limit = 3) {
   try {
-      const response = await fetch(`${API_URL}/upcoming?limit=${limit}`);
+      const response = await fetch(`${API_URL}/appointments/upcoming?limit=${limit}`);
       if (!response.ok) {
           throw new Error(`Error fetching appointments: ${response.statusText}`);
       }
@@ -32,7 +32,7 @@ export async function getUpcomingAppointments(limit = 3) {
 // GET -AVAILABLE SLOTS
 export async function getAvailableSlots(date) {
     try {
-        const response = await fetch(`${API_URL}/disponibles?fecha=${date}`);
+        const response = await fetch(`${API_URL}/appointments/disponibles?fecha=${date}`);
         if (!response.ok) throw new Error("Error al obtener los horarios disponibles");
         const data = await response.json();
         return data.slots.slice(0, 10);
@@ -45,7 +45,7 @@ export async function getAvailableSlots(date) {
 // POST - CREATE APPOINTMENT
 export async function createAppointment(appointmentData) {
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch(`${API_URL}/appointments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(appointmentData),
@@ -62,7 +62,7 @@ export async function createAppointment(appointmentData) {
 // PUT - EDIT APPOINTMENT
 export async function updateAppointment(id, updatedData) {
     try {
-      const response = await fetch(`${API_URL}/${id}`, {
+      const response = await fetch(`${API_URL}/appointments/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedData),
@@ -89,7 +89,7 @@ export async function updateAppointmentType(id, newType) {
 // DELETE - DELETE APPOINTMENT
 export async function deleteAppointment(id) {
   try {
-    const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+    const response = await fetch(`${API_URL}/appointments/${id}`, { method: "DELETE" });
     if (!response.ok) throw new Error("Error deleting appointment");
     return response.status === 204 ? null : response.json();
     
