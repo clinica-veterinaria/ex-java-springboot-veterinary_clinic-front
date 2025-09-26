@@ -36,10 +36,9 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
 
     const handleSave = async () => {
         try {
-            const appointmentDatetime = `${formData.date}T${formData.time}:00`;
     
             const appointmentData = {
-                appointmentDatetime: appointmentDatetime,
+                appointmentDatetime: `${formData.date}T${formData.time}:00`,
                 type: formData.type.toUpperCase(),
                 reason: formData.reason,
                 patientId: Number(formData.patientId)

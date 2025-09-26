@@ -42,9 +42,9 @@ const ButtonType = ({
 
   const getTypeText = () => {
     switch (type) {
-      case 'estandar': return 'Estándar';
-      case 'urgente': return 'Urgente';
-      default: return 'Estándar';
+      case 'estandar': return 'STANDARD';
+      case 'urgente': return 'URGENT';
+      default: return 'STANDARD';
     }
   };
 
@@ -83,10 +83,10 @@ const ButtonType = ({
             zIndex: 9999
           }}>
           {type === 'estandar' && (
-            <button className="dropdown-item dropdown-item--urgente" onClick={() => handleTypeChange('urgente')} type="button">Urgente</button>
+            <button className="dropdown-item dropdown-item--urgente" onClick={() => handleTypeChange('URGENT')} type="button">Urgente</button>
           )}
           {type === 'urgente' && (
-            <button className="dropdown-item dropdown-item--estandar" onClick={() => handleTypeChange('estandar')} type="button">Estándar</button>
+            <button className="dropdown-item dropdown-item--estandar" onClick={() => handleTypeChange('STANDARD')} type="button">Estándar</button>
           )}
         </div>
       )}

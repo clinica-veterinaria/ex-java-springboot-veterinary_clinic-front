@@ -68,7 +68,11 @@ export async function updateAppointment(id, updatedData) {
         body: JSON.stringify(updatedData),
       });
 
-      if (!response.ok) throw new Error("Error updating appointment");
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error creando cita: ${response.status} - ${errorText}`);
+      }
+  
       return response.json();
     } catch (error) {
       console.error(error);
@@ -91,7 +95,7 @@ export async function deleteAppointment(id) {
   try {
     const response = await fetch(`${API_URL}/appointments/${id}`, { method: "DELETE" });
     if (!response.ok) throw new Error("Error deleting appointment");
-    return response.status === 204 ? null : response.json();
+    return  response.status === 204 ? null : response.json();
     
   } catch (error) {
     console.error(error);
