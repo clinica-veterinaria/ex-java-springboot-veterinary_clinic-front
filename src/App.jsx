@@ -9,6 +9,7 @@ import PatientPage from './pages/PatientPage';
 import CalendarPage from './pages/CalendarPage';
 import LoginPage from './pages/LoginPage';
 import SignInPage from './pages/SignInPage';
+import HomeUserPage from './pages/HomeUserPage';
 
 
 function App() {
@@ -21,10 +22,10 @@ function App() {
           <Route path="home" element={<HomePage />} />
           <Route path="calendar" element={<CalendarPage />} />
           <Route path="appointments" element={<AppointmentsPage />} />
-          <Route path="patients" element={<PatientPage />} />
-          
+          {/* <Route path="patients" element={<PatientPage />} /> */}
           <Route path="login" element={<LoginPage />} />
           <Route path="signin" element={<SignInPage />} />
+          <Route path="patients" element={<HomeUserPage />} />
           </Route>
       </Routes>
     </BrowserRouter>
