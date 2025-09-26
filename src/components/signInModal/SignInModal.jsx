@@ -12,18 +12,32 @@ export default function SignInModal({ onCancel, onSave, isLoading, error }) {
     const password = watch("password");
 
         const onSubmit = (data) => {
-
-            const formData = new FormData();
-            formData.append('nombre', data.nombre);
-            formData.append('dni', data.dni);
-            formData.append('email', data.email);
-            formData.append('telefono', data.telefono);
-            formData.append('password', btoa(data.password));
-            formData.append('imagen', data.imagen[0]); 
         
-               
-            if (onSave) onSave(formData);
+        const userData = {
+            
+            name: data.nombre,
+            dni: data.dni,
+            email: data.email,
+            telefono: data.telefono,
+            password: data.password, 
+            role: "USER" // Rol por defecto
         };
+        
+        const formData = new FormData();
+        
+        formData.append(
+            'userData', 
+            new Blob([JSON.stringify(userData)], {
+                type: 'application/json' // CRÍTICO para que Spring lo identifique
+            })
+        );
+        
+        if (data.imagen && data.imagen[0]) {
+            formData.append('imagen', data.imagen[0]); 
+        }
+
+        if (onSave) onSave(formData);
+    };
         
 
     const handleImageChange = (e) => {
