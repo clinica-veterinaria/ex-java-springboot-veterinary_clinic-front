@@ -1,0 +1,26 @@
+.main-layout__container {
+    display: flex; 
+    min-height: 100vh;
+}
+
+.main-layout__main-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: var(--space-section);
+    box-sizing: border-box;
+}
+
+.navbar {
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center;
+    position: relative;
+    top: 0;
+    z-index: 10; 
+}
+
+.main-layout__content {
+    flex-grow: 1;
+    overflow-y: auto; 
+}

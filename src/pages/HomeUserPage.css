@@ -51,6 +51,10 @@
     gap: var(--space-section);
 }
 
+.home-page__header {
+   
+}
+
 
 @media (max-width: 768px) {
     .home-page__planning {
