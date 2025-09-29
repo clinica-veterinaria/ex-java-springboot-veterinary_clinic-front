@@ -35,15 +35,11 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
-    const handleSave = async () => {
+    const handleSave = async (e) => {
+        e.preventDefault(); 
         console.log("Form data completo:", formData);
         console.log("Date:", formData.date, "Type:", typeof formData.date);
         console.log("Time:", formData.time, "Type:", typeof formData.time);
-
-        if (!formData.date || !formData.time) {
-            alert(`Faltan datos: fecha=${formData.date}, hora=${formData.time}`);
-            return;
-        }
 
         const typeMapping = {
             'estandar': 'STANDARD',
@@ -57,12 +53,16 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
                 reason: formData.reason,
                 patientId: Number(formData.patientId)
             };
-    
-            console.log("Appointment data final:", appointmentData);
+
+            if (!appointmentData.appointmentDatetime || !appointmentData.patientId) {
+                alert('Por favor, completa la fecha, hora y paciente.');
+                return;
+            }
     
             await createAppointment(appointmentData);
-            onSave(formData);
+            onSave();
             onClose();
+            
         } catch (error) {
             console.error("Error al crear cita:", error);
             alert("Error al crear la cita" + error.message);
