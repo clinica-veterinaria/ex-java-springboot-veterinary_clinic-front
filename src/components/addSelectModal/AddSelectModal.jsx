@@ -3,8 +3,8 @@ import "./AddSelectModal.css";
 
 export default function AddSelectModal({ setModalType, setShowAddModal }) {
   const handleSelect = (type) => {
-    setModalType(type);       // Define qué modal se abrirá
-    setShowAddModal(true);    // Asegura que el modal principal sigue abierto
+    setModalType(type);
+    setShowAddModal(true);
   };
 
   return (

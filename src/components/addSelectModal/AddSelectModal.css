@@ -2,9 +2,7 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   z-index: 2000;
 }
 
@@ -15,6 +13,9 @@
   width: 180px;
   height: 80px;
   padding: 8px 0;
+  position: fixed;
+  bottom: 150px;
+  right: 20px;
 }
 
 .addSelect__actions {
