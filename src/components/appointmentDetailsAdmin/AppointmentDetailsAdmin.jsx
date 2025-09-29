@@ -7,10 +7,11 @@ import ButtonStatus from '../buttonStatus/ButtonStatus';
 import ButtonText from '../buttonText/ButtonText';
 
 export default function AppointmentDetailsAdmin({ onClose, patientName, appointmentDatetime, reason, status, onStatusChange }) {
+    const normalizedStatus = status ? status.toLowerCase() : '';
 
     return(
         <div className="appointment-admin__overlay">
-        <div className={`appointment-admin__container ${status === 'urgente' ? 'appointment-admin__container--urgent' : ''}`}>
+        <div className={`appointment-admin__container ${normalizedStatus === 'urgente' ? 'appointment-admin__container--urgent' : ''}`}>
             <button className="appointment-admin__close" onClick={onClose} aria-label="Cerrar detalles de la cita">
                 <FontAwesomeIcon icon={faXmark} className="faXmark"/>        
             </button>
@@ -21,7 +22,7 @@ export default function AppointmentDetailsAdmin({ onClose, patientName, appointm
                 <h3 className="appointment-admin__patient">{patientName}</h3>
                 <div className="appointment-admin__data">
                 <PillDateTime appointmentDatetime={appointmentDatetime} />
-                <ButtonStatus initialStatus={status} onStatusChange={onStatusChange} />
+                <ButtonStatus initialStatus={status} appointmentDatetime={appointmentDatetime} onStatusChange={onStatusChange} />
                 </div>
                 <div className="appointment-admin__body">
                     <p className="appointment-admin__subtitle">Motivo</p>
