@@ -81,8 +81,14 @@ export async function updateAppointment(id, updatedData) {
 }
 
 // PUT- UPDATE STATUS
-export async function updateAppointmentStatus(id, newStatus) {
-  return updateAppointment(id, { status: newStatus });
+export async function updateAppointmentStatus(id, newStatus, appointmentData) {
+  return updateAppointment(id, {
+    status: newStatus.toUpperCase(),
+    type: appointmentData.type,
+    patientId: appointmentData.patientId,
+    appointmentDatetime: appointmentData.appointmentDatetime,
+    reason: appointmentData.reason
+  });
 }
 
 // PUT - UPDATE TYPE

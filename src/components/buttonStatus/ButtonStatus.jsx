@@ -14,6 +14,19 @@ const mapStatusToInternal = (inputStatus) => {
   return lower;
 };
 
+const mapStatusToBackend = (internalStatus) => {
+  switch (internalStatus) {
+    case 'pendiente':
+      return 'PENDING'; 
+    case 'atendido':
+      return 'ATTENDED'; 
+    case 'expirada':
+      return 'MISSED';
+    default:
+      return 'PENDING';
+  }
+};
+
 const ButtonStatus = ({ initialStatus = 'pendiente', appointmentDatetime = null, onStatusChange = () => {}}) => {
   const [status, setStatus] = useState(mapStatusToInternal(initialStatus));
   const [isOpen, setIsOpen] = useState(false);
@@ -27,7 +40,7 @@ const ButtonStatus = ({ initialStatus = 'pendiente', appointmentDatetime = null,
     const newStatusInternal = mapStatusToInternal(newStatus); 
     setStatus(newStatusInternal);
     setIsOpen(false);
-    onStatusChange(newStatusInternal); 
+    onStatusChange(mapStatusToBackend(newStatusInternal)); 
   };
 
   const toggleDropdown = () => {

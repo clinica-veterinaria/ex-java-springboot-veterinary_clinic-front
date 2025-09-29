@@ -87,7 +87,7 @@ export default function AppointmentsPage() {
   // PUT - Update status
   const handleStatusChange = async (appt, newStatus) => {
     try {
-      await updateAppointmentStatus(appt.id, newStatus);
+      await updateAppointmentStatus(appt.id, newStatus, appt);
       setFeedback({ message: `Cita marcada como ${newStatus} ✅`, type: "success" });
       loadAppointments();
     } catch (error) {
