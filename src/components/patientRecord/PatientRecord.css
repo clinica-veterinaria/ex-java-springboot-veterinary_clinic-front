@@ -3,6 +3,7 @@
   padding: var(--space-button);
   border-radius: var(--border-radius-card);
   max-width: 350px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   font-family: var(--font-family);
 }
 
