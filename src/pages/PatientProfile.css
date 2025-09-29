@@ -12,7 +12,7 @@
   align-items: flex-start;
 }
 
-.patient-profile__lower-container > :first-child {
+.patient-profile__lower-container> :first-child {
   flex: 2;
   min-width: 350px;
 }
@@ -32,7 +32,8 @@
 }
 
 .patient-profile__add-button {
-  position: absolute;
-  bottom: 24px;
-  right: 24px;
+  position: fixed;
+  bottom: 80px;
+  right: 80px;
+  z-index: 800;
 }
