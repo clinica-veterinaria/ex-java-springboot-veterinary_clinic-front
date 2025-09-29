@@ -52,6 +52,10 @@ export default function AppointmentsPage() {
 
   // Save appointment - GET in "AddAppt modal"
   const handleSaveAppointment = () => {
+    setFeedback({ 
+      message: "Cita añadida con éxito ✅", 
+      type: "success" 
+    });
     refreshAppointments();
   };
 
