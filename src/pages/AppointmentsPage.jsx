@@ -8,6 +8,7 @@ import FeedbackModal from "../components/feedbackModal/FeedbackModal";
 import EditAppt from "../components/editAppt/EditAppt";
 import DeleteModal from "../components/deleteModal/DeleteModal";
 import EditDeleteModal from "../components/editDeleteModal/EditDeleteModal";
+import AppointmentDetailsAdmin from "../components/appointmentDetailsAdmin/AppointmentDetailsAdmin";
 import { getUpcomingAppointments, updateAppointment, deleteAppointment, updateAppointmentStatus } from '../services/APIAppointment';
 
 export default function AppointmentsPage() {
@@ -140,7 +141,7 @@ export default function AppointmentsPage() {
                                         type={appt.type}
                                         status={appt.status}
                                         isNextAppointment={false}
-                                        onClick={() => console.log("Ver detalles")}
+                                        onClick={() => handleAppointmentClick(appt)}
                                         appointment={appt}
                                         onOptionsClick={handleOpenOptionsModal}
                                         onStatusChange={(newStatus) => handleStatusChange(appt, newStatus)} 
