@@ -13,7 +13,7 @@ export function formatDateTime(datetime) {
 
 // =========================================================================
 
-// GET - UPCOMING APPOINTMENTS MAX.3
+// GET - UPCOMING APPOINTMENTS MAX.3 (HOME PAGE)
 export async function getUpcomingAppointments(limit = 3) {
   try {
       const response = await fetch(`${API_URL}/appointments/upcoming?limit=${limit}`);
@@ -24,8 +24,32 @@ export async function getUpcomingAppointments(limit = 3) {
       
       return data; 
   } catch (error) {
-      console.error("Error en la función getUpcomingAppointments", error);
+      console.error("Error al obtener las próximas citas", error);
       throw error;
+  }
+}
+
+// GET - ALL APPOINTMENTS
+export async function getAllAppointments() {
+  try {
+    const response = await fetch(`${API_URL}`);
+    if (!response.ok) throw new Error(`Error fetching all appointments: ${response.statusText}`);
+    return await response.json();
+  } catch (error) {
+    console.error("Error en getAllAppointments", error);
+    throw error;
+  }
+}
+
+// GET - APPOINTMENTS BY DATE
+export async function getAppointmentsByDate(date) {
+  try {
+    const response = await fetch(`${API_URL}/by-date?fecha=${date}`);
+    if (!response.ok) throw new Error(`Error fetching appointments by date: ${response.statusText}`);
+    return await response.json();
+  } catch (error) {
+    console.error("Error al obtener las citas", error);
+    throw error;
   }
 }
 
@@ -40,6 +64,18 @@ export async function getAvailableSlots(date) {
         console.error(error);
         return [];
       }
+}
+
+// GET - PATIENT'S APPOINTMENTS
+export async function getAppointmentsByPatient(patientId) {
+  try {
+    const response = await fetch(`${API_URL}/patient/${patientId}`);
+    if (!response.ok) throw new Error(`Error fetching patient appointments: ${response.statusText}`);
+    return await response.json();
+  } catch (error) {
+    console.error("Error al obtener citas del pacienciente", error);
+    throw error;
+  }
 }
 
 // POST - CREATE APPOINTMENT

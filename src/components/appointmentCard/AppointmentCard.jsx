@@ -27,7 +27,7 @@ export default function AppointmentCard({ appointmentDatetime, patientName, reas
 
     const displayDateTime = formatDateTime(appointmentDatetime);
     const normalizedStatus = status ? status.toLowerCase() : '';
-    const normalizedType = type ? type.toLowerCase() : '';
+    const normalizedType = (type || '').trim().toLowerCase();
 
     // Check if it's expired first (highest priority)
     if (normalizedStatus === 'expirada') {

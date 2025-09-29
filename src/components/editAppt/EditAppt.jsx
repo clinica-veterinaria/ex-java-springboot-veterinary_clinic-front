@@ -55,6 +55,10 @@ export default function EditAppt({ isOpen = false, onClose = () => {}, onSave = 
     try {
         const appointmentDatetime = `${formData.date}T${formData.time}:00`;
 
+        let backendType = formData.type.toUpperCase();
+        if (backendType === 'URGENTE') backendType = 'URGENT';
+        if (backendType === 'ESTANDAR') backendType = 'STANDARD';
+
         const updatedData = {
             appointmentDatetime: appointmentDatetime,
             type: formData.type.toUpperCase(),
