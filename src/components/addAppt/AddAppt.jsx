@@ -46,6 +46,11 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
             'urgente': 'URGENT'
         };
 
+        if (!formData.date || !formData.time || !formData.patientId) {
+            alert('Por favor, completa la fecha, hora y paciente.');
+            return;
+        }
+        
         try {
             const appointmentData = {
                 appointmentDatetime: `${formData.date}T${formData.time}:00`,
@@ -53,11 +58,6 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
                 reason: formData.reason,
                 patientId: Number(formData.patientId)
             };
-
-            if (!appointmentData.appointmentDatetime || !appointmentData.patientId) {
-                alert('Por favor, completa la fecha, hora y paciente.');
-                return;
-            }
     
             await createAppointment(appointmentData);
             onSave();
