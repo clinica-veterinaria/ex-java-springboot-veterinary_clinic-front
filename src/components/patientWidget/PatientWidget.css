@@ -9,6 +9,14 @@
   align-items: flex-start;
 }
 
+.patient-widget__header h3 {
+  font-family: var(--font-family) !important;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
 .patient-widget__photo-section {
   flex-shrink: 0;
 }
@@ -64,6 +72,11 @@
   justify-content: space-between;
   gap: 60px;
   flex-wrap: wrap;
+  align-items: flex-start; 
+}
+
+.patient-widget__column:nth-child(2) {
+  margin-top: -15px;
 }
 
 .patient-widget__column {
