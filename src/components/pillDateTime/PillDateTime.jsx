@@ -10,6 +10,8 @@ export default function PillDateTime({ appointmentDatetime }) {
     );
   }
 
+  const dateObj = new Date(appointmentDatetime);
+  
   if (isNaN(dateObj.getTime())) {
     console.error("Error: Fecha/hora inválida recibida en PillDateTime:", appointmentDatetime);
     return (
@@ -18,8 +20,6 @@ export default function PillDateTime({ appointmentDatetime }) {
       </span>
     );
   }
-
-  const dateObj = new Date(appointmentDatetime);
   
   const datePart = dateObj.toLocaleDateString("es-ES", {
     day: "2-digit",

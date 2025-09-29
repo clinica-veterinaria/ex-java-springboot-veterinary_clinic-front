@@ -29,6 +29,7 @@ export default function AppointmentCard({ appointmentDatetime, patientName, reas
     const normalizedStatus = status ? status.toLowerCase() : '';
     const normalizedType = type ? type.toLowerCase() : '';
 
+    // Check if it's expired first (highest priority)
     if (normalizedStatus === 'expirada') {
         return (
             <div className="appointment-card appointment-card__expired" onClick={onClick}>
@@ -41,9 +42,10 @@ export default function AppointmentCard({ appointmentDatetime, patientName, reas
         );
     }
 
-    // backend sends the expired state
-    const cardClass = `appointment-card ${normalizedType === 'urgent' ? 'appointment-card__urgent' : ''}`;
-
+    // Check if it's urgent (supports both 'urgente' and 'urgent')
+    const isUrgent = normalizedType === 'urgente' || normalizedType === 'urgent';
+    const cardClass = `appointment-card ${isUrgent ? 'appointment-card__urgent' : ''}`;
+    
     return(
         <div className={cardClass} onClick={onClick}>
             <div className="appointment-card__container">
@@ -54,7 +56,11 @@ export default function AppointmentCard({ appointmentDatetime, patientName, reas
                 {/* Show state if is not "next appointment" */}
               {!isNextAppointment && (
                 <div className="appointment-card__state">
-                    <ButtonStatus initialStatus={status} onStatusChange={(newStatus) => onStatusChange(newStatus)} />
+                    <ButtonStatus 
+                        initialStatus={status} 
+                        appointmentDatetime={appointmentDatetime}
+                        onStatusChange={(newStatus) => onStatusChange(newStatus)} 
+                    />
                 </div>
               )}
 
