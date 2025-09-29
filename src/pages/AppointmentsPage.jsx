@@ -9,7 +9,7 @@ import EditAppt from "../components/editAppt/EditAppt";
 import DeleteModal from "../components/deleteModal/DeleteModal";
 import EditDeleteModal from "../components/editDeleteModal/EditDeleteModal";
 import AppointmentDetailsAdmin from "../components/appointmentDetailsAdmin/AppointmentDetailsAdmin";
-import { getUpcomingAppointments, updateAppointment, deleteAppointment, updateAppointmentStatus } from '../services/APIAppointment';
+import { getAppointmentsByDate, updateAppointment, deleteAppointment, updateAppointmentStatus } from '../services/APIAppointment';
 
 export default function AppointmentsPage() {
     const [showAddModal, setShowAddModal] = useState(false);
@@ -20,20 +20,35 @@ export default function AppointmentsPage() {
     const [selectedAppointment, setSelectedAppointment] = useState(null);
     const [feedback, setFeedback] = useState(null);
 
-    const [nextAppointments, setNextAppointments] = useState([]);
+    const [todayAppointments, setTodayAppointments] = useState([]);
+    const [tomorrowAppointments, setTomorrowAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
 
-  // GET- Upcoming appointments
-  useEffect(() => {loadAppointments();}, []);
+    useEffect(() => {
+      loadAppointments();
+    }, []);
 
+  // GET- Appointments by date
   const loadAppointments = async () => {
     try {
         setLoading(true);
-        const data = await getUpcomingAppointments(3);
-        setNextAppointments(data.appointments); 
+
+        const now = new Date();
+        const todayISO = now.toISOString().split('T')[0];
+
+        const tomorrowDate = new Date();
+        tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+        const tomorrowISO = tomorrowDate.toISOString().split('T')[0];
+
+        const todayData = await getAppointmentsByDate(todayISO);
+        const tomorrowData = await getAppointmentsByDate(tomorrowISO);
+
+        setTodayAppointments(todayData);
+        setTomorrowAppointments(tomorrowData);
+
     } catch (error) {
-        console.error("Error al cargar las próximas citas:", error);
-        setFeedback({ message: "Error al cargar las próximas citas", type: "error" });
+        console.error("Error al cargar las citas:", error);
+        setFeedback({ message: "Error al cargar las citas", type: "error" });
     } finally {
         setLoading(false);
     }
@@ -45,11 +60,11 @@ export default function AppointmentsPage() {
   };
 
   const handleOpenAdd = () => setShowAddModal(true);
-
-  const handleAppointmentClick = (appt) => {
-    setSelectedAppointment(appt);
-    setShowDetailsModal(true);
-  };
+  const handleAppointmentClick = (appt) => { setSelectedAppointment(appt); setShowDetailsModal(true); };
+  const handleOpenOptionsModal = (appt) => { setSelectedAppointment(appt); setShowOptionsModal(true); };
+  const handleOpenEdit = (appt) => { setSelectedAppointment(appt); setShowOptionsModal(false); setShowEditModal(true); };
+  const handleDeleteAppointment = (appt) => { setSelectedAppointment(appt); setShowOptionsModal(false); setShowDeleteModal(true); };
+  const handleCancelDelete = () => setShowDeleteModal(false);
 
   // Save appointment - GET in "AddAppt modal"
   const handleSaveAppointment = () => {
@@ -60,16 +75,6 @@ export default function AppointmentsPage() {
     refreshAppointments();
   };
 
-  const handleOpenOptionsModal = (appt) => {
-    setSelectedAppointment(appt);
-    setShowOptionsModal(true);
-  };
-
-  const handleOpenEdit = (appt) => {
-    setSelectedAppointment(appt);
-    setShowOptionsModal(false);
-    setShowEditModal(true);
-  };
 
   // PUT - Edit appointment
   const handleEditAppointment = async (updatedData) => {
@@ -96,12 +101,6 @@ export default function AppointmentsPage() {
     }
   };
 
-  const handleDeleteAppointment = (appt) => {
-    setSelectedAppointment(appt);
-    setShowOptionsModal(false);
-    setShowDeleteModal(true);
-  };
-
   // DELETE - Delete appointment
   const handleConfirmDelete = async () => {
     try {
@@ -115,7 +114,6 @@ export default function AppointmentsPage() {
     }
   };
 
-  const handleCancelDelete = () => setShowDeleteModal(false);
 
     return(
         <div className="appointments-page">
@@ -125,14 +123,14 @@ export default function AppointmentsPage() {
                         <h1>Citas</h1>
                     </div>
                     <div className="appointments-page__content">
-                        <AppointmentsWidget appointments={nextAppointments} onMoreOptions={handleOpenOptionsModal} onAppointmentClick={handleAppointmentClick}/>
+                        <AppointmentsWidget appointments={todayAppointments} onMoreOptions={handleOpenOptionsModal} onAppointmentClick={handleAppointmentClick}/>
 
                         <div className="appointments-page__next">
                         <h2 className="appointments-page__subtitle">Próximas citas</h2>
                             {loading ? (
                                 <p className="loading-message">Cargando citas...</p>
                             ) : (
-                                nextAppointments.map(appt => (
+                              tomorrowAppointments.map(appt => (
                                     <AppointmentCard
                                         key={appt.id}
                                         appointmentDatetime={appt.appointmentDatetime}   
