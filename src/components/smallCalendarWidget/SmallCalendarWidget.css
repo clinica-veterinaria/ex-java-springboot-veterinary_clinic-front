@@ -9,12 +9,12 @@
 }
 
 .small-calendar-widget .rbc-calendar {
+    font-family: var(--font-family);
     background-color: var(--white);
     border-radius: 8px;
     border: none;
     height: 100%;
 }
-
 
 .small-calendar-widget.rbc-time-header-content .rbc-header:first-child,
 .small-calendar-widget.rbc-time-header-content .rbc-header:last-child,
@@ -33,13 +33,14 @@
     background-color: var(--primary-250);
     border-right: 1px solid var(--neutral-250);
     width: 72px !important; 
+    flex-shrink: 0;
 }
 
 .small-calendar-widget .rbc-day-slot {
     border-right: 1px solid var(--neutral-250);
     background-color: var(--white);
-    width: calc((536px - 70px - 6px) / 5) !important; 
-    flex: none !important;
+    flex: 1 1 0% !important; 
+    min-width: 0;
 }
 
 .small-calendar-widget .rbc-header {
@@ -48,8 +49,8 @@
     font-weight: bold;
     padding: 6px 4px;
     font-size: 11px;
-    width: calc((536px - 70px - 6px) / 5) !important; 
-    flex: none !important;
+    flex: 1 1 0% !important;
+    min-width: 0;
 }
 
 .small-calendar-widget .rbc-allday-cell {
@@ -62,15 +63,16 @@
     background-color: var(--white);
 }
 
+.small-calendar-widget .rbc-day-slot .rbc-time-slot {
+    position: relative;
+}
+
 .small-calendar-widget .rbc-time-slot:nth-child(3n) {
     border-bottom: 1px solid var(--neutral-250);
 }
 
 .small-calendar-widget .rbc-label {
-    font-size: 9px;
-    color: var(--neutral-750);
-    padding: 1px 3px;
-    font-weight: bold;
+    display: none;
 }
 
 /* Divisions */
@@ -101,20 +103,21 @@
 
 .small-calendar-widget .rbc-event {
     background-color: var(--primary-500);
-    color: var(--neutral-750);
+    color: var(--white);
     border-radius: 4px;
     padding: 2px 4px;
-    font-size: 0.85rem;
+    font-size: 10px;
     min-height: 12px;
-    border: none;
+    border: none !important;
+    position: absolute !important;
+    left: 1px !important;
+    right: 1px !important;
+    width: calc(100% - 2px) !important;
+    margin: 0 !important;
 }
 
 .small-calendar-widget .rbc-event:hover {
-    background-color: #357AB8;
-}
-
-.small-calendar-widget .small-calendar-widget .rbc-calendar {
-    font-family: var(--font-family);
+    background-color: var(--primary-250);
 }
 
 .small-calendar-widget .rbc-off-range-bg {
@@ -127,4 +130,9 @@
 
 .small-calendar-widget .rbc-allday-cell {
     background-color: var(--primary-250);
+}
+
+.small-calendar-widget .rbc-time-column {
+    display: flex;
+    flex-direction: column;
 }

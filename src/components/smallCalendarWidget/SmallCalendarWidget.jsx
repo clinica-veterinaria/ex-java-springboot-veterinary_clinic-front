@@ -15,7 +15,7 @@ export default function SmallCalendarWidget({ appointments = [], onSelectSlot })
 
       return appointments.map(apt => {
           const startDate = new Date(apt.appointmentDatetime);
-          const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
+          const endDate = new Date(startDate.getTime() + 20 * 60 * 1000);
 
           return {
               id: apt.id,
