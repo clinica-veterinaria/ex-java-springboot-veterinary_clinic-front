@@ -100,16 +100,18 @@ flowchart TD
 2. Entrar en la carpeta del clone
 
 3. Instalar dependencias:
+
+   [Aquí tienes una guía con instalaciones](https://www.notion.so/sara-vazquez/FRONTEND-1fcd5565c5b680c9b26aef8c60181630)
     ```
     npm install
     ````
 
-4. Levantar el servidor
+5. Levantar el servidor
     ```
     npm run dev
     ```
 
-5. Abrir en el navegador
+6. Abrir en el navegador
     ```
     http://localhost:5173
     ```
