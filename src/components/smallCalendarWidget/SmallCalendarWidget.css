@@ -15,9 +15,7 @@
     height: 100%;
 }
 
-/* ELIMINADO: Las reglas que ocultaban primera y última columna */
-/* Ocultar sábado y domingo (depende de si la semana empieza en domingo o lunes) */
-/* Si la semana empieza en domingo: ocultar primera (domingo) y última (sábado) */
+
 .rbc-time-header-content .rbc-header:first-child,
 .rbc-time-header-content .rbc-header:last-child,
 .rbc-time-content .rbc-day-slot:first-child,
@@ -25,25 +23,22 @@
     display: none !important;
 }
 
-/* Movido arriba junto con .rbc-day-slot */
 
 .rbc-header span {
     text-transform: uppercase;
     font-size: 10px;
 }
 
-/* Columna de horas - mantener visible con ancho fijo */
 .rbc-time-header-gutter {
     background-color: var(--primary-250);
     border-right: 1px solid var(--neutral-250);
-    width: 72px !important; /* Ancho fijo para la columna de horas */
+    width: 72px !important; 
 }
 
-/* Ajustar el ancho de las columnas de días para alineación perfecta */
 .rbc-day-slot {
     border-right: 1px solid var(--neutral-250);
     background-color: var(--white);
-    width: calc((536px - 70px - 6px) / 5) !important; /* (ancho total - columna horas - bordes) / 5 días */
+    width: calc((536px - 70px - 6px) / 5) !important; 
     flex: none !important;
 }
 
@@ -53,7 +48,7 @@
     font-weight: bold;
     padding: 6px 4px;
     font-size: 11px;
-    width: calc((536px - 70px - 6px) / 5) !important; /* Mismo ancho que las celdas de días */
+    width: calc((536px - 70px - 6px) / 5) !important; 
     flex: none !important;
 }
 
