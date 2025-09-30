@@ -4,7 +4,7 @@ import { CardPatient } from '../components/cardPatient/CardPatient';
 import SideMenuAdmin from '../components/sideMenuAdmin/SideMenuAdmin';
 import ButtonAdd from '../components/buttonAdd/ButtonAdd';
 import AlphabetIndex from '../components/alphabetIndex/AlphabetIndex';
-import Navbar from '../components/navbar/Navbar'
+import Navbar from '../components/navbar/Navbar';
 import FeedbackModal from "../components/feedbackModal/FeedbackModal";
 import AddPetModal from '../components/petModal/PetModal';
 import { Ellipsis } from 'lucide-react';
@@ -13,6 +13,7 @@ import DeleteModal from '../components/deleteModal/DeleteModal';
 import { useSearch } from '../context/SearchContext';
 import { getPatients, registerPatient, deletePatient, updatePatient, searchPatients } from '../services/APIPatient';
 import { useNavigate } from 'react-router-dom';
+
 
 const PatientPage = () => {
     const navigate = useNavigate();

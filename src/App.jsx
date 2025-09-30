@@ -27,8 +27,6 @@ function App() {
             <Route path="appointments" element={<AppointmentsPage />} />
             <Route path="patients" element={<PatientPage />} />
             <Route path="patients/:id" element={<PatientProfile />} />
-            <Route path="login" element={<LoginPage />} />
-            <Route path="signin" element={<SignInPage />} />
           </Route>
           <Route path="/user" element={<UserLayout />}>
             <Route index element={<HomeUserPage />} />
