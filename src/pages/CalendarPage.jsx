@@ -198,7 +198,7 @@ export default function CalendarPage() {
                     isOpen={showDetailsModal}
                     onClose={() => setShowDetailsModal(false)}
                     patient={selectedAppointment.patientName}
-                    appointmentDatetime={selectedAppointment.date}
+                    appointmentDatetime={selectedAppointment.appointmentDatetime}
                     reason={selectedAppointment.reason}
                     type={selectedAppointment.type} 
                     status={selectedAppointment.status}
