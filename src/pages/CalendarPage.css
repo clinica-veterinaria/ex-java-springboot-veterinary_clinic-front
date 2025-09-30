@@ -76,6 +76,14 @@ p{
     align-content: space-around;
 }
 
+.no-appointments,
+.calendar-page__loading-message {
+    font-family: var(--font-family);
+    font-size: var(--body-size);
+    font-weight: var(--body-weight);
+    color: var(--neutral-750);
+}
+
 /* Tablet - 768px and less */
 @media (max-width: 768px) {
     .calendar-page__title {

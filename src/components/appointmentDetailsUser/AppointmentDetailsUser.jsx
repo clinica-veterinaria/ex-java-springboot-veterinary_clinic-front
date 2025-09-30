@@ -5,7 +5,8 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import PillDateTime from '../pillDateTime/PillDateTime';
 
 
-export default function AppointmentDetailsUser({onClose, patient, reason, appointmentDatetime}) {
+export default function AppointmentDetailsUser({onClose, patientName, reason, appointmentDatetime}) {
+    
     return(
     <div className="appointment-user__overlay">
     <div className="appointment-user__container">
@@ -16,7 +17,7 @@ export default function AppointmentDetailsUser({onClose, patient, reason, appoin
             <h2>Datos de la cita</h2>
         </div>
         <div className="appointment-user__details">
-            <h3 className="appointment-user__petName">{patient}</h3>
+            <h3 className="appointment-user__petName">{patientName}</h3>
             <div className="appointment-user__date">
             <PillDateTime appointmentDatetime={appointmentDatetime} />            </div>
             <div className="appointment-user__body">

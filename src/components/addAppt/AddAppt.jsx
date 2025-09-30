@@ -8,8 +8,8 @@ import { getAvailableSlots, createAppointment } from "../../services/APIAppointm
 
 const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => {
     const [formData, setFormData] = useState({
-        patient: '',
-        petId: '',
+        patientName: '',
+        patientId: '',
         date: '',
         time: '',
         reason: '',
@@ -31,24 +31,49 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
     }, [formData.date]);
 
     const handleInputChange = (field, value) => {
+        console.log(`Actualizando ${field}:`, value); // Debug
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
-    const handleSave = async () => {
+    const handleSave = async (e) => {
+        e.preventDefault(); 
+        console.log("Form data completo:", formData);
+        console.log("Date:", formData.date, "Type:", typeof formData.date);
+        console.log("Time:", formData.time, "Type:", typeof formData.time);
+
+        const typeMapping = {
+            'estandar': 'STANDARD',
+            'urgente': 'URGENT'
+        };
+
+        if (!formData.date || !formData.time || !formData.patientId) {
+            alert('Por favor, completa la fecha, hora y paciente.');
+            return;
+        }
+        
         try {
-            await createAppointment(formData);
-            onSave(formData);
+            const appointmentData = {
+                appointmentDatetime: `${formData.date}T${formData.time}:00`,
+                type: typeMapping[formData.type] || 'STANDARD',
+                reason: formData.reason,
+                patientId: Number(formData.patientId)
+            };
+    
+            await createAppointment(appointmentData);
+            onSave();
             onClose();
+            
         } catch (error) {
             console.error("Error al crear cita:", error);
-            alert("Error al crear la cita");
+            alert("Error al crear la cita" + error.message);
         }
     };
+    
 
     const handleCancel = () => {
         setFormData({
-            patient: '',
-            petId: '',
+            patientName: '',
+            patientId: '',
             date: '',
             time: '',
             reason: '',
@@ -75,8 +100,8 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
                                 type="text"
                                 className="form-input"
                                 placeholder="Ej: Valentín"
-                                value={formData.patient}
-                                onChange={(e) => handleInputChange('patient', e.target.value)}
+                                value={formData.patientName}
+                                onChange={(e) => handleInputChange('patientName', e.target.value)}
                             />
                         </div>
                         <div className="form-field">
@@ -85,8 +110,8 @@ const AddAppt = ({ isOpen = false, onClose = () => { }, onSave = () => { }}) => 
                                 type="text"
                                 className="form-input"
                                 placeholder="Ej: 15032"
-                                value={formData.petId}
-                                onChange={(e) => handleInputChange('petId', e.target.value)}
+                                value={formData.patientId}
+                                onChange={(e) => handleInputChange('patientId', e.target.value)}
                             />
                         </div>
                     </div>

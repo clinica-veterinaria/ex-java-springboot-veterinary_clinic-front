@@ -6,7 +6,8 @@
     margin-bottom: var(--space-button);
   }
 
-.pill {
+.pill,
+.pill--datetime {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -21,4 +22,11 @@
     white-space: nowrap;
     min-height: 32px; 
     box-sizing: border-box;
+}
+
+.pill--error {
+  font-family: var(--font-family);
+  font-size: var(--body-size);
+  font-weight: var(--body-weight);
+  color: var(--border-red);
 }
