@@ -77,7 +77,7 @@ export default function HomePage(){
                                             <NextAppointment
                                                 key={appointment.id}
                                                 appointmentDatetime={formatDateTime(appointment.appointmentDatetime)}
-                                                patient={appointment.name}
+                                                patient={appointment.patientName}
                                                 reason={appointment.reason}
                                                 type={appointment.type}
                                                 onClick={() => handleAppointmentClick(appointment)}
