@@ -43,3 +43,19 @@
     flex-grow: 1;
 }
 
+.menu-admin__profile {
+   
+    background-color: var(--primary-500); 
+    position: relative;
+    padding-bottom: 5px; 
+}
+
+
+.menu-admin__profile-btn {
+    background: none; 
+    border: none;
+    width: 100%;
+    text-align: left;
+    padding: 0;
+    cursor: pointer;
+}

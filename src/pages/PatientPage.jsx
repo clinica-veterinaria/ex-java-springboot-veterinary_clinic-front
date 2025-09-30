@@ -11,14 +11,17 @@ import { Ellipsis } from 'lucide-react';
 import Button from '../components/buttons/Button';
 import DeleteModal from '../components/deleteModal/DeleteModal';
 import { useSearch } from '../context/SearchContext';
+import { getPatients, registerPatient, deletePatient, updatePatient, searchPatients } from '../services/APIPatient';
+import { useNavigate } from 'react-router-dom';
+import { useSearch } from '../context/SearchContext';
 import { getPatients, registerPatient, deletePatient, updatePatient, searchPatients  } from '../services/APIPatient';
 // Make sure to import updatePatient here
 import { getPatients, registerPatient, deletePatient, updatePatient } from '../services/APIPatient';
 import { useNavigate } from 'react-router-dom';
 
 const PatientPage = () => {
-    // Add the missing state variable for patients
     const navigate = useNavigate();
+    const { searchTerm, filters } = useSearch();
     const [patients, setPatients] = useState([]);
     const [showAddModal, setShowAddModal] = useState(false);
     const [activeLetter, setActiveLetter] = useState('');
@@ -27,8 +30,7 @@ const PatientPage = () => {
     const [feedback, setFeedback] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [currentPatient, setCurrentPatient] = useState(null);
-    const [loading, setLoading] = useState(true); 
-    const { searchTerm, filters } = useSearch();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchPatients();
@@ -130,10 +132,7 @@ const PatientPage = () => {
         setShowAddModal(true);
     }
 
-
-
     const handlePatientSave = (savedPatient) => {
-
         if (!savedPatient) return; // Validación de seguridad
 
         // 1. Determinar si es una edición o una creación
@@ -146,7 +145,6 @@ const PatientPage = () => {
             setPatients(prev => [...prev, savedPatient]);
             setFeedback({ message: `${savedPatient.name} añadido ✅`, type: "success" });
         }
-
     };
 
     const sortedPatients = [...patients].sort((a, b) =>
@@ -159,14 +157,12 @@ const PatientPage = () => {
 
     return (
         <div className="patients-page">
-
             {/* CONTENIDO PRINCIPAL */}
             <main className="main-content">
                 <div className="content-area">
-
                     {/* HEADER CON TÍTULO Y BOTÓN */}
                     <div className="page-title">
-                        <h1 >Pacientes</h1>
+                        <h1>Pacientes</h1>
                     </div>
 
                     <div className="content-with-alphabet">
@@ -258,7 +254,6 @@ const PatientPage = () => {
                     onConfirm={confirmDelete}
                 />
             )}
-
         </div>
     );
 }

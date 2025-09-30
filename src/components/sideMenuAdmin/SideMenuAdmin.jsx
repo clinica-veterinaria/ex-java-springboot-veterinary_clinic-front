@@ -1,15 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import './SideMenuAdmin.css';
 import Logo from '../../assets/logoPositive.svg';
 import ButtonText from '../buttonText/ButtonText';
 import ButtonProfile from '../buttonProfile/ButtonProfile';
+import SignoutEditModal from "../SignoutEditModal/SignoutEditModal";
+import EditProfile from "../editProfile/Editprofile";
 
 export default function SideMenuAdmin() {
     const location = useLocation();
     const isSelected = (path) => location.pathname === path;
 
-    return(
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+
+    const handleOpenModal = () => setIsModalOpen(true);
+    const handleCloseModal = () => setIsModalOpen(false);
+
+    const handleGoToEdit = () => {
+        setIsModalOpen(false);
+        setIsEditProfileOpen(true);
+    };
+
+    const handleCloseEditProfile = () => {
+        setIsEditProfileOpen(false);
+    };
+
+    const handleSaveProfile = (userData, photo) => {
+        console.log("Guardando perfil:", userData, photo);
+        // Aquí puedes llamar a tu servicio updateUser(userData, photo)
+        setIsEditProfileOpen(false);
+    };
+
+    const handleGoToSignout = () => {
+        setIsModalOpen(false);
+        localStorage.clear();
+        window.location.href = "/login";
+    };
+
+    // ⚠️ Simulación de usuario (reemplaza con datos reales de contexto/API)
+    const currentUser = {
+        name: "Margarita",
+        dni: "12345678A",
+        email: "margarita@example.com",
+        phone: "666666666",
+        photo: null,
+    };
+
+    return (
         <aside className="menu-admin">
             <div className="menu-admin__container">
                 <div className="logo__container">
@@ -32,11 +70,36 @@ export default function SideMenuAdmin() {
                     </Link>
                 </div>
                 <div className="menu-admin__profile">
-                    <Link to="/profile">
-                        <ButtonProfile isSelected={isSelected("/profile")}>Margarita</ButtonProfile>
-                    </Link>
+                    <button
+                        type="button"
+                        className="menu-admin__profile-btn"
+                        onClick={handleOpenModal}
+                    >
+                        <ButtonProfile isSelected={isSelected("/profile")}>
+                            {currentUser.name}
+                        </ButtonProfile>
+                    </button>
                 </div>
             </div>
+
+            {/* Modal de opciones */}
+            {isModalOpen && (
+                <SignoutEditModal
+                    onGoToEdit={handleGoToEdit}
+                    onGoToSignout={handleGoToSignout}
+                    onClose={handleCloseModal}
+                />
+            )}
+
+            {/* Modal de editar perfil */}
+            {isEditProfileOpen && (
+                <EditProfile
+                    isOpen={isEditProfileOpen}
+                    onClose={handleCloseEditProfile}
+                    onSave={handleSaveProfile}
+                    user={currentUser}
+                />
+            )}
         </aside>
     );
 }
