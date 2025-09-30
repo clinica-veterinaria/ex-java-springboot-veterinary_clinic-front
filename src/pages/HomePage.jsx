@@ -4,10 +4,11 @@ import { Link, useLocation } from "react-router-dom";
 import CardHome from "../components/cardsHome/CardHome";
 import NextAppointment from "../components/nextAppointment/NextAppointment";
 import SmallCalendarWidget from "../components/smallCalendarWidget/SmallCalendarWidget";
-import { getUpcomingAppointments } from '../services/APIAppointment';
+import { getUpcomingAppointments, getAllAppointments } from '../services/APIAppointment';
 
 export default function HomePage(){
     const [nextAppointments, setNextAppointments] = useState([]);
+    const [allAppointments, setAllAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -36,6 +37,21 @@ export default function HomePage(){
         fetchNextAppointments();
     }, []);
 
+    const fetchAllAppointments = async () => {
+        try {
+            const data = await getAllAppointments();
+            setAllAppointments(data || []);
+        } catch (error) {
+            console.error('Error fetching all appointments:', error);
+            setAllAppointments([]);
+        }
+    };
+
+    useEffect(() => {
+        fetchNextAppointments();
+        fetchAllAppointments();
+    }, []);
+
     const formatDateTime = (datetime) => {
         const date = new Date(datetime);
         const day = date.getDate().toString().padStart(2, '0');
@@ -61,7 +77,7 @@ export default function HomePage(){
                     <div className="home-page__content">
                         <div className="home-page__planning">
                             <div className="home-page__week-view">
-                                <SmallCalendarWidget />
+                                <SmallCalendarWidget appointments={allAppointments}/>
                             </div>    
                             <div className="home-page__next-appointments">
                                 <div className="home-page__title">
