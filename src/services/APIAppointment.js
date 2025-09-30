@@ -118,18 +118,43 @@ export async function updateAppointment(id, updatedData) {
 
 // PUT- UPDATE STATUS
 export async function updateAppointmentStatus(id, newStatus, appointmentData) {
-  return updateAppointment(id, {
-    status: newStatus.toUpperCase(),
-    type: appointmentData.type,
-    patientId: appointmentData.patientId,
-    appointmentDatetime: appointmentData.appointmentDatetime,
-    reason: appointmentData.reason
-  });
+  try {
+    const statusMap = {
+      'pendiente': 'PENDING',
+      'atendido': 'ATTENDED',
+      'no asistió': 'MISSED',
+      'expirada': 'MISSED' 
+    };
+
+    const backendStatus = statusMap[newStatus.toLowerCase()] || newStatus.toUpperCase();
+
+    return updateAppointment(id, {
+      appointmentDatetime: appointmentData.appointmentDatetime,
+      type: appointmentData.type,
+      reason: appointmentData.reason,
+      patientId: appointmentData.patientId,
+      status: backendStatus
+    });
+  } catch (error) {
+    console.error("Error al actualizar el estado de la cita", error);
+    throw error;
+  }
 }
 
 // PUT - UPDATE TYPE
-export async function updateAppointmentType(id, newType) {
-  return updateAppointment(id, { type: newType });
+export async function updateAppointmentType(id, newType, appointmentData) {
+  try {
+    return updateAppointment(id, {
+      appointmentDatetime: appointmentData.appointmentDatetime,
+      type: newType,
+      reason: appointmentData.reason,
+      patientId: appointmentData.patientId,
+      status: appointmentData.status
+    });
+  } catch (error) {
+    console.error("Error al actualizar el tipo de la cita", error);
+    throw error;
+  }
 }
 
 // DELETE - DELETE APPOINTMENT

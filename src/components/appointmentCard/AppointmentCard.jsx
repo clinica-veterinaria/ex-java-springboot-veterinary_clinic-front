@@ -27,7 +27,17 @@ export default function AppointmentCard({ appointmentDatetime, patientName, reas
 
     const displayDateTime = formatDateTime(appointmentDatetime);
     const normalizedStatus = status ? status.toLowerCase() : '';
-    const normalizedType = (type || '').trim().toLowerCase();
+    
+    const normalizeType = (typeValue) => {
+        if (!typeValue) return 'estandar';
+        const lower = typeValue.toString().toLowerCase().trim();
+        // Support: 'URGENT', 'urgent', 'urgente', 'Urgente'
+        if (lower === 'urgent' || lower === 'urgente') return 'urgente';
+        // Support: 'STANDARD', 'standard', 'estandar', 'Estándar'
+        return 'estandar';
+    };
+    
+    const normalizedType = normalizeType(type);
 
     // Check if it's expired first (highest priority)
     if (normalizedStatus === 'expirada') {
@@ -42,8 +52,8 @@ export default function AppointmentCard({ appointmentDatetime, patientName, reas
         );
     }
 
-    // Check if it's urgent (supports both 'urgente' and 'urgent')
-    const isUrgent = normalizedType === 'urgente' || normalizedType === 'urgent';
+    // Check if it's urgent
+    const isUrgent = normalizedType === 'urgente';
     const cardClass = `appointment-card ${isUrgent ? 'appointment-card__urgent' : ''}`;
     
     return(

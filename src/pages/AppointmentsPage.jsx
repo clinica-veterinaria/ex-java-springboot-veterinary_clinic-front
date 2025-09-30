@@ -123,7 +123,7 @@ export default function AppointmentsPage() {
                         <h1>Citas</h1>
                     </div>
                     <div className="appointments-page__content">
-                        <AppointmentsWidget appointments={todayAppointments} onMoreOptions={handleOpenOptionsModal} onAppointmentClick={handleAppointmentClick}/>
+                        <AppointmentsWidget appointments={todayAppointments} onMoreOptions={handleOpenOptionsModal} onAppointmentClick={handleAppointmentClick} onStatusChange={handleStatusChange}/>
 
                         <div className="appointments-page__next">
                         <h2 className="appointments-page__subtitle">Próximas citas</h2>
@@ -170,7 +170,7 @@ export default function AppointmentsPage() {
 
             {/* show details modal */}
             {showDetailsModal && selectedAppointment && (
-                <AppointmentDetailsAdmin onClose={() => setShowDetailsModal(false)} patientName={selectedAppointment.patientName} appointmentDatetime={selectedAppointment.appointmentDatetime} reason={selectedAppointment.reason} status={selectedAppointment.status} onStatusChange={(newStatus) => handleStatusChange(selectedAppointment, newStatus)}/>
+                <AppointmentDetailsAdmin onClose={() => setShowDetailsModal(false)} patientName={selectedAppointment.patientName} appointmentDatetime={selectedAppointment.appointmentDatetime} reason={selectedAppointment.reason} type={selectedAppointment.type} status={selectedAppointment.status} onStatusChange={(newStatus) => handleStatusChange(selectedAppointment, newStatus)}/>
             )}
 
             {/* edditAppt modal */}

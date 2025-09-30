@@ -2,7 +2,7 @@ import React from "react";
 import './AppointmentsWidget.css';
 import AppointmentCard from '../appointmentCard/AppointmentCard';
 
-export default function AppointmentsWidget({ appointments = [], onMoreOptions, onAppointmentClick }) {
+export default function AppointmentsWidget({ appointments = [], onMoreOptions, onAppointmentClick, onStatusChange }) {
   return (
     <div className="appointments-widget">
       
@@ -25,6 +25,7 @@ export default function AppointmentsWidget({ appointments = [], onMoreOptions, o
             onClick={() => onAppointmentClick(appointment)} 
             onOptionsClick={() => onMoreOptions?.(appointment)}
             appointment={appointment}
+            onStatusChange={(newStatus) => onStatusChange(appointment, newStatus)}
           />
         ))}
       </div>

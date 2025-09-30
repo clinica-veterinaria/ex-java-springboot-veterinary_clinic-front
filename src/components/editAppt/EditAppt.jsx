@@ -12,7 +12,7 @@ export default function EditAppt({ isOpen = false, onClose = () => {}, onSave = 
         date: '',
         time: '',
         reason: '',
-        type: 'estandar',
+        type: 'STANDARD',
     });
 
     const [availableSlots, setAvailableSlots] = useState([]);
@@ -21,6 +21,15 @@ export default function EditAppt({ isOpen = false, onClose = () => {}, onSave = 
     useEffect(() => {
         if (appointment) {
             const [date, time] = appointment.appointmentDatetime.split('T');
+            
+            // Normalize type from backend
+            let normalizedType = 'STANDARD';
+            if (appointment.type) {
+                const typeUpper = appointment.type.toUpperCase();
+                if (typeUpper === 'URGENT' || typeUpper === 'URGENTE') {
+                    normalizedType = 'URGENT';
+                }
+            }
     
             setFormData({
                 patient: appointment.patientName || '', 
@@ -28,56 +37,53 @@ export default function EditAppt({ isOpen = false, onClose = () => {}, onSave = 
                 date: date || '',
                 time: time.slice(0, 5) || '', 
                 reason: appointment.reason || '',
-                type: appointment.type.toUpperCase() || 'estandar',
+                type: normalizedType,
             });
         }
     }, [appointment]);
 
-  // load available slots
-  useEffect(() => {
-      if (!formData.date) {
-        setAvailableSlots([]);
-        return;
-      }
-      const fetchSlots = async () => {
-        const slots = await getAvailableSlots(formData.date);
-        setAvailableSlots(slots);
-      }
-      fetchSlots();
-  }, [formData.date]);
+    // load available slots
+    useEffect(() => {
+        if (!formData.date) {
+            setAvailableSlots([]);
+            return;
+        }
+        const fetchSlots = async () => {
+            const slots = await getAvailableSlots(formData.date);
+            setAvailableSlots(slots);
+        }
+        fetchSlots();
+    }, [formData.date]);
 
+    const handleInputChange = (field, value) => {
+        setFormData(prev => ({...prev, [field]: value}));
+    };
 
-  const handleInputChange = (field, value) => {
-    setFormData(prev => ({...prev,[field]: value}));
-  };
+    const handleSave = async () => {
+        try {
+            const appointmentDatetime = `${formData.date}T${formData.time}:00`;
 
-  const handleSave = async () => {
-    try {
-        const appointmentDatetime = `${formData.date}T${formData.time}:00`;
+            const updatedData = {
+                appointmentDatetime: appointmentDatetime,
+                type: formData.type,
+                reason: formData.reason,
+                patientId: Number(formData.patientId), 
+                status: appointment.status 
+            };
 
-        let backendType = formData.type.toUpperCase();
-        if (backendType === 'URGENTE') backendType = 'URGENT';
-        if (backendType === 'ESTANDAR') backendType = 'STANDARD';
+            console.log('📝 Datos a enviar al backend:', updatedData);
+            
+            await updateAppointment(appointment.id, updatedData);
+            onSave(updatedData);
+            onClose();
 
-        const updatedData = {
-            appointmentDatetime: appointmentDatetime,
-            type: formData.type.toUpperCase(),
-            reason: formData.reason,
-            patientId: Number(formData.patientId), 
-            status: appointment.status 
-        };
-        
-        await updateAppointment(appointment.id, updatedData);
-        onSave(updatedData);
-        onClose();
-
-    } catch (error) {
-        console.error("Error al editar cita:", error);
-        alert("Error al editar la cita");
+        } catch (error) {
+            console.error("Error al editar cita:", error);
+            alert("Error al editar la cita");
         }
     };
 
-  if (!isOpen) return null;
+    if (!isOpen) return null;
 
     return(
         <div className="edit-appointment__overlay">
@@ -146,7 +152,10 @@ export default function EditAppt({ isOpen = false, onClose = () => {}, onSave = 
 
                     {/* Row 4: type */}
                     <div className="form-row">
-                        <ButtonType value={formData.type} onChange={(value) => handleInputChange('type', value)} />
+                        <ButtonType 
+                            initialType={formData.type} 
+                            onTypeChange={(value) => handleInputChange('type', value)} 
+                        />
                     </div>
 
                     {/* Buttons */}

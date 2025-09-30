@@ -197,11 +197,13 @@ export default function CalendarPage() {
                 <AppointmentDetailsAdmin
                     isOpen={showDetailsModal}
                     onClose={() => setShowDetailsModal(false)}
-                    patient={selectedAppointment.patient}
-                    appointmentDatetime={selectedAppointment.date} // Asegúrate de que esta prop coincida
+                    patient={selectedAppointment.patientName}
+                    appointmentDatetime={selectedAppointment.date}
                     reason={selectedAppointment.reason}
+                    type={selectedAppointment.type} 
                     status={selectedAppointment.status}
-                // Agrega otras props necesarias
+                    onStatusChange={(newStatus) => handleStatusChange(selectedAppointment, newStatus)}
+                
                 />
             )}
         </div>
