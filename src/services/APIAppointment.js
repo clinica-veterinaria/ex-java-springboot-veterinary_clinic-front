@@ -28,7 +28,7 @@ export async function searchAppointments({ search, type, status, sortBy }) {
       params.append('sortBy', sortBy);
     }
 
-    const url = `${API_URL}${params.toString() ? `?${params.toString()}` : ''}`;
+    const url = `${API_URL}/appointments${params.toString() ? `?${params.toString()}` : ''}`;
     
     const response = await fetch(url, {
       method: "GET",
