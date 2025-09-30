@@ -32,7 +32,7 @@ export async function getUpcomingAppointments(limit = 3) {
 // GET - ALL APPOINTMENTS
 export async function getAllAppointments() {
   try {
-    const response = await fetch(`${API_URL}`);
+    const response = await fetch(`${API_URL}/appointments`);
     if (!response.ok) throw new Error(`Error fetching all appointments: ${response.statusText}`);
     return await response.json();
   } catch (error) {
@@ -44,7 +44,7 @@ export async function getAllAppointments() {
 // GET - APPOINTMENTS BY DATE
 export async function getAppointmentsByDate(date) {
   try {
-    const response = await fetch(`${API_URL}/by-date?fecha=${date}`);
+    const response = await fetch(`${API_URL}/appointments/by-date?fecha=${date}`);
     if (!response.ok) throw new Error(`Error fetching appointments by date: ${response.statusText}`);
     return await response.json();
   } catch (error) {
