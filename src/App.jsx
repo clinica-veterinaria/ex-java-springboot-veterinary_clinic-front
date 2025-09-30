@@ -11,11 +11,9 @@ import LoginPage from './pages/LoginPage';
 import SignInPage from './pages/SignInPage';
 import HomeUserPage from './pages/HomeUserPage';
 import UserLayout from './components/userLayout/UserLayout';
-import { SearchProvider } from './context/SearchContext';
 import AuthHandler from './pages/AuthHandler';
 import PatientProfile from './pages/PatientProfile';
 import { SearchProvider } from './context/SearchContext';
-
 
 function App() {
   return (
@@ -29,20 +27,6 @@ function App() {
             <Route path="appointments" element={<AppointmentsPage />} />
             <Route path="patients" element={<PatientPage />} />
             <Route path="patients/:id" element={<PatientProfile />} />
-            <Route path="login" element={<LoginPage />} />
-            <Route path="signin" element={<SignInPage />} />
-
-
-      <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<HomePage />} />
-          <Route path="home" element={<HomePage />} />
-          <Route path="calendar" element={<CalendarPage />} />
-          <Route path="appointments" element={<AppointmentsPage />} />
-          <Route path="patients" element={<PatientPage />} />
-          <Route path="patients/:id" element={<PatientProfile />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="signin" element={<SignInPage />} />
           </Route>
           <Route path="/user" element={<UserLayout />}>
             <Route index element={<HomeUserPage />} />
@@ -51,11 +35,6 @@ function App() {
           <Route path="signin" element={<AuthHandler isLoginView={false} />} />
         </Routes>
       </SearchProvider>
-        </Routes>
-      </SearchProvider>
-        <Route path="login" element={<AuthHandler isLoginView={true} />} />
-        <Route path="signin" element={<AuthHandler isLoginView={false} />} />
-      </Routes>
     </BrowserRouter>
   )
 }
