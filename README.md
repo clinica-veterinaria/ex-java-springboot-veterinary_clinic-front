@@ -131,3 +131,5 @@ flowchart TD
   - Notificación por correo al programar, modificar o eliminar la cita.
 
 ## 🧪 Cobertura de tests
+<img width="auto" height="400" alt="test coverage" src="https://github.com/user-attachments/assets/05ce9b25-88c0-4e96-97c9-f43b7f698c7a" />
+
