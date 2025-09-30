@@ -65,7 +65,7 @@ export default function AppointmentCard({ appointmentDatetime, patientName, reas
                 
                 {/* Show state if is not "next appointment" */}
               {!isNextAppointment && (
-                <div className="appointment-card__state">
+                <div className="appointment-card__state" onClick={(e) => e.stopPropagation()}>
                     <ButtonStatus 
                         initialStatus={status} 
                         appointmentDatetime={appointmentDatetime}
