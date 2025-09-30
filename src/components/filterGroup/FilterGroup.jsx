@@ -14,8 +14,6 @@ export default function FilterGroup({ onFilterChange }) {
         "Ordenar por fecha",
         "Urgencia",
         "Estándar",
-        "Perro",
-        "Gato",
         "Hembra",
         "Macho"
     ];

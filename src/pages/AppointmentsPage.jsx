@@ -9,6 +9,7 @@ import EditAppt from "../components/editAppt/EditAppt";
 import DeleteModal from "../components/deleteModal/DeleteModal";
 import EditDeleteModal from "../components/editDeleteModal/EditDeleteModal";
 import { getUpcomingAppointments, createAppointment, updateAppointment, deleteAppointment, updateAppointmentStatus, searchAppointments } from '../services/APIAppointment';
+import { useSearch } from '../context/SearchContext';
 
 export default function AppointmentsPage() {
   const [showAddModal, setShowAddModal] = useState(false);

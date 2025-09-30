@@ -10,7 +10,7 @@ import AddPetModal from '../components/petModal/PetModal';
 import { Ellipsis } from 'lucide-react';
 import Button from '../components/buttons/Button';
 import DeleteModal from '../components/deleteModal/DeleteModal';
-// Make sure to import updatePatient here
+import { useSearch } from '../context/SearchContext';
 import { getPatients, registerPatient, deletePatient, updatePatient, searchPatients  } from '../services/APIPatient';
 
 const PatientPage = () => {
