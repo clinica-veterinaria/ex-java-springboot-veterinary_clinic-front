@@ -1,18 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import './AppointmentDetailsAdmin.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark, faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons"; 
 import PillDateTime from '../pillDateTime/PillDateTime';
 import ButtonStatus from '../buttonStatus/ButtonStatus';
-import Button from '../buttons/Button';
 import ButtonText from '../buttonText/ButtonText';
 
-export default function AppointmentDetailsAdmin({ onClose, patient, appointmentDatetime, reason, icon, status: initialStatus }) {
-    const [status, setStatus] = useState(initialStatus || "pendiente")
+export default function AppointmentDetailsAdmin({ 
+    onClose, 
+    patientName, 
+    appointmentDatetime, 
+    reason, 
+    status,
+    type,
+    onStatusChange 
+}) {
+    const normalizedType = type ? type.toLowerCase() : '';
 
     return(
         <div className="appointment-admin__overlay">
-        <div className={`appointment-admin__container ${status === 'urgente' ? 'appointment-admin__container--urgent' : ''}`}>
+        <div className={`appointment-admin__container ${normalizedType === 'urgente' || normalizedType === 'urgent' ? 'appointment-admin__container--urgent' : ''}`}>
             <button className="appointment-admin__close" onClick={onClose} aria-label="Cerrar detalles de la cita">
                 <FontAwesomeIcon icon={faXmark} className="faXmark"/>        
             </button>
@@ -20,10 +27,10 @@ export default function AppointmentDetailsAdmin({ onClose, patient, appointmentD
                 <h2>Datos de la cita</h2>
             </div>
             <div className="appointment-admin__details">
-                <h3 className="appointment-admin__patient">{patient}</h3>
+                <h3 className="appointment-admin__patient">{patientName}</h3>
                 <div className="appointment-admin__data">
-                <PillDateTime appointmentDatetime={appointmentDatetime} />
-                <ButtonStatus initialStatus={status} onStatusChange={setStatus} />
+                    <PillDateTime appointmentDatetime={appointmentDatetime} />
+                    <ButtonStatus initialStatus={status} appointmentDatetime={appointmentDatetime} onStatusChange={onStatusChange} />
                 </div>
                 <div className="appointment-admin__body">
                     <p className="appointment-admin__subtitle">Motivo</p>
@@ -33,5 +40,5 @@ export default function AppointmentDetailsAdmin({ onClose, patient, appointmentD
             </div>
         </div>
         </div>
-        );
+    );
 }

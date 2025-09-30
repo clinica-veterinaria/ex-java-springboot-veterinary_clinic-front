@@ -10,6 +10,8 @@ import AddPetModal from '../components/petModal/PetModal';
 import { Ellipsis } from 'lucide-react';
 import Button from '../components/buttons/Button';
 import DeleteModal from '../components/deleteModal/DeleteModal';
+import { useSearch } from '../context/SearchContext';
+import { getPatients, registerPatient, deletePatient, updatePatient, searchPatients  } from '../services/APIPatient';
 // Make sure to import updatePatient here
 import { getPatients, registerPatient, deletePatient, updatePatient } from '../services/APIPatient';
 import { useNavigate } from 'react-router-dom';
@@ -25,24 +27,44 @@ const PatientPage = () => {
     const [feedback, setFeedback] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [currentPatient, setCurrentPatient] = useState(null);
-    const [loading, setLoading] = useState(true); // Added for better UX
+    const [loading, setLoading] = useState(true); 
+    const { searchTerm, filters } = useSearch();
 
     useEffect(() => {
-        async function fetchPatients() {
-            try {
-                const data = await getPatients();
-                setPatients(data);
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setLoading(false);
-            }
-        }
         fetchPatients();
-    }, []);
+    }, [searchTerm, filters]); 
+
+    async function fetchPatients() {
+        setLoading(true);
+        try {
+            const searchParams = {
+                search: searchTerm || null,
+                species: filters.includes("Perro") ? "perro" : 
+                        filters.includes("Gato") ? "gato" : null,
+                gender: filters.includes("Macho") ? "macho" : 
+                       filters.includes("Hembra") ? "hembra" : null,
+                sortBy: filters.includes("Ordenar por fecha") ? "fecha" : null,
+            };
+
+            // Si no hay búsqueda ni filtros, usar getPatients() normal
+            const hasFilters = searchTerm || filters.length > 0;
+            const data = hasFilters 
+                ? await searchPatients(searchParams) 
+                : await getPatients();
+            
+            setPatients(data);
+        } catch (error) {
+            console.error("Error al cargar pacientes:", error);
+            setFeedback({ 
+                message: "Error al cargar pacientes ❌", 
+                type: "error" 
+            });
+        } finally {
+            setLoading(false);
+        }
+    }
 
     const availableLetters = [...new Set(patients.map(p => p.name.charAt(0).toUpperCase()))];
-
 
     const handlePatientClick = (patient) => {
         if (!isSelectionMode) {

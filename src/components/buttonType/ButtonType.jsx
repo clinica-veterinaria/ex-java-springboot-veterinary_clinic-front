@@ -2,31 +2,41 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ChevronDown } from "lucide-react";
 import './ButtonType.css';
 
+
+const mapTypeToInternal = (inputType) => {
+  if (!inputType) return 'estandar';
+  const lower = inputType.toLowerCase();
+  if (lower === 'standard') return 'estandar';
+  if (lower === 'urgent') return 'urgente';
+  return lower;
+};
+
+const mapTypeToAPI = (internalType) => {
+  if (internalType === 'estandar') return 'STANDARD';
+  if (internalType === 'urgente') return 'URGENT';
+  return 'STANDARD';
+};
+
 const ButtonType = ({ 
   initialType = 'estandar', 
   onTypeChange = () => {}
 }) => {
-  const [type, setType] = useState(initialType);
+  const [type, setType] = useState(mapTypeToInternal(initialType));
   const [isOpen, setIsOpen] = useState(false);
-  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
-  const buttonRef = useRef(null);
   const containerRef = useRef(null);
 
+  useEffect(() => {
+    setType(mapTypeToInternal(initialType));
+  }, [initialType]);
+
   const handleTypeChange = (newType) => {
+    const newStatusInternal = mapTypeToInternal(newType);
     setType(newType);
     setIsOpen(false);
-    onTypeChange(newType);
+    onTypeChange(mapTypeToAPI(newStatusInternal));
   };
 
   const toggleDropdown = () => {
-    if (!isOpen && buttonRef.current) {
-      const rect = buttonRef.current.getBoundingClientRect();
-      setDropdownPosition({
-        top: rect.bottom + 4,
-        left: rect.left,
-        width: 132
-      });
-    }
     setIsOpen(!isOpen);
   };
 
@@ -36,16 +46,12 @@ const ButtonType = ({
 
   const renderDropdownIcon = () => (
     <span className={`dropdown-icon ${isOpen ? 'dropdown-icon--open' : ''}`}> 
-      <ChevronDown size={20} />
+      <ChevronDown size={16} />
     </span>
   );
 
   const getTypeText = () => {
-    switch (type) {
-      case 'estandar': return 'Estándar';
-      case 'urgente': return 'Urgente';
-      default: return 'Estándar';
-    }
+    return mapTypeToAPI(type);
   };
 
   useEffect(() => {
@@ -63,32 +69,22 @@ const ButtonType = ({
 
   return (
     <div className="button-type-container" ref={containerRef}>
-      <button 
-        ref={buttonRef}
-        className={getButtonClass()}
-        onClick={toggleDropdown}
-        type="button"
-      >
+      <button className={getButtonClass()} onClick={toggleDropdown} type="button">
         {getTypeText()}
         {renderDropdownIcon()}
       </button>
 
       {isOpen && (
-        <div 
-          style={{
-            position: 'fixed',
-            top: `${dropdownPosition.top}px`,
-            left: `${dropdownPosition.left}px`,
-            width: `${dropdownPosition.width}px`,
-            zIndex: 9999
-          }}>
-          {type === 'estandar' && (
-            <button className="dropdown-item dropdown-item--urgente" onClick={() => handleTypeChange('urgente')} type="button">Urgente</button>
-          )}
-          {type === 'urgente' && (
-            <button className="dropdown-item dropdown-item--estandar" onClick={() => handleTypeChange('estandar')} type="button">Estándar</button>
-          )}
-        </div>
+        <div className="dropdown-menu">
+        {/* If standard change to urgent */}
+        {type === 'estandar' && (
+          <button className="dropdown-item dropdown-item--urgente" onClick={() => handleTypeChange('urgente')} type="button">Urgente</button>
+        )}
+        {/* If urgent change to standard */}
+        {type === 'urgente' && (
+          <button className="dropdown-item dropdown-item--estandar" onClick={() => handleTypeChange('estandar')} type="button">Estándar</button>
+        )}
+      </div>
       )}
     </div>
   );

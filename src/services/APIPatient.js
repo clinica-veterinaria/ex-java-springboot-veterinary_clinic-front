@@ -99,3 +99,27 @@ export async function deletePatient(patientId) {
     throw error;
   }
 }
+
+export async function searchPatients({ search, species, gender, sortBy }) {
+  try {
+    const params = new URLSearchParams();
+    if (search && search.trim() !== '') params.append('search', search.trim());
+    if (species) params.append('species', species);
+    if (gender) params.append('gender', gender);
+    if (sortBy) params.append('sortBy', sortBy);
+
+    const url = `${API_URL}${params.toString() ? `?${params.toString()}` : ''}`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+    if (!response.ok) throw new Error(`Error ${response.status}`);
+    return await response.json();
+  } catch (error) {
+    console.error("Error en searchPatients:", error);
+    throw error;
+  }
+}
+
+
+
