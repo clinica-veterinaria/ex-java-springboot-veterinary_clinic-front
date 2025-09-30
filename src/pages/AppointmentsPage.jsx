@@ -9,8 +9,8 @@ import EditAppt from "../components/editAppt/EditAppt";
 import DeleteModal from "../components/deleteModal/DeleteModal";
 import EditDeleteModal from "../components/editDeleteModal/EditDeleteModal";
 import AppointmentDetailsAdmin from "../components/appointmentDetailsAdmin/AppointmentDetailsAdmin";
-import { getAppointmentsByDate, updateAppointment, deleteAppointment, updateAppointmentStatus, /* searchAppointments*/ } from '../services/APIAppointment';
-//import { useSearch } from '../context/SearchContext';
+import { getAppointmentsByDate, updateAppointment, deleteAppointment, updateAppointmentStatus, searchAppointments} from '../services/APIAppointment';
+import { useSearch } from '../context/SearchContext';
 
 export default function AppointmentsPage() {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -20,41 +20,50 @@ export default function AppointmentsPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [feedback, setFeedback] = useState(null);
-  //const { searchTerm, filters } = useSearch();
+  const { searchTerm, filters } = useSearch();
 
 
   const [todayAppointments, setTodayAppointments] = useState([]);
-    const [tomorrowAppointments, setTomorrowAppointments] = useState([]);
+  const [tomorrowAppointments, setTomorrowAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [allAppointments, setAllAppointments] = useState([]);
+  const [isSearchActive, setIsSearchActive] = useState(false);
 
 
-  /*useEffect(() => {
-    fetchAppointments();
+  useEffect(() => {
+    if (searchTerm || filters.length > 0) {
+      fetchAppointmentsWithFilters();
+    } else {
+      loadAppointments();
+    }
   }, [searchTerm, filters]);
 
-  async function fetchAppointments() {
+
+  async function fetchAppointmentsWithFilters() {
     setLoading(true);
+    setIsSearchActive(true);
     try {
       const searchParams = {
         search: searchTerm || null,
         type: filters.includes("Urgencia") ? "URGENT" :
-          filters.includes("Estándar") ? "STANDARD" : null,
-        status: null, // Puedes agregar filtros PENDING/ATTENDED/MISSED
+              filters.includes("Estándar") ? "STANDARD" : null,
+        status: null,
         sortBy: filters.includes("Ordenar por fecha") ? "fecha" : null,
       };
 
-      const hasFilters = searchTerm || filters.length > 0;
-      const data = hasFilters
-        ? await searchAppointments(searchParams)
-        : await getAppointments();
-
-      setAppointments(data);
+      const data = await searchAppointments(searchParams);
+      setAllAppointments(data);
+      
+      // Limpiar las secciones de hoy/mañana cuando se busca
+      setTodayAppointments([]);
+      setTomorrowAppointments([]);
     } catch (error) {
-      console.error("Error al cargar citas:", error);
+      console.error("Error al buscar citas:", error);
+      setFeedback({ message: "Error al buscar citas ❌", type: "error" });
     } finally {
       setLoading(false);
     }
-  }*/
+  }
 
     useEffect(() => { 
       loadAppointments(); 
