@@ -2,26 +2,50 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ChevronDown } from "lucide-react";
 import './ButtonStatus.css';
 
-const ButtonStatus = ({ 
-  initialStatus = 'pendiente', 
-  appointmentDate = null,
-  onStatusChange = () => {}
-}) => {
-  const [status, setStatus] = useState(initialStatus);
+const mapStatusToInternal = (inputStatus) => {
+  if (!inputStatus) return 'pendiente';
+  
+  const lower = inputStatus.toLowerCase();
+  
+  if (lower === 'pending') return 'pendiente';
+  if (lower === 'attended') return 'atendido';
+  if (lower === 'expired') return 'expirada';
+  
+  return lower;
+};
+
+const mapStatusToBackend = (internalStatus) => {
+  switch (internalStatus) {
+    case 'pendiente':
+      return 'PENDING'; 
+    case 'atendido':
+      return 'ATTENDED'; 
+    case 'expirada':
+      return 'MISSED';
+    default:
+      return 'PENDING';
+  }
+};
+
+const ButtonStatus = ({ initialStatus = 'pendiente', appointmentDatetime = null, onStatusChange = () => {}}) => {
+  const [status, setStatus] = useState(mapStatusToInternal(initialStatus));
   const [isOpen, setIsOpen] = useState(false);
-  const buttonRef = useRef(null);
   const containerRef = useRef(null);
 
+  useEffect(() => {
+    setStatus(mapStatusToInternal(initialStatus));
+  }, [initialStatus]);
+
   const handleStatusChange = (newStatus) => {
-    setStatus(newStatus);
+    const newStatusInternal = mapStatusToInternal(newStatus); 
+    setStatus(newStatusInternal);
     setIsOpen(false);
-    onStatusChange(newStatus);
+    onStatusChange(mapStatusToBackend(newStatusInternal)); 
   };
 
   const toggleDropdown = () => {
     // If its attended menu wont open
     if (status === 'expirada' || status === 'atendido') return;
-
     setIsOpen(!isOpen);
   };
 
@@ -31,9 +55,11 @@ const ButtonStatus = ({
 
   const renderDropdownIcon = () => {
     if (status === 'expirada' || status === 'atendido') return null;
-    return <span className={`dropdown-icon ${isOpen ? 'dropdown-icon--open' : ''}`}> 
-        <ChevronDown size={20} />
-    </span>;
+    return (
+        <span className={`dropdown-icon ${isOpen ? 'dropdown-icon--open' : ''}`}> 
+            <ChevronDown size={16} />
+        </span>
+    );
   };
 
   const getStatusText = () => {
@@ -51,18 +77,17 @@ const ButtonStatus = ({
 
   // Check if appointment expired
   useEffect(() => {
-    if (appointmentDate && status === 'pendiente') {
-      const appointmentDateTime = new Date(appointmentDate);
-      const closingTime = new Date(appointmentDateTime);
-      closingTime.setHours(20, 0, 0, 0);
-      
+    if (appointmentDatetime && status === 'pendiente') {
+      const appointmentDateTime = new Date(appointmentDatetime);
       const now = new Date();
-      if (now > closingTime) {
+      
+      if (now > appointmentDateTime) {
         setStatus('expirada');
         onStatusChange('expirada');
       }
     }
-  }, [appointmentDate, status, onStatusChange]);
+  }, [appointmentDatetime, status, onStatusChange]);
+
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -80,15 +105,11 @@ const ButtonStatus = ({
     }
   }, [isOpen]);
 
+  const isDisabled = status === 'expirada' || status === 'atendido';
+
   return (
     <div className="button-status-container" ref={containerRef}>
-      <button 
-        ref={buttonRef}
-        className={getButtonClass()}
-        onClick={toggleDropdown}
-        disabled={status === 'expirada' || status === 'atendido'}
-        type="button"
-      >
+      <button className={getButtonClass()} onClick={toggleDropdown} disabled={isDisabled} type="button">
         {getStatusText()}
         {renderDropdownIcon()}
       </button>

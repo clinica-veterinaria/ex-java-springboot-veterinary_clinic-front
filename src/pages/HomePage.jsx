@@ -4,10 +4,12 @@ import { Link, useLocation } from "react-router-dom";
 import CardHome from "../components/cardsHome/CardHome";
 import NextAppointment from "../components/nextAppointment/NextAppointment";
 import SmallCalendarWidget from "../components/smallCalendarWidget/SmallCalendarWidget";
+import { getUpcomingAppointments } from '../services/APIAppointment';
 
 export default function HomePage(){
     const [nextAppointments, setNextAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const location = useLocation();
     const isSelected = (path) => location.pathname === path;
@@ -16,22 +18,14 @@ export default function HomePage(){
     const fetchNextAppointments = async () => {
         try {
             setLoading(true);
+            setError(null);
 
-            const response = await fetch('/api/appointments/next?limit=3');
-            const data = await response.json();
+            const data = await getUpcomingAppointments(3);
+            setNextAppointments(data.appointments || []);
             
-            // filter by date and time
-            const futureAppointments = data
-                .filter(appointment => {
-                    const appointmentDate = new Date(appointment.datetime);
-                    return appointmentDate > new Date();
-                })
-                .sort((a, b) => new Date(a.datetime) - new Date(b.datetime))
-                .slice(0, 3);
-
-            setNextAppointments(futureAppointments);
         } catch (error) {
             console.error('Error fetching next appointments:', error);
+            setError("Error al cargar las citas. Por favor, inténtelo de nuevo.");
             setNextAppointments([]);
         } finally {
             setLoading(false);
@@ -76,15 +70,17 @@ export default function HomePage(){
                                 <div className="home-page__appointments-list">
                                     {loading ? (
                                         <div className="home-page__loading">Cargando citas...</div>
+                                    ) : error ? (
+                                        <div className="home-page__error">{error}</div>
                                     ) : nextAppointments.length > 0 ? (
                                         nextAppointments.map((appointment) => (
                                             <NextAppointment
-                                            key={appointment.id}
-                                            appointmentDatetime={formatDateTime(appointment.datetime)}
-                                            patient={appointment.patient_name || appointment.pet_name}
-                                            reason={appointment.reason}
-                                            type={appointment.type}
-                                            onClick={() => handleAppointmentClick(appointment)}
+                                                key={appointment.id}
+                                                appointmentDatetime={formatDateTime(appointment.appointmentDatetime)}
+                                                patient={appointment.patientName}
+                                                reason={appointment.reason}
+                                                type={appointment.type}
+                                                onClick={() => handleAppointmentClick(appointment)}
                                             />
                                         ))
                                     ) : (

@@ -10,13 +10,13 @@ import AddPetModal from '../components/petModal/PetModal';
 import { Ellipsis } from 'lucide-react';
 import Button from '../components/buttons/Button';
 import DeleteModal from '../components/deleteModal/DeleteModal';
-// Make sure to import updatePatient here
-import { getPatients, registerPatient, deletePatient, updatePatient } from '../services/APIPatient';
+import { useSearch } from '../context/SearchContext';
+import { getPatients, registerPatient, deletePatient, updatePatient, searchPatients } from '../services/APIPatient';
 import { useNavigate } from 'react-router-dom';
 
 const PatientPage = () => {
-    // Add the missing state variable for patients
     const navigate = useNavigate();
+    const { searchTerm, filters } = useSearch();
     const [patients, setPatients] = useState([]);
     const [showAddModal, setShowAddModal] = useState(false);
     const [activeLetter, setActiveLetter] = useState('');
@@ -25,24 +25,43 @@ const PatientPage = () => {
     const [feedback, setFeedback] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [currentPatient, setCurrentPatient] = useState(null);
-    const [loading, setLoading] = useState(true); // Added for better UX
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        async function fetchPatients() {
-            try {
-                const data = await getPatients();
-                setPatients(data);
-            } catch (error) {
-                console.error(error);
-            } finally {
-                setLoading(false);
-            }
-        }
         fetchPatients();
-    }, []);
+    }, [searchTerm, filters]); 
+
+    async function fetchPatients() {
+        setLoading(true);
+        try {
+            const searchParams = {
+                search: searchTerm || null,
+                species: filters.includes("Perro") ? "perro" : 
+                        filters.includes("Gato") ? "gato" : null,
+                gender: filters.includes("Macho") ? "macho" : 
+                       filters.includes("Hembra") ? "hembra" : null,
+                sortBy: filters.includes("Ordenar por fecha") ? "fecha" : null,
+            };
+
+            // Si no hay búsqueda ni filtros, usar getPatients() normal
+            const hasFilters = searchTerm || filters.length > 0;
+            const data = hasFilters 
+                ? await searchPatients(searchParams) 
+                : await getPatients();
+            
+            setPatients(data);
+        } catch (error) {
+            console.error("Error al cargar pacientes:", error);
+            setFeedback({ 
+                message: "Error al cargar pacientes ❌", 
+                type: "error" 
+            });
+        } finally {
+            setLoading(false);
+        }
+    }
 
     const availableLetters = [...new Set(patients.map(p => p.name.charAt(0).toUpperCase()))];
-
 
     const handlePatientClick = (patient) => {
         if (!isSelectionMode) {
@@ -108,10 +127,7 @@ const PatientPage = () => {
         setShowAddModal(true);
     }
 
-
-
     const handlePatientSave = (savedPatient) => {
-
         if (!savedPatient) return; // Validación de seguridad
 
         // 1. Determinar si es una edición o una creación
@@ -124,7 +140,6 @@ const PatientPage = () => {
             setPatients(prev => [...prev, savedPatient]);
             setFeedback({ message: `${savedPatient.name} añadido ✅`, type: "success" });
         }
-
     };
 
     const sortedPatients = [...patients].sort((a, b) =>
@@ -137,14 +152,12 @@ const PatientPage = () => {
 
     return (
         <div className="patients-page">
-
             {/* CONTENIDO PRINCIPAL */}
             <main className="main-content">
                 <div className="content-area">
-
                     {/* HEADER CON TÍTULO Y BOTÓN */}
                     <div className="page-title">
-                        <h1 >Pacientes</h1>
+                        <h1>Pacientes</h1>
                     </div>
 
                     <div className="content-with-alphabet">
@@ -236,7 +249,6 @@ const PatientPage = () => {
                     onConfirm={confirmDelete}
                 />
             )}
-
         </div>
     );
 }

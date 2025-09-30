@@ -38,7 +38,8 @@
     gap: var(--space-card);
 }
 
-.home-page__no-appointments {
+.home-page__no-appointments, 
+.home-page__error {
     color: var(--neutral-750);
     font-family: var(--font-family);
     font-size: var(--h3-size);

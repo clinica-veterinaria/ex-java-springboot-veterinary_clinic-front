@@ -13,31 +13,30 @@ import HomeUserPage from './pages/HomeUserPage';
 import UserLayout from './components/userLayout/UserLayout';
 import AuthHandler from './pages/AuthHandler';
 import PatientProfile from './pages/PatientProfile';
-
+import { SearchProvider } from './context/SearchContext';
 
 function App() {
-
-
   return (
     <BrowserRouter>
-
-      <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<HomePage />} />
-          <Route path="home" element={<HomePage />} />
-          <Route path="calendar" element={<CalendarPage />} />
-          <Route path="appointments" element={<AppointmentsPage />} />
-          <Route path="patients" element={<PatientPage />} />
-          <Route path="patients/:id" element={<PatientProfile />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="signin" element={<SignInPage />} />
+      <SearchProvider>
+        <Routes>
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<HomePage />} />
+            <Route path="home" element={<HomePage />} />
+            <Route path="calendar" element={<CalendarPage />} />
+            <Route path="appointments" element={<AppointmentsPage />} />
+            <Route path="patients" element={<PatientPage />} />
+            <Route path="patients/:id" element={<PatientProfile />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="signin" element={<SignInPage />} />
           </Route>
           <Route path="/user" element={<UserLayout />}>
             <Route index element={<HomeUserPage />} />
           </Route>
-        <Route path="login" element={<AuthHandler isLoginView={true} />} />
-        <Route path="signin" element={<AuthHandler isLoginView={false} />} />
-      </Routes>
+          <Route path="login" element={<AuthHandler isLoginView={true} />} />
+          <Route path="signin" element={<AuthHandler isLoginView={false} />} />
+        </Routes>
+      </SearchProvider>
     </BrowserRouter>
   )
 }

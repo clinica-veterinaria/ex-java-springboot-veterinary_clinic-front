@@ -57,6 +57,7 @@
     padding: 16px;
     background: var(--white);
     border-bottom: 1px solid var(--neutral-500);
+    font-family: var(--font-family);
 }
 
 .nav-button {
@@ -100,6 +101,8 @@
     font-weight: 600;
     color: var(--neutral-750);
     text-transform: uppercase;
+    font-family: var(--font-family);
+
 }
 
 .calendar-dates {
@@ -123,6 +126,8 @@
     transition: all 0.2s ease;
     font-size: var(--body-size);
     margin: 0 auto;
+    font-family: var(--font-family);
+
 }
 
 .calendar-date.other-month {
@@ -161,6 +166,7 @@
 .calendar-footer small {
     color: var(--neutral-750);
     font-size: 12px;
+    font-family: var(--font-family);
 }
 
 /* Time Slots Styles */
@@ -186,6 +192,7 @@
 .time-slots-header small {
     color: var(--neutral-750);
     font-size: 12px;
+    font-family: var(--font-family);
 }
 
 .no-date-selected,
@@ -194,6 +201,7 @@
     text-align: center;
     color: var(--neutral-750);
     font-size: 14px;
+    font-family: var(--font-family);
 }
 
 .time-slots-grid {
