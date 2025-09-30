@@ -9,7 +9,7 @@ import EditAppt from "../components/editAppt/EditAppt";
 import DeleteModal from "../components/deleteModal/DeleteModal";
 import EditDeleteModal from "../components/editDeleteModal/EditDeleteModal";
 import AppointmentDetailsAdmin from "../components/appointmentDetailsAdmin/AppointmentDetailsAdmin";
-import { getAppointmentsByDate, updateAppointment, deleteAppointment, updateAppointmentStatus, searchAppointments} from '../services/APIAppointment';
+import { getAppointmentsByDate, updateAppointment, deleteAppointment, updateAppointmentStatus, searchAppointments } from '../services/APIAppointment';
 import { useSearch } from '../context/SearchContext';
 
 export default function AppointmentsPage() {
@@ -34,6 +34,7 @@ export default function AppointmentsPage() {
     if (searchTerm || filters.length > 0) {
       fetchAppointmentsWithFilters();
     } else {
+      setIsSearchActive(false);
       loadAppointments();
     }
   }, [searchTerm, filters]);
@@ -46,58 +47,76 @@ export default function AppointmentsPage() {
       const searchParams = {
         search: searchTerm || null,
         type: filters.includes("Urgencia") ? "URGENT" :
-              filters.includes("Estándar") ? "STANDARD" : null,
+          filters.includes("Estándar") ? "STANDARD" : null,
         status: null,
         sortBy: filters.includes("Ordenar por fecha") ? "fecha" : null,
       };
 
       const data = await searchAppointments(searchParams);
-      setAllAppointments(data);
-      
-      // Limpiar las secciones de hoy/mañana cuando se busca
-      setTodayAppointments([]);
-      setTomorrowAppointments([]);
+
+      const now = new Date();
+      const todayISO = now.toISOString().split('T')[0];
+      const tomorrowDate = new Date();
+      tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+      const tomorrowISO = tomorrowDate.toISOString().split('T')[0];
+
+      // 2. Filtra los resultados de la búsqueda (data) por fecha:
+      const searchResultsToday = data.filter(appt =>
+        appt.appointmentDatetime.startsWith(todayISO)
+      );
+
+      const searchResultsTomorrow = data.filter(appt =>
+        appt.appointmentDatetime.startsWith(tomorrowISO)
+      );
+
+      // 3. Actualiza los estados que usan los Widgets:
+      setTodayAppointments(searchResultsToday);
+      setTomorrowAppointments(searchResultsTomorrow);
+
+      setAllAppointments(data); 
+
+
     } catch (error) {
       console.error("Error al buscar citas:", error);
       setFeedback({ message: "Error al buscar citas ❌", type: "error" });
+
+      setTodayAppointments([]);
+      setTomorrowAppointments([]);
     } finally {
       setLoading(false);
     }
   }
 
-    useEffect(() => { 
-      loadAppointments(); 
-    }, []);
 
   // GET- Appointments by date
   const loadAppointments = async () => {
     try {
-        setLoading(true);
+      setLoading(true);
 
-        const now = new Date();
-        const todayISO = now.toISOString().split('T')[0];
+      const now = new Date();
+      const todayISO = now.toISOString().split('T')[0];
 
-        const tomorrowDate = new Date();
-        tomorrowDate.setDate(tomorrowDate.getDate() + 1);
-        const tomorrowISO = tomorrowDate.toISOString().split('T')[0];
+      const tomorrowDate = new Date();
+      tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+      const tomorrowISO = tomorrowDate.toISOString().split('T')[0];
 
-        const todayData = await getAppointmentsByDate(todayISO);
-        const tomorrowData = await getAppointmentsByDate(tomorrowISO);
+      const todayData = await getAppointmentsByDate(todayISO);
+      const tomorrowData = await getAppointmentsByDate(tomorrowISO);
 
-        setTodayAppointments(todayData);
-        setTomorrowAppointments(tomorrowData);
+      setTodayAppointments(todayData);
+      setTomorrowAppointments(tomorrowData);
 
     } catch (error) {
-        console.error("Error al cargar las citas:", error);
-        setFeedback({ message: "Error al cargar las citas", type: "error" });
+      console.error("Error al cargar las citas:", error);
+      setFeedback({ message: "Error al cargar las citas", type: "error" });
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   };
 
   const refreshAppointments = () => {
     loadAppointments();
-    setShowAddModal(false); 
+    setShowAddModal(false);
   };
 
   const handleOpenAdd = () => setShowAddModal(true);
@@ -109,9 +128,9 @@ export default function AppointmentsPage() {
 
   // Save appointment - GET in "AddAppt modal"
   const handleSaveAppointment = () => {
-    setFeedback({ 
-      message: "Cita añadida con éxito ✅", 
-      type: "success" 
+    setFeedback({
+      message: "Cita añadida con éxito ✅",
+      type: "success"
     });
     refreshAppointments();
   };
@@ -166,64 +185,64 @@ export default function AppointmentsPage() {
           <div className="appointments-page__content">
             <AppointmentsWidget appointments={todayAppointments} onMoreOptions={handleOpenOptionsModal} onAppointmentClick={handleAppointmentClick} onStatusChange={handleStatusChange} />
 
-                        <div className="appointments-page__next">
-                        <h2 className="appointments-page__subtitle">Próximas citas</h2>
-                            {loading ? (
-                                <p className="loading-message">Cargando citas...</p>
-                            ) : (
-                              tomorrowAppointments.map(appt => (
-                                    <AppointmentCard
-                                        key={appt.id}
-                                        appointmentDatetime={appt.appointmentDatetime}   
-                                        patientName={appt.patientName}
-                                        reason={appt.reason}
-                                        type={appt.type}
-                                        status={appt.status}
-                                        isNextAppointment={false}
-                                        onClick={() => handleAppointmentClick(appt)}
-                                        appointment={appt}
-                                        onOptionsClick={handleOpenOptionsModal}
-                                        onStatusChange={(newStatus) => handleStatusChange(appt, newStatus)} 
-                                    />
-                                ))
-                            )}
-                        </div>
+            <div className="appointments-page__next">
+              <h2 className="appointments-page__subtitle">Próximas citas</h2>
+              {loading ? (
+                <p className="loading-message">Cargando citas...</p>
+              ) : (
+                tomorrowAppointments.map(appt => (
+                  <AppointmentCard
+                    key={appt.id}
+                    appointmentDatetime={appt.appointmentDatetime}
+                    patientName={appt.patientName}
+                    reason={appt.reason}
+                    type={appt.type}
+                    status={appt.status}
+                    isNextAppointment={false}
+                    onClick={() => handleAppointmentClick(appt)}
+                    appointment={appt}
+                    onOptionsClick={handleOpenOptionsModal}
+                    onStatusChange={(newStatus) => handleStatusChange(appt, newStatus)}
+                  />
+                ))
+              )}
+            </div>
 
-                        <div className="appointments-page__flying-button">
-                            <ButtonAdd onClick={handleOpenAdd}/>
-                        </div>
-                    </div>
-                    
-                </div>
-            </main>
-            {showAddModal && (
-            <AddAppt isOpen={showAddModal} onClose={() => setShowAddModal(false)} onSave={handleSaveAppointment} />
-            )}
+            <div className="appointments-page__flying-button">
+              <ButtonAdd onClick={handleOpenAdd} />
+            </div>
+          </div>
 
-            {/* Edit/Delete modal */}
-            {showOptionsModal && (
-                <EditDeleteModal onGoToEdit={() => handleOpenEdit(selectedAppointment)} onGoToDelete={() => handleDeleteAppointment(selectedAppointment)} onClose={() => setShowOptionsModal(false)}/>
-            )}
+        </div>
+      </main>
+      {showAddModal && (
+        <AddAppt isOpen={showAddModal} onClose={() => setShowAddModal(false)} onSave={handleSaveAppointment} />
+      )}
+
+      {/* Edit/Delete modal */}
+      {showOptionsModal && (
+        <EditDeleteModal onGoToEdit={() => handleOpenEdit(selectedAppointment)} onGoToDelete={() => handleDeleteAppointment(selectedAppointment)} onClose={() => setShowOptionsModal(false)} />
+      )}
 
       {feedback && (
         <FeedbackModal message={feedback.message} type={feedback.type} onClose={() => setFeedback(null)} />
       )}
 
-            {/* show details modal */}
-            {showDetailsModal && selectedAppointment && (
-                <AppointmentDetailsAdmin onClose={() => setShowDetailsModal(false)} patientName={selectedAppointment.patientName} appointmentDatetime={selectedAppointment.appointmentDatetime} reason={selectedAppointment.reason} type={selectedAppointment.type} status={selectedAppointment.status} onStatusChange={(newStatus) => handleStatusChange(selectedAppointment, newStatus)}/>
-            )}
+      {/* show details modal */}
+      {showDetailsModal && selectedAppointment && (
+        <AppointmentDetailsAdmin onClose={() => setShowDetailsModal(false)} patientName={selectedAppointment.patientName} appointmentDatetime={selectedAppointment.appointmentDatetime} reason={selectedAppointment.reason} type={selectedAppointment.type} status={selectedAppointment.status} onStatusChange={(newStatus) => handleStatusChange(selectedAppointment, newStatus)} />
+      )}
 
-            {/* edditAppt modal */}
-            {showEditModal && (
-                <EditAppt isOpen={showEditModal} appointment={selectedAppointment} onClose={() => setShowEditModal(false)} onSave={handleEditAppointment}/>
-            )}
+      {/* edditAppt modal */}
+      {showEditModal && (
+        <EditAppt isOpen={showEditModal} appointment={selectedAppointment} onClose={() => setShowEditModal(false)} onSave={handleEditAppointment} />
+      )}
 
-            {/* delete modal */}
-            {showDeleteModal && (
-                <DeleteModal onCancel={handleCancelDelete} onConfirm={handleConfirmDelete}/>
-            )}
-        </div>
-    );
+      {/* delete modal */}
+      {showDeleteModal && (
+        <DeleteModal onCancel={handleCancelDelete} onConfirm={handleConfirmDelete} />
+      )}
+    </div>
+  );
 
 }
