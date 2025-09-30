@@ -3,9 +3,10 @@ import './LoginPage.css';
 import { EyeClosed, PawPrint } from 'lucide-react';
 import { Eye } from 'lucide-react';
 import Oliwa from '../assets/logoPositive.svg'
-
+import { useAuth } from '../context/AuthContext';
 
 const LoginPage = ({ onLogin = () => { }, onGoToRegister = () => { } }) => {
+    const { login } = useAuth();
     const [formData, setFormData] = useState({
         identifier: '',
         password: ''
@@ -54,16 +55,27 @@ const LoginPage = ({ onLogin = () => { }, onGoToRegister = () => { } }) => {
     };
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
-
-            const safeData = {
-                identifier: formData.identifier,
-                password: formData.password
-            };
-
-            onLogin(safeData);
+            try {
+                const response = await fetch("/api/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        identifier: formData.identifier,
+                        password: formData.password
+                    })
+                });
+                const data = await response.json();
+                if (data.role) {
+                    login({ name: data.name, role: data.role, token: data.token });
+                } else {
+                    setErrors({ identifier: "Credenciales incorrectas" });
+                }
+            } catch {
+                setErrors({ identifier: "Error de conexión" });
+            }
         }
     };
 
@@ -142,6 +154,7 @@ const LoginPage = ({ onLogin = () => { }, onGoToRegister = () => { } }) => {
                                 </span>
                             </div>
                         </form>
+                        {/* Elimina el botón de login como admin */}
                     </div>
                 </div>
             </div>
