@@ -20,6 +20,7 @@ export default function CalendarPage() {
     const [selectedAppointment, setSelectedAppointment] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [appointments, setAppointments] = useState([]);
+    const [dayAppointments, setDayAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [feedback, setFeedback] = useState(null);
 
@@ -44,6 +45,13 @@ export default function CalendarPage() {
 
     const handleDateSelect = (date) => {
         setSelectedDate(date);
+        
+        const appointmentsOfDay = appointments.filter(apt => {
+            const aptDate = new Date(apt.date);
+            return aptDate.toDateString() === date.toDateString();
+        });
+        
+        setDayAppointments(appointmentsOfDay);
     };
 
     const handleOpenAdd = () => setShowAddModal(true);
@@ -117,32 +125,36 @@ export default function CalendarPage() {
                             onDateSelect={handleDateSelect}
                         />
                         {/* Appointment list day selected */}
-                        <div className="calendar-page__next">
-                            <h2 className="calendar-page__subtitle">
-                                Citas de {selectedDate.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })}
-                            </h2>
-                            {loading ? (
-                                <p className="calendar-page__loading-message">Cargando citas...</p>
-                            ) : appointments.length > 0 ? (
-                                appointments.map(appt => (
-                                    <AppointmentCard
-                                        key={appt.id}
-                                        appointmentDatetime={appt.appointmentDatetime}
-                                        patientName={appt.patientName}
-                                        reason={appt.reason}
-                                        type={appt.type}
-                                        status={appt.status}
-                                        isNextAppointment={false}
-                                        onClick={() => handleOpenDetails(appt)}
-                                        appointment={appt}
-                                        onOptionsClick={handleOpenOptionsModal}
-                                        onStatusChange={(newStatus) => handleStatusChange(appt, newStatus)}
-                                    />
-                                ))
-                            ) : (
-                                <p className="no-appointments">No hay citas programadas para este día</p>
-                            )}
-                        </div>
+                            <div className="calendar-page__next">
+                                <h2 className="calendar-page__subtitle">
+                                    Citas de {selectedDate.toLocaleDateString('es-ES', {
+                                        weekday: 'long', 
+                                        day: 'numeric', 
+                                        month: 'long'
+                                    })}
+                                </h2>
+                                {loading ? (
+                                    <p className="calendar-page__loading-message">Cargando citas...</p>
+                                ) : dayAppointments.length > 0 ? (
+                                    dayAppointments.map(appt => (
+                                        <AppointmentCard
+                                            key={appt.id}
+                                            appointmentDatetime={appt.appointmentDatetime}
+                                            patientName={appt.patientName}
+                                            reason={appt.reason}
+                                            type={appt.type}
+                                            status={appt.status}
+                                            isNextAppointment={false}
+                                            onClick={() => handleOpenDetails(appt)}
+                                            appointment={appt}
+                                            onOptionsClick={handleOpenOptionsModal}
+                                            onStatusChange={(newStatus) => handleStatusChange(appt, newStatus)}
+                                        />
+                                    ))
+                                ) : (
+                                    <p className="no-appointments">No hay citas programadas para este día</p>
+                                )}
+                            </div>
                     </div>
                     <div className="appointments-page__flying-button">
                         <ButtonAdd onClick={handleOpenAdd} />
