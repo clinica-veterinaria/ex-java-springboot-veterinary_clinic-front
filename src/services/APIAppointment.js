@@ -11,7 +11,42 @@ export function formatDateTime(datetime) {
     return `${day} ${month}, ${hours}:${minutes}h`;
 }
 
-// =========================================================================
+export async function searchAppointments({ search, type, status, sortBy }) {
+  try {
+    const params = new URLSearchParams();
+    
+    if (search && search.trim() !== '') {
+      params.append('search', search.trim());
+    }
+    if (type) {
+      params.append('type', type);
+    }
+    if (status) {
+      params.append('status', status);
+    }
+    if (sortBy) {
+      params.append('sortBy', sortBy);
+    }
+
+    const url = `${API_URL}${params.toString() ? `?${params.toString()}` : ''}`;
+    
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error en searchAppointments:", error);
+    throw error;
+  }
+}
 
 // GET - UPCOMING APPOINTMENTS MAX.3
 export async function getUpcomingAppointments(limit = 3) {

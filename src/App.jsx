@@ -11,6 +11,7 @@ import LoginPage from './pages/LoginPage';
 import SignInPage from './pages/SignInPage';
 import HomeUserPage from './pages/HomeUserPage';
 import UserLayout from './components/userLayout/UserLayout';
+import { SearchProvider } from './context/SearchContext';
 
 
 function App() {
@@ -18,22 +19,23 @@ function App() {
 
   return (
     <BrowserRouter>
+      <SearchProvider>
+        <Routes>
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<HomePage />} />
+            <Route path="home" element={<HomePage />} />
+            <Route path="calendar" element={<CalendarPage />} />
+            <Route path="appointments" element={<AppointmentsPage />} />
+            <Route path="patients" element={<PatientPage />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="signin" element={<SignInPage />} />
 
-      <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<HomePage />} />
-          <Route path="home" element={<HomePage />} />
-          <Route path="calendar" element={<CalendarPage />} />
-          <Route path="appointments" element={<AppointmentsPage />} />
-          <Route path="patients" element={<PatientPage />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="signin" element={<SignInPage />} />
-          
           </Route>
           <Route path="/user" element={<UserLayout />}>
             <Route index element={<HomeUserPage />} />
           </Route>
-      </Routes>
+        </Routes>
+      </SearchProvider>
     </BrowserRouter>
   )
 }

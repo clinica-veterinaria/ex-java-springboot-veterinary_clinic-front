@@ -8,21 +8,53 @@ import FeedbackModal from "../components/feedbackModal/FeedbackModal";
 import EditAppt from "../components/editAppt/EditAppt";
 import DeleteModal from "../components/deleteModal/DeleteModal";
 import EditDeleteModal from "../components/editDeleteModal/EditDeleteModal";
-import { getUpcomingAppointments, createAppointment, updateAppointment, deleteAppointment, updateAppointmentStatus } from '../services/APIAppointment';
+import { getUpcomingAppointments, createAppointment, updateAppointment, deleteAppointment, updateAppointmentStatus, searchAppointments } from '../services/APIAppointment';
+import { useSearch } from '../context/SearchContext';
 
 export default function AppointmentsPage() {
-    const [showAddModal, setShowAddModal] = useState(false);
-    const [showEditModal, setShowEditModal] = useState(false);
-    const [showOptionsModal, setShowOptionsModal] = useState(false);
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [selectedAppointment, setSelectedAppointment] = useState(null);
-    const [feedback, setFeedback] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showOptionsModal, setShowOptionsModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [feedback, setFeedback] = useState(null);
+  const { searchTerm, filters } = useSearch();
 
-    const [nextAppointments, setNextAppointments] = useState([]);
-    const [loading, setLoading] = useState(true);
+
+  const [nextAppointments, setNextAppointments] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+
+  useEffect(() => {
+    fetchAppointments();
+  }, [searchTerm, filters]);
+
+  async function fetchAppointments() {
+    setLoading(true);
+    try {
+      const searchParams = {
+        search: searchTerm || null,
+        type: filters.includes("Urgencia") ? "URGENT" :
+          filters.includes("Estándar") ? "STANDARD" : null,
+        status: null, // Puedes agregar filtros PENDING/ATTENDED/MISSED
+        sortBy: filters.includes("Ordenar por fecha") ? "fecha" : null,
+      };
+
+      const hasFilters = searchTerm || filters.length > 0;
+      const data = hasFilters
+        ? await searchAppointments(searchParams)
+        : await getAppointments();
+
+      setAppointments(data);
+    } catch (error) {
+      console.error("Error al cargar citas:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   // GET- Upcoming appointments
-  useEffect(() => {loadAppointments();}, []);
+  useEffect(() => { loadAppointments(); }, []);
 
   const loadAppointments = async () => {
     try {
@@ -109,77 +141,77 @@ export default function AppointmentsPage() {
 
   const handleCancelDelete = () => setShowDeleteModal(false);
 
-    return(
-        <div className="appointments-page">
-            <main className="appointments-page__main">
-                <div className="appointments-page__container">
-                    <div className="appointments-page__title">
-                        <h1>Citas</h1>
-                    </div>
-                    <div className="appointments-page__content">
-                        <AppointmentsWidget appointments={nextAppointments} onMoreOptions={handleOpenOptionsModal}/>
+  return (
+    <div className="appointments-page">
+      <main className="appointments-page__main">
+        <div className="appointments-page__container">
+          <div className="appointments-page__title">
+            <h1>Citas</h1>
+          </div>
+          <div className="appointments-page__content">
+            <AppointmentsWidget appointments={nextAppointments} onMoreOptions={handleOpenOptionsModal} />
 
-                        <div className="appointments-page__next">
-                            <h2 className="appointments-page__subtitle">Próximas citas</h2>
-                                {nextAppointments.map(appt => (
-                                <AppointmentCard
-                                    key={appt.id}
-                                    appointmentDatetime={appt.date}
-                                    patient={appt.patient}
-                                    reason={appt.reason}
-                                    type={appt.type}
-                                    status={appt.status}
-                                    isNextAppointment={false}
-                                    onClick={() => console.log("Ver detalles")}
-                                    appointment={appt}
-                                    onOptionsClick={handleOpenOptionsModal}
-                                    onStatusChange={(newStatus) => handleStatusChange(appt, newStatus)} />
-                                ))}
-                        </div>
+            <div className="appointments-page__next">
+              <h2 className="appointments-page__subtitle">Próximas citas</h2>
+              {nextAppointments.map(appt => (
+                <AppointmentCard
+                  key={appt.id}
+                  appointmentDatetime={appt.date}
+                  patient={appt.patient}
+                  reason={appt.reason}
+                  type={appt.type}
+                  status={appt.status}
+                  isNextAppointment={false}
+                  onClick={() => console.log("Ver detalles")}
+                  appointment={appt}
+                  onOptionsClick={handleOpenOptionsModal}
+                  onStatusChange={(newStatus) => handleStatusChange(appt, newStatus)} />
+              ))}
+            </div>
 
-                        <div className="appointments-page__flying-button">
-                            <ButtonAdd onClick={handleOpenAdd}/>
-                        </div>
-                    </div>
-                    
-                </div>
-            </main>
-            {showAddModal && (
-            <AddAppt isOpen={showAddModal} onClose={() => setShowAddModal(false)} onSave={handleSaveAppointment} />
-            )}
-
-            {feedback && (
-            <FeedbackModal message={feedback.message} type={feedback.type} onClose={() => setFeedback(null)}/>
-            )}
-
-            {/* Edit/Delete modal */}
-            {showOptionsModal && (
-                <EditDeleteModal
-                    onGoToEdit={() => handleOpenEdit(selectedAppointment)}
-                    onGoToDelete={() => handleDeleteAppointment(selectedAppointment)}
-                    onClose={() => setShowOptionsModal(false)}
-                />
-            )}
-
-            {/* edditAppt modal */}
-            {showEditModal && (
-                <EditAppt
-                    isOpen={showEditModal}
-                    appointment={selectedAppointment}
-                    onClose={() => setShowEditModal(false)}
-                    onSave={handleEditAppointment}
-                />
-            )}
-
-            {/* delete modal */}
-            {showDeleteModal && (
-                <DeleteModal
-                    onCancel={handleCancelDelete}
-                    onConfirm={handleConfirmDelete}
-                />
-            )}
+            <div className="appointments-page__flying-button">
+              <ButtonAdd onClick={handleOpenAdd} />
+            </div>
+          </div>
 
         </div>
-    );
+      </main>
+      {showAddModal && (
+        <AddAppt isOpen={showAddModal} onClose={() => setShowAddModal(false)} onSave={handleSaveAppointment} />
+      )}
+
+      {feedback && (
+        <FeedbackModal message={feedback.message} type={feedback.type} onClose={() => setFeedback(null)} />
+      )}
+
+      {/* Edit/Delete modal */}
+      {showOptionsModal && (
+        <EditDeleteModal
+          onGoToEdit={() => handleOpenEdit(selectedAppointment)}
+          onGoToDelete={() => handleDeleteAppointment(selectedAppointment)}
+          onClose={() => setShowOptionsModal(false)}
+        />
+      )}
+
+      {/* edditAppt modal */}
+      {showEditModal && (
+        <EditAppt
+          isOpen={showEditModal}
+          appointment={selectedAppointment}
+          onClose={() => setShowEditModal(false)}
+          onSave={handleEditAppointment}
+        />
+      )}
+
+      {/* delete modal */}
+      {showDeleteModal && (
+        <DeleteModal
+          onCancel={handleCancelDelete}
+          onConfirm={handleConfirmDelete}
+        />
+      )}
+
+    </div>
+  );
 
 }
