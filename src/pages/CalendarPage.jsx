@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import './CalendarPage.css';
 import MyCalendar from '../components/calendarMonth/CalendarMonth';
-import SideMenuAdmin from '../components/sideMenuAdmin/SideMenuAdmin';
-import Navbar from '../components/navbar/Navbar';
 import AddAppt from '../components/addAppt/AddAppt';
 import ButtonAdd from '../components/buttonAdd/ButtonAdd';
 import AppointmentCard from "../components/appointmentCard/AppointmentCard";
