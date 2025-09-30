@@ -1,0 +1,45 @@
+.patient-record-container {
+  background-color: var(--secondary-250);
+  padding: var(--space-button);
+  border-radius: var(--border-radius-card);
+  max-width: 350px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  font-family: var(--font-family);
+}
+
+.patient-record__title {
+  font-size: var(--h2-size);
+  font-weight: var(--h2-weight);
+  color: var(--black);
+  margin: 0 0 var(--space-s) 0;
+}
+
+.patient-record__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+}
+
+.patient-record__item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.patient-record__date-type {
+  font-size: var(--body-size);
+  font-weight: var(--h2-weight);
+  color: var(--black);
+  margin: 0;
+  display: flex;
+  gap: 5px;
+}
+
+.patient-record__description-box {
+  background-color: var(--white);
+  color: var(--neutral-750);
+  padding: var(--space-s) var(--space-button);
+  border-radius: var(--border-radius-card);
+  font-size: var(--body-size);
+  font-weight: var(--body-weight);
+}

@@ -11,10 +11,12 @@ import { Ellipsis } from 'lucide-react';
 import Button from '../components/buttons/Button';
 import DeleteModal from '../components/deleteModal/DeleteModal';
 import { useSearch } from '../context/SearchContext';
-import { getPatients, registerPatient, deletePatient, updatePatient, searchPatients  } from '../services/APIPatient';
+import { getPatients, registerPatient, deletePatient, updatePatient, searchPatients } from '../services/APIPatient';
+import { useNavigate } from 'react-router-dom';
 
 const PatientPage = () => {
-    // Add the missing state variable for patients
+    const navigate = useNavigate();
+    const { searchTerm, filters } = useSearch();
     const [patients, setPatients] = useState([]);
     const [showAddModal, setShowAddModal] = useState(false);
     const [activeLetter, setActiveLetter] = useState('');
@@ -23,8 +25,7 @@ const PatientPage = () => {
     const [feedback, setFeedback] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [currentPatient, setCurrentPatient] = useState(null);
-    const [loading, setLoading] = useState(true); 
-    const { searchTerm, filters } = useSearch();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchPatients();
@@ -60,12 +61,12 @@ const PatientPage = () => {
         }
     }
 
-    // Calcular letras disponibles
     const availableLetters = [...new Set(patients.map(p => p.name.charAt(0).toUpperCase()))];
 
     const handlePatientClick = (patient) => {
-        setCurrentPatient(patient);
-        setShowAddModal(true);
+        if (!isSelectionMode) {
+            navigate(`/patients/${patient.id}`, { state: { patient } });
+        }
     };
 
     const handleLetterClick = (letter) => {
@@ -126,24 +127,20 @@ const PatientPage = () => {
         setShowAddModal(true);
     }
 
-
-
     const handlePatientSave = (savedPatient) => {
-    
-    if (!savedPatient) return; // Validación de seguridad
+        if (!savedPatient) return; // Validación de seguridad
 
-    // 1. Determinar si es una edición o una creación
-    if (patients.some(p => p.id === savedPatient.id)) {
-        // Editando paciente existente
-        setPatients(prev => prev.map(p => p.id === savedPatient.id ? savedPatient : p));
-        setFeedback({ message: `${savedPatient.name} actualizado ✅`, type: "success" });
-    } else {
-        // Nuevo paciente (¡ESTO RESUELVE TU PROBLEMA DE VISUALIZACIÓN!)
-        setPatients(prev => [...prev, savedPatient]);
-        setFeedback({ message: `${savedPatient.name} añadido ✅`, type: "success" });
-    }
-
-};
+        // 1. Determinar si es una edición o una creación
+        if (patients.some(p => p.id === savedPatient.id)) {
+            // Editando paciente existente
+            setPatients(prev => prev.map(p => p.id === savedPatient.id ? savedPatient : p));
+            setFeedback({ message: `${savedPatient.name} actualizado ✅`, type: "success" });
+        } else {
+            // Nuevo paciente (¡ESTO RESUELVE TU PROBLEMA DE VISUALIZACIÓN!)
+            setPatients(prev => [...prev, savedPatient]);
+            setFeedback({ message: `${savedPatient.name} añadido ✅`, type: "success" });
+        }
+    };
 
     const sortedPatients = [...patients].sort((a, b) =>
         a.name.localeCompare(b.name, 'es', { sensitivity: 'base' })
@@ -155,14 +152,12 @@ const PatientPage = () => {
 
     return (
         <div className="patients-page">
-
             {/* CONTENIDO PRINCIPAL */}
             <main className="main-content">
                 <div className="content-area">
-
                     {/* HEADER CON TÍTULO Y BOTÓN */}
                     <div className="page-title">
-                        <h1 >Pacientes</h1>
+                        <h1>Pacientes</h1>
                     </div>
 
                     <div className="content-with-alphabet">
@@ -254,7 +249,6 @@ const PatientPage = () => {
                     onConfirm={confirmDelete}
                 />
             )}
-
         </div>
     );
 }

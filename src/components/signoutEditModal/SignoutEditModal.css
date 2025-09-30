@@ -1,0 +1,38 @@
+.signoutEdit__overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.signoutEdit__container {
+    background-color: var(--white);
+    border-radius: var(--border-radius-card);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    width: 200px;
+    height: 90px;
+    padding: 8px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.signoutEdit__link {
+    width: 100%;
+    background: none;
+    border: none;
+    font-family: var(--font-family);
+    font-size: var(--body-size);
+    color: var(--neutral-750);
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.signoutEdit__link:first-of-type {
+    border-bottom: 1px solid var(--neutral-750);
+}
+
