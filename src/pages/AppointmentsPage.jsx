@@ -9,18 +9,18 @@ import EditAppt from "../components/editAppt/EditAppt";
 import DeleteModal from "../components/deleteModal/DeleteModal";
 import EditDeleteModal from "../components/editDeleteModal/EditDeleteModal";
 import AppointmentDetailsAdmin from "../components/appointmentDetailsAdmin/AppointmentDetailsAdmin";
-import { getAppointmentsByDate, updateAppointment, deleteAppointment, updateAppointmentStatus, searchAppointments } from '../services/APIAppointment';
-import { useSearch } from '../context/SearchContext';
+import { getAppointmentsByDate, updateAppointment, deleteAppointment, updateAppointmentStatus, /* searchAppointments*/ } from '../services/APIAppointment';
+//import { useSearch } from '../context/SearchContext';
 
 export default function AppointmentsPage() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-    const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [showOptionsModal, setShowOptionsModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [feedback, setFeedback] = useState(null);
-  const { searchTerm, filters } = useSearch();
+  //const { searchTerm, filters } = useSearch();
 
 
   const [todayAppointments, setTodayAppointments] = useState([]);
@@ -28,7 +28,7 @@ export default function AppointmentsPage() {
   const [loading, setLoading] = useState(true);
 
 
-  useEffect(() => {
+  /*useEffect(() => {
     fetchAppointments();
   }, [searchTerm, filters]);
 
@@ -54,7 +54,7 @@ export default function AppointmentsPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }*/
 
     useEffect(() => { 
       loadAppointments(); 
