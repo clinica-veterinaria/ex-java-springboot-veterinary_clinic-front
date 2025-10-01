@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'moment/locale/es';
@@ -31,25 +31,23 @@ export default function MyCalendar({
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [currentView, setCurrentView] = useState('month');
 
+    useEffect(() => {
+        console.log("Fecha seleccionada:", selectedDate);
+    }, [selectedDate]);
+
     const events = useMemo(() => {
         if (!appointments || appointments.length === 0) return [];
 
         return appointments.map(apt => {
-            const startDate = new Date(apt.appointmentDatetime || apt.date);
-            const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // +1 hora
-
-            console.log('Procesando cita:', {
-                patient: apt.patientName,
-                dateOriginal: apt.appointmentDatetime,
-                dateProcessed: startDate,
-                dateString: startDate.toDateString()
-            }); // DEBUG
+            const startDate = moment(apt.appointmentDatetime || apt.date);
+            const duration = apt.type === 'urgencia' ? 30 : 20;
+            const endDate = moment(startDate).add(duration, 'minutes');
 
             return {
                 id: apt.id,
                 title: `${apt.patientName} - ${apt.reason || apt.type}`,
-                start: startDate,
-                end: endDate,
+                start: startDate.toDate(),
+                end: endDate.toDate(),
                 patient: apt.patientName,
                 type: apt.reason || apt.type,
                 status: apt.status,
@@ -59,17 +57,9 @@ export default function MyCalendar({
     }, [appointments]);
 
     const handleSelectSlot = (slotInfo) => {
-        const selectedDay = slotInfo.start;
-        
-        const normalizedDate = new Date(selectedDay);
-        normalizedDate.setHours(0, 0, 0, 0);
-        
-        setSelectedDate(normalizedDate);
-        
-        console.log('Fecha clickeada:', normalizedDate.toDateString()); // DEBUG
-        console.log('Timestamp:', normalizedDate.getTime()); // DEBUG
-
-        onDateSelect(normalizedDate);
+        const selectedDay = moment(slotInfo.start).startOf('day').toDate();
+        setSelectedDate(selectedDay);
+        onDateSelect(selectedDay);
     };
 
     const handleSelectEvent = (event) => {
@@ -88,9 +78,7 @@ export default function MyCalendar({
 
     // Navigate between dates
     const handleNavigate = (date) => {
-        const normalizedDate = new Date(date);
-        normalizedDate.setHours(0, 0, 0, 0);
-        
+        const normalizedDate = moment(date).startOf('day').toDate();        
         setSelectedDate(normalizedDate);
         onDateSelect(normalizedDate);
     };
@@ -114,10 +102,10 @@ export default function MyCalendar({
                     onSelectEvent={handleSelectEvent}
                     selectable={true}
                     popup={true}
-                    step={30}
-                    timeslots={2}
-                    min={new Date(0, 0, 0, 8, 0, 0)} // 8:00 AM
-                    max={new Date(0, 0, 0, 20, 0, 0)} // 8:00 PM
+                    step={20}
+                    timeslots={3}
+                    min={new Date(0, 0, 0, 9, 0, 0)} 
+                    max={new Date(0, 0, 0, 17, 0, 0)}
                     formats={{
                         dayFormat: 'DD',
                         monthHeaderFormat: 'MMMM YYYY',
