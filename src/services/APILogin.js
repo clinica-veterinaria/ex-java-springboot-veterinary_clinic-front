@@ -1,45 +1,57 @@
-const API_URL = "http://localhost:8080/auth";
+const API_URL = "/api/auth";
 
-export const loginUser = async (loginData) => {
- console.log('📤 Enviando al backend:', loginData);    
+export async function loginUser(credentials) {
     try {
         const response = await fetch(`${API_URL}/login`, {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
-            credentials: 'include', 
+            credentials: "include",
             body: JSON.stringify({
-                email: loginData.email,
-                password: loginData.password
-            }), 
+                email: credentials.email,
+                password: credentials.password
+            }),
         });
 
         if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.error || `Error ${response.status} al iniciar sesión.`);
+            if (response.status === 401) {
+                throw new Error("Usuario o contraseña incorrectos");
+            }
+            const errorData = await response.json();
+            throw new Error(errorData.error || `Error ${response.status}`);
         }
 
         const data = await response.json();
-        console.log('✅ Login response:', data);
-        return data; 
         
+        console.log('✅ Respuesta del servidor:', data);
+
+        return {
+            user: data.user, 
+            role: data.role  
+        };
     } catch (error) {
-        console.error("❌ Error al iniciar sesión:", error);
+        console.error("❌ Error en loginUser:", error);
         throw error;
     }
-};
+}
 
-export const logoutUser = async () => {
+export async function logoutUser() {
     try {
-        await fetch(`${API_URL}/logout`, {
-            method: 'POST',
-            credentials: 'include'
+        const response = await fetch(`${API_URL}/logout`, {
+            method: "POST",
+            credentials: "include"
         });
+
+        if (!response.ok) {
+            throw new Error("Error al cerrar sesión");
+        }
+
         localStorage.removeItem('user');
-        console.log('✅ Logout exitoso');
+        
+        return true;
     } catch (error) {
-        console.error('❌ Error en logout:', error);
-        localStorage.removeItem('user');
+        console.error("❌ Error en logoutUser:", error);
+        throw error;
     }
-};
+}

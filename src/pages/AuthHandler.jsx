@@ -15,7 +15,7 @@ export default function AuthHandler({ isLoginView }) {
         setAuthError(null);
         try {
             const dataToApi = {
-                email: formData.identifier, 
+                email: formData.email, // ✅ Cambiado de identifier a email
                 password: formData.password 
             };
 
@@ -23,24 +23,23 @@ export default function AuthHandler({ isLoginView }) {
 
             console.log('✅ Respuesta del login:', response);
 
-            const normalizedRole = response.role?.replace('ROLE_', '') || response.role;
-            
+            // El rol ya viene sin prefijo desde el backend
             localStorage.setItem('user', JSON.stringify({
                 ...response.user,
-                role: normalizedRole 
+                role: response.role 
             }));
 
             console.log('✅ Usuario guardado en localStorage:', {
                 email: response.user?.email,
-                role: normalizedRole
+                role: response.role
             });
 
-            const redirectPath = normalizedRole === 'ADMIN' ? '/admin' : '/user';
+            const redirectPath = response.role === 'ADMIN' ? '/admin' : '/user';
             console.log('✅ Redirigiendo a:', redirectPath);
             navigate(redirectPath, { replace: true });
 
         } catch (err) {
-            console.error("Fallo de Login:", err);
+            console.error("❌ Fallo de Login:", err);
             setAuthError(err.message || "Error de inicio de sesión.");
         } finally {
             setIsLoading(false);
@@ -51,24 +50,24 @@ export default function AuthHandler({ isLoginView }) {
         setIsLoading(true);
         setAuthError(null);
         try {
+            // formData debe ser un FormData con userData (JSON) y photo (File opcional)
             const response = await registerUser(formData); 
 
-            const normalizedRole = response.role?.replace('ROLE_', '') || response.role || 'USER';
-
+            // El rol ya viene sin prefijo desde el backend
             localStorage.setItem('user', JSON.stringify({
                 ...response.user,
-                role: normalizedRole 
+                role: response.role 
             }));
 
             console.log('✅ Usuario registrado y guardado:', {
                 email: response.user?.email,
-                role: normalizedRole
+                role: response.role
             });
 
             navigate('/user', { replace: true });
 
         } catch (err) {
-            console.error("Fallo de Registro:", err);
+            console.error("❌ Fallo de Registro:", err);
             setAuthError(err.message || "Error al registrar el usuario.");
         } finally {
             setIsLoading(false);

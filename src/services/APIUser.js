@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080/users";
+const API_URL = "/api/users";
 
 // ============================================================================
 // GET ALL USERS
@@ -16,7 +16,9 @@ export async function getAllUsers() {
 // GET USER BY ID
 export async function getUserById(id) {
   try {
-    const response = await fetch(`${API_URL}/${id}`);
+    const response = await fetch(`${API_URL}/${id}`, {
+      credentials: "include"
+    });
     if (!response.ok) throw new Error("Error fetching user by ID");
     return await response.json();
   } catch (error) {
@@ -28,7 +30,9 @@ export async function getUserById(id) {
 // GET USER BY EMAIL
 export async function getUserByEmail(email) {
   try {
-    const response = await fetch(`${API_URL}/email/${email}`);
+    const response = await fetch(`${API_URL}/email/${email}`, {
+      credentials: "include"
+    });
     if (!response.ok) throw new Error("Error fetching user by email");
     return await response.json();
   } catch (error) {
@@ -57,6 +61,7 @@ export async function createUser(userData, photoFile = null) {
       method: "POST",
       headers,
       body,
+      credentials: "include"
     });
 
     if (!response.ok) throw new Error("Error creating user");
@@ -86,6 +91,7 @@ export async function updateUser(id, updatedData, photoFile = null) {
       method: "PUT",
       headers,
       body,
+      credentials: "include"
     });
 
     if (!response.ok) throw new Error("Error updating user");
@@ -99,7 +105,10 @@ export async function updateUser(id, updatedData, photoFile = null) {
 // DELETE USER
 export async function deleteUser(id) {
   try {
-    const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+    const response = await fetch(`${API_URL}/${id}`, { 
+      method: "DELETE" ,
+      credentials: "include"
+    });
     if (!response.ok) throw new Error("Error deleting user");
     return response.status === 204 ? null : await response.json();
   } catch (error) {

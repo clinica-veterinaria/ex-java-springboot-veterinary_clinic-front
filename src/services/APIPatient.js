@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080/patients";
+const API_URL = "/api/patients";
 
 // Listar todos los pacientes
 export async function getPatients() {

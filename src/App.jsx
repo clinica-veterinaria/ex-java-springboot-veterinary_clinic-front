@@ -68,18 +68,18 @@ function App() {
 function RootRedirect() {
   const user = JSON.parse(localStorage.getItem('user') || 'null');
   
-  if (!user) {
+  // Si no hay usuario, ir a login
+  if (!user || !user.role) {
+    localStorage.removeItem('user'); // Limpiar basura
     return <Navigate to="/login" replace />;
   }
 
+  // Si hay usuario, redirigir según rol
   const userRoleNormalized = user.role?.replace('ROLE_', '') || user.role;
   const redirectPath = userRoleNormalized === 'ADMIN' ? '/admin' : '/user';
   
-  console.log('🔍 RootRedirect - Usuario:', user);
-  console.log('🔍 RootRedirect - Rol normalizado:', userRoleNormalized);
-  console.log('🔍 RootRedirect - Redirigiendo a:', redirectPath);
-  
   return <Navigate to={redirectPath} replace />;
 }
+
 
 export default App

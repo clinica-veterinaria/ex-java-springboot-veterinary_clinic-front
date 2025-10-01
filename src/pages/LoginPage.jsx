@@ -51,7 +51,7 @@ const LoginPage = ({ onLogin = () => {} }) => {
     e.preventDefault();
     if (validateForm()) {
       const safeData = {
-        identifier: formData.identifier,
+        email: formData.identifier,
         password: formData.password
       };
       onLogin(safeData);

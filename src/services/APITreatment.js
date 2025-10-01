@@ -1,10 +1,11 @@
-const API_URL = "http://localhost:8080/treatments";
+const API_URL = "/api/treatments";
 
 export async function getTreatments() {
     try {
         const response = await fetch(API_URL, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
+            credentials: "include"
         });
 
         if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
@@ -21,6 +22,7 @@ export async function getTreatmentsByPatient(patientId) {
         const response = await fetch(`${API_URL}/patient/${patientId}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
+            credentials: "include"
         });
         if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
         return await response.json();
@@ -37,6 +39,7 @@ export async function createTreatment(treatmentData) {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(treatmentData),
+            credentials: "include"
         });
 
         if (!response.ok) {

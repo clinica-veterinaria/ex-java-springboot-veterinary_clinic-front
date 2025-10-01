@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 import "./PatientProfile.css";
 
@@ -19,9 +19,13 @@ import DeleteModal from "../components/deleteModal/DeleteModal";
 const PatientProfile = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation(); 
 
-  const [selectedPatient, setSelectedPatient] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [selectedPatient, setSelectedPatient] = useState(
+    location.state?.patient || null // Intenta obtener el paciente del estado de la ruta
+  );
+  // Solo se necesita cargar si el paciente NO vino en el estado de la ruta
+  const [loading, setLoading] = useState(!location.state?.patient); 
 
   const [treatments, setTreatments] = useState([]);
   const [treatmentsLoading, setTreatmentsLoading] = useState(true);
@@ -35,26 +39,41 @@ const PatientProfile = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
-    const fetchPatient = async () => {
+    if (selectedPatient) {
+        setLoading(false);
+        return; 
+    }
+
+    const fetchPatientById = async () => {
       try {
-        const data = await getPatients();
-        const patientFound = data.find((p) => String(p.id) === String(id));
-        setSelectedPatient(patientFound || null);
+        
+        const patientData = await getPatients(id);
+        setSelectedPatient(patientData);
       } catch (error) {
-        console.error("Error cargando paciente:", error);
+        console.error("Error cargando paciente por ID:", error);
+        setSelectedPatient(null); 
       } finally {
         setLoading(false);
       }
     };
-    fetchPatient();
-  }, [id]);
+    
+    fetchPatientById();
+  }, [id, selectedPatient]); // Se ejecuta si el ID cambia o si el paciente se carga/desea actualizar
 
+
+  // --- LÓGICA DE CARGA DE TRATAMIENTOS ---
   useEffect(() => {
+    // Solo carga tratamientos si tenemos un paciente seleccionado
+    if (!selectedPatient) {
+        setTreatmentsLoading(false);
+        return;
+    };
+      
     const fetchTreatments = async () => {
-      if (!selectedPatient) return;
       setTreatmentsLoading(true);
       try {
-        const data = await getTreatmentsByPatient(selectedPatient.id);
+        // Usamos el ID del paciente ya cargado
+        const data = await getTreatmentsByPatient(selectedPatient.id); 
         const formattedRecords = data.map(t => ({
           date: new Date(t.treatmentDate).toLocaleDateString("es-ES", { day: "2-digit", month: "short", year: "numeric" }).toUpperCase(),
           type: t.treatment || "Tratamiento",
@@ -69,9 +88,10 @@ const PatientProfile = () => {
       }
     };
     fetchTreatments();
-  }, [selectedPatient]);
+  }, [selectedPatient]); 
 
   if (loading) return <div className="patient-profile__loading">Cargando...</div>;
+  
   if (!selectedPatient)
     return (
       <div className="patient-profile__not-found">
@@ -80,7 +100,7 @@ const PatientProfile = () => {
     );
 
   const handlePatientSave = (updatedPatient) => {
-    setSelectedPatient(updatedPatient);
+    setSelectedPatient(updatedPatient); 
     setFeedback({ message: "Paciente actualizado ✅", type: "success" });
     setShowEditModal(false);
   };
@@ -95,7 +115,8 @@ const PatientProfile = () => {
       await deletePatient(selectedPatient.id);
       setFeedback({ message: "Paciente eliminado ✅", type: "success" });
       setShowDeleteModal(false);
-      navigate("/patients");
+      // Redirigir a /admin/patients después de eliminar
+      navigate("/admin/patients"); 
     } catch (error) {
       console.error("Error al eliminar paciente:", error);
       setFeedback({ message: "Error al eliminar ❌", type: "error" });
@@ -134,7 +155,7 @@ const PatientProfile = () => {
     <div className="patient-profile__content">
       {/* Widget del paciente */}
       <PatientWidget
-        patient={selectedPatient}
+        patient={selectedPatient} // Usamos el paciente ya cargado
         onEdit={(patientToEdit) => {
           setSelectedPatient(patientToEdit);
           setShowEditModal(true);
@@ -147,9 +168,14 @@ const PatientProfile = () => {
 
       {/* Contenedores de historial y citas */}
       <div className="patient-profile__lower-container">
-        <PatientRecord title="Historial clínico" records={treatments} loading={treatmentsLoading} />
+        <PatientRecord 
+          title="Historial clínico" 
+          records={treatments} 
+          loading={treatmentsLoading} 
+        />
         <div className="patient-profile__appointments-container">
-          <AppointmentWidget patientId={selectedPatient.id} />
+          {/* Asegúrate de que AppointmentWidget maneje el ID del paciente */}
+          <AppointmentWidget patientId={selectedPatient.id} /> 
         </div>
       </div>
 

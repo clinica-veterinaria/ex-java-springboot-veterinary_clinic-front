@@ -66,7 +66,7 @@ const PatientPage = () => {
 
     const handlePatientClick = (patient) => {
         if (!isSelectionMode) {
-            navigate(`/patients/${patient.id}`, { state: { patient } });
+            navigate(`/admin/patients/${patient.id}`, { state: { patient } });
         }
     };
 

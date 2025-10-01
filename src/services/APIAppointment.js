@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080";
+const API_URL = "/api";
 
 export function formatDateTime(datetime) {
     if (!datetime) return "";
@@ -35,6 +35,7 @@ export async function searchAppointments({ search, type, status, sortBy }) {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include"
     });
 
     if (!response.ok) {
@@ -51,7 +52,10 @@ export async function searchAppointments({ search, type, status, sortBy }) {
 // GET - UPCOMING APPOINTMENTS MAX.3 (HOME PAGE)
 export async function getUpcomingAppointments(limit = 3) {
   try {
-      const response = await fetch(`${API_URL}/appointments/upcoming?limit=${limit}`);
+      const response = await fetch(`${API_URL}/appointments/upcoming?limit=${limit}`, {
+        credentials: "include"
+      });
+      
       if (!response.ok) {
           throw new Error(`Error fetching appointments: ${response.statusText}`);
       }
@@ -67,7 +71,9 @@ export async function getUpcomingAppointments(limit = 3) {
 // GET - ALL APPOINTMENTS
 export async function getAllAppointments() {
   try {
-    const response = await fetch(`${API_URL}/appointments`);
+    const response = await fetch(`${API_URL}/appointments` , {
+      credentials: "include"
+    });
     if (!response.ok) throw new Error(`Error fetching all appointments: ${response.statusText}`);
     return await response.json();
   } catch (error) {
@@ -79,7 +85,9 @@ export async function getAllAppointments() {
 // GET - APPOINTMENTS BY DATE
 export async function getAppointmentsByDate(date) {
   try {
-    const response = await fetch(`${API_URL}/appointments/by-date?fecha=${date}`);
+    const response = await fetch(`${API_URL}/appointments/by-date?fecha=${date}`, {
+      credentials: "include"
+    });
     if (!response.ok) throw new Error(`Error fetching appointments by date: ${response.statusText}`);
     return await response.json();
   } catch (error) {
@@ -91,7 +99,8 @@ export async function getAppointmentsByDate(date) {
 // GET -AVAILABLE SLOTS
 export async function getAvailableSlots(date) {
     try {
-        const response = await fetch(`${API_URL}/appointments/disponibles?fecha=${date}`);
+        const response = await fetch(`${API_URL}/appointments/disponibles?fecha=${date}` , 
+          {credentials: "include"});
         if (!response.ok) throw new Error("Error al obtener los horarios disponibles");
         const data = await response.json();
         return data.slots.slice(0, 10);
@@ -104,7 +113,9 @@ export async function getAvailableSlots(date) {
 // GET - PATIENT'S APPOINTMENTS
 export async function getAppointmentsByPatient(patientId) {
   try {
-    const response = await fetch(`${API_URL}/patient/${patientId}`);
+    const response = await fetch(`${API_URL}/patient/${patientId}` , {
+      credentials: "include"
+    });
     if (!response.ok) throw new Error(`Error fetching patient appointments: ${response.statusText}`);
     return await response.json();
   } catch (error) {
@@ -120,6 +131,7 @@ export async function createAppointment(appointmentData) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(appointmentData),
+        credentials: "include"
       });
 
       if (!response.ok) throw new Error("Error creating appointment");
@@ -137,6 +149,7 @@ export async function updateAppointment(id, updatedData) {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedData),
+        credentials: "include"
       });
 
       if (!response.ok) {
@@ -202,7 +215,10 @@ export async function updateAppointmentType(id, newType, appointmentData) {
 // DELETE - DELETE APPOINTMENT
 export async function deleteAppointment(id) {
   try {
-    const response = await fetch(`${API_URL}/appointments/${id}`, { method: "DELETE" });
+    const response = await fetch(`${API_URL}/appointments/${id}`, { 
+      method: "DELETE",
+      credentials: "include"
+     });
     if (!response.ok) {
         throw new Error("Error deleting appointment");
     }
