@@ -37,7 +37,7 @@ export default function SideMenuAdmin() {
     };
 
     const handleSignout = async () => {
-        await logoutUser(); 
+        await logoutUser();
         navigate('/login', { replace: true });
     };
 
@@ -59,18 +59,12 @@ export default function SideMenuAdmin() {
                     </Link>
                 </div>
                 <div className="menu-admin__buttons">
-                    <Link to="/home">
-                        <ButtonText isSelected={isSelected("/home")}>Home</ButtonText>
-                    </Link>
-                    <Link to="/calendar">
-                        <ButtonText isSelected={isSelected("/calendar")}>Calendario</ButtonText>
-                    </Link>
-                    <Link to="/appointments">
-                        <ButtonText isSelected={isSelected("/appointments")}>Citas</ButtonText>
-                    </Link>
-                    <Link to="/patients">
-                        <ButtonText isSelected={isSelected("/patients")}>Pacientes</ButtonText>
-                    </Link>
+
+                    <ButtonText isSelected={isSelected("/admin/home")}  onClick={() => navigate('/admin/home')}>Home</ButtonText>
+                    <ButtonText isSelected={isSelected("/admin/calendar")} onClick={() => navigate('/admin/calendar')}>Calendario</ButtonText>
+                    <ButtonText isSelected={isSelected("/admin/appointments")} onClick={() => navigate('/admin/appointments')}>Citas</ButtonText>
+                    <ButtonText isSelected={isSelected("/admin/patients")} onClick={() => navigate('/admin/patients')}>Pacientes</ButtonText>
+
                 </div>
                 <div className="menu-admin__profile">
                     <button

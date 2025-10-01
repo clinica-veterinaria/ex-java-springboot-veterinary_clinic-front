@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import './HomePage.css';
-import { Link, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import CardHome from "../components/cardsHome/CardHome";
 import NextAppointment from "../components/nextAppointment/NextAppointment";
 import SmallCalendarWidget from "../components/smallCalendarWidget/SmallCalendarWidget";
@@ -10,6 +10,7 @@ export default function HomePage(){
     const [nextAppointments, setNextAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     const location = useLocation();
     const isSelected = (path) => location.pathname === path;
@@ -92,12 +93,8 @@ export default function HomePage(){
                             </div>
                         </div>
                         <div className="home-page__cards">
-                            <Link to="/appointments">
-                                <CardHome variant="appointments" isSelected={isSelected("/appointments")}/>
-                            </Link>
-                            <Link to="/patients">
-                                <CardHome variant="patients" isSelected={isSelected("/patients")}/>
-                            </Link>
+                                <CardHome variant="appointments" isSelected={isSelected("/appointments")} onClick={() => navigate('/admin/appointments')}/>
+                                <CardHome variant="patients" isSelected={isSelected("/patients")} onClick={() => navigate('/admin/patients')}/>
                         </div>
                     </div>
                 </div>
