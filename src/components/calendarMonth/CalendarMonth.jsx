@@ -30,6 +30,7 @@ export default function MyCalendar({
 }) {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [currentView, setCurrentView] = useState('month');
+    const [currentDate, setCurrentDate] = useState(new Date());
 
     useEffect(() => {
         console.log("Fecha seleccionada:", selectedDate);
@@ -78,9 +79,7 @@ export default function MyCalendar({
 
     // Navigate between dates
     const handleNavigate = (date) => {
-        const normalizedDate = moment(date).startOf('day').toDate();        
-        setSelectedDate(normalizedDate);
-        onDateSelect(normalizedDate);
+        setCurrentDate(date);
     };
 
     return (
@@ -95,6 +94,7 @@ export default function MyCalendar({
                     style={{ height: 500, width: 1000, minWidth: 600 }}
                     className="calendar-style"
                     messages={messages}
+                    date={currentDate}
                     view={currentView}
                     onView={handleViewChange}
                     onNavigate={handleNavigate}
