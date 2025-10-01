@@ -1,6 +1,7 @@
 import React from "react";
 import './SignoutEditModal.css';
 
+
 export default function SignoutEditModal({ onGoToEdit, onGoToSignout, onClose }) {
     return (
         <div className="signoutEdit__overlay" onClick={onClose}>

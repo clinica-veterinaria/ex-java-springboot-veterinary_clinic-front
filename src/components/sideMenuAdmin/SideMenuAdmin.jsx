@@ -1,21 +1,25 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import './SideMenuAdmin.css';
 import Logo from '../../assets/logoPositive.svg';
 import ButtonText from '../buttonText/ButtonText';
 import ButtonProfile from '../buttonProfile/ButtonProfile';
 import SignoutEditModal from "../SignoutEditModal/SignoutEditModal";
 import EditProfile from "../editProfile/Editprofile";
+import { logoutUser } from '../../services/APILogin';
+
+
 
 export default function SideMenuAdmin() {
     const location = useLocation();
     const isSelected = (path) => location.pathname === path;
-
+    const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
 
     const handleOpenModal = () => setIsModalOpen(true);
     const handleCloseModal = () => setIsModalOpen(false);
+
 
     const handleGoToEdit = () => {
         setIsModalOpen(false);
@@ -32,10 +36,9 @@ export default function SideMenuAdmin() {
         setIsEditProfileOpen(false);
     };
 
-    const handleGoToSignout = () => {
-        setIsModalOpen(false);
-        localStorage.clear();
-        window.location.href = "/login";
+    const handleSignout = async () => {
+        await logoutUser();
+        navigate('/login', { replace: true });
     };
 
     // ⚠️ Simulación de usuario (reemplaza con datos reales de contexto/API)
@@ -56,18 +59,12 @@ export default function SideMenuAdmin() {
                     </Link>
                 </div>
                 <div className="menu-admin__buttons">
-                    <Link to="/home">
-                        <ButtonText isSelected={isSelected("/home")}>Home</ButtonText>
-                    </Link>
-                    <Link to="/calendar">
-                        <ButtonText isSelected={isSelected("/calendar")}>Calendario</ButtonText>
-                    </Link>
-                    <Link to="/appointments">
-                        <ButtonText isSelected={isSelected("/appointments")}>Citas</ButtonText>
-                    </Link>
-                    <Link to="/patients">
-                        <ButtonText isSelected={isSelected("/patients")}>Pacientes</ButtonText>
-                    </Link>
+
+                    <ButtonText isSelected={isSelected("/admin/home")}  onClick={() => navigate('/admin/home')}>Home</ButtonText>
+                    <ButtonText isSelected={isSelected("/admin/calendar")} onClick={() => navigate('/admin/calendar')}>Calendario</ButtonText>
+                    <ButtonText isSelected={isSelected("/admin/appointments")} onClick={() => navigate('/admin/appointments')}>Citas</ButtonText>
+                    <ButtonText isSelected={isSelected("/admin/patients")} onClick={() => navigate('/admin/patients')}>Pacientes</ButtonText>
+
                 </div>
                 <div className="menu-admin__profile">
                     <button
@@ -86,7 +83,7 @@ export default function SideMenuAdmin() {
             {isModalOpen && (
                 <SignoutEditModal
                     onGoToEdit={handleGoToEdit}
-                    onGoToSignout={handleGoToSignout}
+                    onGoToSignout={handleSignout}
                     onClose={handleCloseModal}
                 />
             )}
