@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1759305492396" clover="3.2.0">
-  <project timestamp="1759305492396" name="All files">
-    <metrics statements="582" coveredstatements="306" conditionals="275" coveredconditionals="109" methods="163" coveredmethods="77" elements="1020" coveredelements="492" complexity="0" loc="582" ncloc="582" packages="11" files="16" classes="16"/>
+<coverage generated="1759305772445" clover="3.2.0">
+  <project timestamp="1759305772445" name="All files">
+    <metrics statements="656" coveredstatements="374" conditionals="310" coveredconditionals="137" methods="182" coveredmethods="95" elements="1148" coveredelements="606" complexity="0" loc="656" ncloc="656" packages="11" files="17" classes="17"/>
     <package name="components.buttonProfile">
       <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="ButtonProfile.jsx" path="C:\Users\Equipo\OneDrive\Escritorio\clinica-veterinaria-front\ex-java-springboot-veterinary_clinic-front\src\components\buttonProfile\ButtonProfile.jsx">
@@ -173,7 +173,7 @@
       </file>
     </package>
     <package name="pages">
-      <metrics statements="322" coveredstatements="254" conditionals="126" coveredconditionals="92" methods="102" coveredmethods="69"/>
+      <metrics statements="396" coveredstatements="322" conditionals="161" coveredconditionals="120" methods="121" coveredmethods="87"/>
       <file name="AppointmentsPage.jsx" path="C:\Users\Equipo\OneDrive\Escritorio\clinica-veterinaria-front\ex-java-springboot-veterinary_clinic-front\src\pages\AppointmentsPage.jsx">
         <metrics statements="99" coveredstatements="84" conditionals="27" coveredconditionals="23" methods="28" coveredmethods="20"/>
         <line num="16" count="103" type="stmt"/>
@@ -510,6 +510,83 @@
         <line num="220" count="2" type="stmt"/>
         <line num="238" count="0" type="stmt"/>
         <line num="244" count="1" type="stmt"/>
+      </file>
+      <file name="PatientProfile.jsx" path="C:\Users\Equipo\OneDrive\Escritorio\clinica-veterinaria-front\ex-java-springboot-veterinary_clinic-front\src\pages\PatientProfile.jsx">
+        <metrics statements="74" coveredstatements="68" conditionals="35" coveredconditionals="28" methods="19" coveredmethods="18"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="20" count="46" type="stmt"/>
+        <line num="21" count="46" type="stmt"/>
+        <line num="23" count="46" type="stmt"/>
+        <line num="24" count="46" type="stmt"/>
+        <line num="26" count="46" type="stmt"/>
+        <line num="27" count="46" type="stmt"/>
+        <line num="29" count="46" type="stmt"/>
+        <line num="30" count="46" type="stmt"/>
+        <line num="32" count="46" type="stmt"/>
+        <line num="33" count="46" type="stmt"/>
+        <line num="35" count="46" type="stmt"/>
+        <line num="37" count="46" type="stmt"/>
+        <line num="38" count="10" type="stmt"/>
+        <line num="39" count="10" type="stmt"/>
+        <line num="40" count="10" type="stmt"/>
+        <line num="41" count="10" type="stmt"/>
+        <line num="42" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="44" count="0" type="stmt"/>
+        <line num="46" count="10" type="stmt"/>
+        <line num="49" count="10" type="stmt"/>
+        <line num="52" count="46" type="stmt"/>
+        <line num="53" count="21" type="stmt"/>
+        <line num="54" count="21" type="cond" truecount="2" falsecount="0"/>
+        <line num="55" count="11" type="stmt"/>
+        <line num="56" count="11" type="stmt"/>
+        <line num="57" count="11" type="stmt"/>
+        <line num="58" count="11" type="stmt"/>
+        <line num="63" count="11" type="stmt"/>
+        <line num="65" count="0" type="stmt"/>
+        <line num="66" count="0" type="stmt"/>
+        <line num="68" count="11" type="stmt"/>
+        <line num="71" count="21" type="stmt"/>
+        <line num="74" count="46" type="cond" truecount="2" falsecount="0"/>
+        <line num="75" count="36" type="cond" truecount="2" falsecount="0"/>
+        <line num="76" count="1" type="stmt"/>
+        <line num="82" count="35" type="stmt"/>
+        <line num="83" count="2" type="stmt"/>
+        <line num="84" count="2" type="stmt"/>
+        <line num="85" count="2" type="stmt"/>
+        <line num="88" count="35" type="stmt"/>
+        <line num="89" count="3" type="stmt"/>
+        <line num="90" count="3" type="stmt"/>
+        <line num="93" count="35" type="stmt"/>
+        <line num="94" count="2" type="stmt"/>
+        <line num="95" count="2" type="stmt"/>
+        <line num="96" count="1" type="stmt"/>
+        <line num="97" count="1" type="stmt"/>
+        <line num="98" count="1" type="stmt"/>
+        <line num="100" count="1" type="stmt"/>
+        <line num="101" count="1" type="stmt"/>
+        <line num="102" count="1" type="stmt"/>
+        <line num="106" count="35" type="stmt"/>
+        <line num="107" count="1" type="stmt"/>
+        <line num="108" count="1" type="stmt"/>
+        <line num="116" count="1" type="stmt"/>
+        <line num="118" count="1" type="stmt"/>
+        <line num="123" count="1" type="stmt"/>
+        <line num="125" count="1" type="stmt"/>
+        <line num="126" count="1" type="stmt"/>
+        <line num="128" count="0" type="stmt"/>
+        <line num="129" count="0" type="stmt"/>
+        <line num="133" count="35" type="stmt"/>
+        <line num="139" count="3" type="stmt"/>
+        <line num="140" count="3" type="stmt"/>
+        <line num="143" count="2" type="stmt"/>
+        <line num="144" count="2" type="stmt"/>
+        <line num="160" count="1" type="stmt"/>
+        <line num="169" count="0" type="stmt"/>
+        <line num="179" count="1" type="stmt"/>
+        <line num="198" count="1" type="stmt"/>
+        <line num="199" count="1" type="stmt"/>
+        <line num="217" count="4" type="stmt"/>
+        <line num="218" count="4" type="stmt"/>
       </file>
     </package>
     <package name="services">
