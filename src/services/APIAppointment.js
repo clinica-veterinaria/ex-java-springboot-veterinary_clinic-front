@@ -162,19 +162,26 @@ export async function updateAppointmentStatus(id, newStatus, appointmentData) {
     };
 
     const backendStatus = statusMap[newStatus.toLowerCase()] || newStatus.toUpperCase();
+    const payload = backendStatus === 'MISSED'
+      ? { status: backendStatus }
+      : {
+        appointmentDatetime: appointmentData.appointmentDatetime,
+        type: appointmentData.type,
+        reason: appointmentData.reason,
+        patientId: appointmentData.patientId,
+        status: backendStatus
+        };
 
-    return updateAppointment(id, {
-      appointmentDatetime: appointmentData.appointmentDatetime,
-      type: appointmentData.type,
-      reason: appointmentData.reason,
-      patientId: appointmentData.patientId,
-      status: backendStatus
-    });
-  } catch (error) {
-    console.error("Error al actualizar el estado de la cita", error);
+    return updateAppointment(id, payload);
+      } catch (error) {
+        if (newStatus.toLowerCase() === 'expirada') {
+          console.warn("Cita expirada automáticamente, ignorando error:", error);
+          return;
+        }
+        console.error("Error al actualizar el estado de la cita", error);
     throw error;
-  }
-}
+    }
+  } 
 
 // PUT - UPDATE TYPE
 export async function updateAppointmentType(id, newType, appointmentData) {
