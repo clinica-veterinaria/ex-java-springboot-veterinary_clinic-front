@@ -1,12 +1,19 @@
 const API_URL = "/api/auth";
 
-export async function registerUser(formData) {
+
+export async function registerUser(userData, photo) {
     try {
-        // 1. Registrar usuario
+        const formData = new FormData();
+        formData.append('userData', new Blob([JSON.stringify(userData)], { type: 'application/json' }));
+        
+        if (photo) {
+            formData.append('photo', photo);
+        }
+
         const registerResponse = await fetch(`${API_URL}/register`, {
             method: 'POST',
             credentials: 'include',
-            body: formData, // FormData con userData y photo
+            body: formData,
         });
 
         if (!registerResponse.ok) {
@@ -17,11 +24,25 @@ export async function registerUser(formData) {
         const registerMessage = await registerResponse.text();
         console.log('✅ Registro exitoso:', registerMessage);
 
-        // 2. Extraer email y password del FormData para hacer login automático
-        const userDataJson = formData.get('userData');
-        const userData = JSON.parse(userDataJson);
+        // 2️⃣ Subir foto si existe
+        if (photo) {
+            const formData = new FormData();
+            formData.append('photo', photo);
 
-        // 3. Login automático después del registro
+            const photoResponse = await fetch(`${API_URL}/upload-photo`, {
+                method: 'POST',
+                credentials: 'include',
+                body: formData,
+            });
+
+            if (!photoResponse.ok) {
+                console.warn('⚠️ Usuario registrado pero la foto no se subió correctamente');
+            } else {
+                console.log('✅ Foto subida correctamente');
+            }
+        }
+
+        // 3️⃣ Login automático
         const loginResponse = await fetch(`${API_URL}/login`, {
             method: "POST",
             headers: {
@@ -44,6 +65,7 @@ export async function registerUser(formData) {
             user: loginData.user,
             role: loginData.role
         };
+
     } catch (error) {
         console.error('❌ Error al registrar el usuario:', error);
         throw error;

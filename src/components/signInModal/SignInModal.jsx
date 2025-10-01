@@ -17,8 +17,7 @@ export default function SignInModal({ onCancel, onSave, isLoading, error }) {
             dni: data.dni,
             email: data.email,
             phone: data.telefono, // Cambiado de 'telefono' a 'phone'
-            password: data.password,
-            role: "USER"
+            password: data.password
         };
 
         const formData = new FormData();
