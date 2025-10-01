@@ -1,10 +1,8 @@
-// src/__tests__/HomePage.test.jsx
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import HomePage from "../pages/HomePage.jsx";
 import '@testing-library/jest-dom';
-
 
 // Mocks de componentes hijos
 jest.mock("../components/cardsHome/CardHome", () => ({ variant, isSelected }) => (
@@ -12,29 +10,30 @@ jest.mock("../components/cardsHome/CardHome", () => ({ variant, isSelected }) =>
     Card {variant}
   </div>
 ));
-
 jest.mock("../components/nextAppointment/NextAppointment", () => (props) => (
   <div data-testid="next-appointment">
     {props.patient} - {props.reason} - {props.appointmentDatetime}
   </div>
 ));
-
 jest.mock("../components/smallCalendarWidget/SmallCalendarWidget", () => () => (
   <div data-testid="small-calendar">Calendario</div>
 ));
 
+// Mock del servicio APIAppointment
+jest.mock("../services/APIAppointment", () => ({
+  getUpcomingAppointments: jest.fn(),
+}));
+
+import { getUpcomingAppointments } from "../services/APIAppointment";
+
 describe("HomePage", () => {
   beforeEach(() => {
     jest.resetAllMocks();
-    globalThis.fetch = jest.fn();
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
   });
 
   test("muestra el estado de carga al inicio", () => {
-    globalThis.fetch.mockImplementation(() => new Promise(() => {}));
+    // Promesa pendiente para simular loading
+    getUpcomingAppointments.mockReturnValue(new Promise(() => {}));
 
     render(
       <MemoryRouter>
@@ -46,19 +45,16 @@ describe("HomePage", () => {
   });
 
   test("muestra próximas citas cuando fetch devuelve datos", async () => {
-    const mockAppointments = [
-      {
-        id: 1,
-        datetime: new Date(Date.now() + 3600 * 1000).toISOString(),
-        patient_name: "Juan Pérez",
-        reason: "Vacuna",
-        type: "consulta",
-      },
-    ];
-
-    globalThis.fetch.mockResolvedValue({
-      ok: true,
-      json: jest.fn().mockResolvedValue(mockAppointments),
+    getUpcomingAppointments.mockResolvedValue({
+      appointments: [
+        {
+          id: 1,
+          appointmentDatetime: "2025-09-30T10:00:00",
+          patientName: "Juan Pérez",
+          reason: "Vacuna",
+          type: "consulta",
+        },
+      ],
     });
 
     render(
@@ -70,22 +66,12 @@ describe("HomePage", () => {
     await waitFor(() => expect(screen.getByTestId("next-appointment")).toBeInTheDocument());
     expect(screen.getByText(/Juan Pérez/i)).toBeInTheDocument();
     expect(screen.getByText(/Vacuna/i)).toBeInTheDocument();
+    expect(screen.getByText(/30 SEP/i)).toBeInTheDocument();
   });
 
   test("muestra mensaje cuando no hay citas futuras", async () => {
-    const pastAppointments = [
-      {
-        id: 2,
-        datetime: new Date(Date.now() - 3600 * 1000).toISOString(),
-        patient_name: "Paciente Antiguo",
-        reason: "Chequeo",
-        type: "consulta",
-      },
-    ];
-
-    globalThis.fetch.mockResolvedValue({
-      ok: true,
-      json: jest.fn().mockResolvedValue(pastAppointments),
+    getUpcomingAppointments.mockResolvedValue({
+      appointments: [],
     });
 
     render(
@@ -100,9 +86,8 @@ describe("HomePage", () => {
   });
 
   test("renderiza los CardHome y el calendario", async () => {
-    globalThis.fetch.mockResolvedValue({
-      ok: true,
-      json: jest.fn().mockResolvedValue([]),
+    getUpcomingAppointments.mockResolvedValue({
+      appointments: [],
     });
 
     render(
@@ -114,5 +99,19 @@ describe("HomePage", () => {
     await waitFor(() => expect(screen.getByTestId("small-calendar")).toBeInTheDocument());
     expect(screen.getByTestId("card-appointments")).toBeInTheDocument();
     expect(screen.getByTestId("card-patients")).toBeInTheDocument();
+  });
+
+  test("muestra mensaje de error si la API falla", async () => {
+    getUpcomingAppointments.mockRejectedValue(new Error("Network error"));
+
+    render(
+      <MemoryRouter>
+        <HomePage />
+      </MemoryRouter>
+    );
+
+    await waitFor(() =>
+      expect(screen.getByText(/Error al cargar las citas/i)).toBeInTheDocument()
+    );
   });
 });

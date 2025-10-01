@@ -29,7 +29,7 @@
     "@babel/preset-env": "^7.28.3",
     "@babel/preset-react": "^7.27.1",
     "@eslint/js": "^9.36.0",
-    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/jest-dom": "^6.9.0",
     "@testing-library/react": "^16.3.0",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
@@ -40,21 +40,20 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^16.4.0",
-    "jest": "^30.1.3",
+    "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.1.2",
     "jsdom": "^27.0.0",
     "vite": "^7.1.7",
     "vitest": "^3.2.4"
   },
   "jest": {
-  "testEnvironment": "jsdom",
-  "moduleNameMapper": {
-    "\\.(css|less|scss|sass)$": "<rootDir>/__mocks__/styleMock.js",
-    "\\.(png|jpg|jpeg|svg|gif|webp|ico)$": "<rootDir>/__mocks__/fileMock.js"
-  },
-  "setupFilesAfterEnv": [
-    "<rootDir>/src/setupTests.js"
-  ]
-}
-
+    "testEnvironment": "jsdom",
+    "moduleNameMapper": {
+      "\\.(css|less|scss|sass)$": "<rootDir>/__mocks__/styleMock.js",
+      "\\.(png|jpg|jpeg|svg|gif|webp|ico)$": "<rootDir>/__mocks__/fileMock.js"
+    },
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.js"
+    ]
+  }
 }

@@ -1,20 +1,27 @@
-// src/__tests__/LoginPage.test.jsx
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import LoginPage from '../pages/LoginPage';
+import { MemoryRouter } from 'react-router-dom';
 
-// Mock de SVG
+// Mock de SVG y navegación
 jest.mock('../assets/logoPositive.svg', () => 'logo.svg');
+const mockNavigate = jest.fn();
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockNavigate,
+}));
 
 describe('LoginPage', () => {
   let onLoginMock;
-  let onGoToRegisterMock;
 
   beforeEach(() => {
     onLoginMock = jest.fn();
-    onGoToRegisterMock = jest.fn();
-
-    render(<LoginPage onLogin={onLoginMock} onGoToRegister={onGoToRegisterMock} />);
+    mockNavigate.mockClear();
+    render(
+      <MemoryRouter>
+        <LoginPage onLogin={onLoginMock} />
+      </MemoryRouter>
+    );
   });
 
   test('renderiza los inputs y botones correctamente', () => {
@@ -53,21 +60,19 @@ describe('LoginPage', () => {
     });
   });
 
-  test('llama a onGoToRegister cuando se hace click en registrar', () => {
+  test('redirige al registro cuando se hace click en registrar', () => {
     fireEvent.click(screen.getByRole('button', { name: /Regístrate aquí/i }));
-    expect(onGoToRegisterMock).toHaveBeenCalled();
+    expect(mockNavigate).toHaveBeenCalledWith('/signin');
   });
 
   test('permite mostrar y ocultar la contraseña', () => {
     const passwordInput = screen.getByPlaceholderText(/Contraseña/i);
-    const toggleButton = screen.getByRole('button', { name: '' }); // botón del icono eye
+    // Busca el botón por clase, ya que no tiene texto
+    const toggleButton = passwordInput.parentElement.querySelector('.input-icon--clickable');
 
-    // Inicialmente tipo password
     expect(passwordInput).toHaveAttribute('type', 'password');
-
     fireEvent.click(toggleButton);
     expect(passwordInput).toHaveAttribute('type', 'text');
-
     fireEvent.click(toggleButton);
     expect(passwordInput).toHaveAttribute('type', 'password');
   });
