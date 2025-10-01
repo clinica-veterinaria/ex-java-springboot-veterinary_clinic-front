@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.52% </span>
+                <span class="strong">51.45% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>52/99</span>
+                <span class='fraction'>53/103</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.58% </span>
+                <span class="strong">41.86% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>17/39</span>
+                <span class='fraction'>18/43</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">53.76% </span>
+                <span class="strong">52.57% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>50/93</span>
+                <span class='fraction'>51/97</span>
             </div>
         
             
@@ -276,7 +276,14 @@
 <a name='L211'></a><a href='#L211'>211</a>
 <a name='L212'></a><a href='#L212'>212</a>
 <a name='L213'></a><a href='#L213'>213</a>
-<a name='L214'></a><a href='#L214'>214</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L214'></a><a href='#L214'>214</a>
+<a name='L215'></a><a href='#L215'>215</a>
+<a name='L216'></a><a href='#L216'>216</a>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a>
+<a name='L219'></a><a href='#L219'>219</a>
+<a name='L220'></a><a href='#L220'>220</a>
+<a name='L221'></a><a href='#L221'>221</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
@@ -440,7 +447,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -448,6 +454,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -653,19 +667,26 @@ export async function updateAppointmentStatus(id, newStatus, appointmentData) {
     };
 &nbsp;
     const backendStatus = statusMap[newStatus.toLowerCase()] || newStatus.toUpperCase();
+    const payload = backendStatus === 'MISSED'
+      ? <span class="branch-0 cbranch-no" title="branch not covered" >{ status: backendStatus }</span>
+      : {
+        appointmentDatetime: appointmentData.appointmentDatetime,
+        type: appointmentData.type,
+        reason: appointmentData.reason,
+        patientId: appointmentData.patientId,
+        status: backendStatus
+        };
 &nbsp;
-    return updateAppointment(id, {
-      appointmentDatetime: appointmentData.appointmentDatetime,
-      type: appointmentData.type,
-      reason: appointmentData.reason,
-      patientId: appointmentData.patientId,
-      status: backendStatus
-    });
-  } catch (error) {
-<span class="cstat-no" title="statement not covered" >    console.error("Error al actualizar el estado de la cita", error);</span>
+    return updateAppointment(id, payload);
+      } catch (error) {
+<span class="cstat-no" title="statement not covered" >        if (newStatus.toLowerCase() === 'expirada') {</span>
+<span class="cstat-no" title="statement not covered" >          console.warn("Cita expirada automáticamente, ignorando error:", error);</span>
+<span class="cstat-no" title="statement not covered" >          return;</span>
+        }
+<span class="cstat-no" title="statement not covered" >        console.error("Error al actualizar el estado de la cita", error);</span>
 <span class="cstat-no" title="statement not covered" >    throw error;</span>
-  }
-}
+    }
+  } 
 &nbsp;
 // PUT - UPDATE TYPE
 export async function updateAppointmentType(id, newType, appointmentData) {
@@ -709,7 +730,7 @@ export async function deleteAppointment(id) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-10-01T09:11:29.000Z
+                at 2025-10-01T10:28:05.703Z
             </div>
         <script src="../prettify.js"></script>
         <script>

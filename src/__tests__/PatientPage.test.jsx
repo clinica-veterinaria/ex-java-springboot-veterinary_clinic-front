@@ -164,5 +164,62 @@ describe("PatientPage", () => {
     expect(await screen.findByTestId("feedback-modal")).toHaveTextContent(/Error al cargar pacientes/i);
   });
 
+  test("muestra mensaje de selección cuando está en modo selección", async () => {
+    render(<MemoryRouter><PatientPage /></MemoryRouter>);
+    await waitFor(() => expect(screen.getByTestId("ellipsis")).toBeInTheDocument());
+    fireEvent.click(screen.getByTestId("ellipsis"));
+    expect(screen.getByText(/Haz clic sobre todos los pacientes que quieras eliminar/i)).toBeInTheDocument();
+  });
+
+  test("desactiva modo selección al hacer click en cancelar", async () => {
+    render(<MemoryRouter><PatientPage /></MemoryRouter>);
+    await waitFor(() => expect(screen.getByTestId("ellipsis")).toBeInTheDocument());
+    fireEvent.click(screen.getByTestId("ellipsis"));
+    fireEvent.click(screen.getByTestId("button-secondary"));
+    expect(screen.queryByText(/Haz clic sobre todos los pacientes que quieras eliminar/i)).not.toBeInTheDocument();
+  });
+
+  test("no abre el modal de eliminar si no hay pacientes seleccionados", async () => {
+    render(<MemoryRouter><PatientPage /></MemoryRouter>);
+    await waitFor(() => expect(screen.getByTestId("ellipsis")).toBeInTheDocument());
+    fireEvent.click(screen.getByTestId("ellipsis"));
+    fireEvent.click(screen.getByTestId("button-primary"));
+    expect(screen.queryByTestId("delete-modal")).not.toBeInTheDocument();
+  });
+
+  test("abre y cierra el modal de eliminar pacientes", async () => {
+    render(<MemoryRouter><PatientPage /></MemoryRouter>);
+    await waitFor(() => expect(screen.getAllByTestId("card-patient").length).toBeGreaterThan(0));
+    fireEvent.click(screen.getByTestId("ellipsis"));
+    fireEvent.click(screen.getAllByTestId("select-patient")[0]);
+    fireEvent.click(screen.getByTestId("button-primary"));
+    expect(await screen.findByTestId("delete-modal")).toBeInTheDocument();
+    fireEvent.click(screen.getByTestId("cancel-delete"));
+    expect(screen.queryByTestId("delete-modal")).not.toBeInTheDocument();
+  });
+
+  test("confirma eliminación y muestra feedback", async () => {
+    render(<MemoryRouter><PatientPage /></MemoryRouter>);
+    await waitFor(() => expect(screen.getAllByTestId("card-patient").length).toBeGreaterThan(0));
+    fireEvent.click(screen.getByTestId("ellipsis"));
+    fireEvent.click(screen.getAllByTestId("select-patient")[0]);
+    fireEvent.click(screen.getByTestId("button-primary"));
+    fireEvent.click(await screen.findByTestId("confirm-delete"));
+    expect(await screen.findByTestId("feedback-modal")).toHaveTextContent(/eliminado/i);
+  });
+
   
+
+  test("filtra pacientes por búsqueda y muestra resultados", async () => {
+    jest.spyOn(require("../context/SearchContext"), "useSearch").mockReturnValue({
+      searchTerm: "Ana",
+      filters: [],
+    });
+    searchPatients.mockResolvedValue([
+      { id: 1, name: "Ana", species: "Perro", photo: "" }
+    ]);
+    render(<MemoryRouter><PatientPage /></MemoryRouter>);
+    await waitFor(() => expect(screen.getAllByTestId("card-patient")).toHaveLength(1));
+    expect(screen.getByText("Ana")).toBeInTheDocument();
+  });
 });
