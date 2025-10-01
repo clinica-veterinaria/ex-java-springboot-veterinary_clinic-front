@@ -1,16 +1,13 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'moment/locale/es';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './CalendarMonth.css';
-import { MoreHorizontal } from 'lucide-react';
 
-// Configurar moment en español
 moment.locale('es');
 const localizer = momentLocalizer(moment);
 
-// Traducciones para el calendario
 const messages = {
     allDay: 'Todo el día',
     previous: 'Anterior',
@@ -33,103 +30,61 @@ export default function MyCalendar({
 }) {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [currentView, setCurrentView] = useState('month');
+    const [currentDate, setCurrentDate] = useState(new Date());
 
-    // Convertir appointments a events del calendario usando useMemo
+    useEffect(() => {
+        console.log("Fecha seleccionada:", selectedDate);
+    }, [selectedDate]);
+
     const events = useMemo(() => {
         if (!appointments || appointments.length === 0) return [];
 
         return appointments.map(apt => {
-            const startDate = new Date(apt.date);
-            const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // +1 hora
+            const startDate = moment(apt.appointmentDatetime || apt.date);
+            const duration = apt.type === 'urgencia' ? 30 : 20;
+            const endDate = moment(startDate).add(duration, 'minutes');
 
             return {
                 id: apt.id,
-                title: `${apt.patient} - ${apt.reason || apt.type}`,
-                start: startDate,
-                end: endDate,
-                patient: apt.patient,
+                title: `${apt.patientName} - ${apt.reason || apt.type}`,
+                start: startDate.toDate(),
+                end: endDate.toDate(),
+                patient: apt.patientName,
                 type: apt.reason || apt.type,
                 status: apt.status,
-                resource: apt // Datos completos para uso posterior
+                resource: apt 
             };
         });
     }, [appointments]);
 
-    // Filtrar eventos del día seleccionado
-    const selectedEvents = useMemo(() => {
-        return events.filter(event => {
-            const eventDate = new Date(event.start);
-            return eventDate.toDateString() === selectedDate.toDateString();
-        });
-    }, [events, selectedDate]);
-
-    // Manejar selección de día/slot
     const handleSelectSlot = (slotInfo) => {
-        const selectedDay = slotInfo.start;
+        const selectedDay = moment(slotInfo.start).startOf('day').toDate();
         setSelectedDate(selectedDay);
-
-        // Notificar al componente padre
         onDateSelect(selectedDay);
     };
 
-    // Manejar selección de evento
     const handleSelectEvent = (event) => {
         console.log('Evento seleccionado:', event);
 
-        // Notificar al componente padre con el evento original
         const originalAppointment = appointments.find(apt => apt.id === event.id);
         if (originalAppointment) {
             onEventSelect(originalAppointment);
         }
     };
 
-    // Cambiar vista del calendario
+    // Change calendar view
     const handleViewChange = (view) => {
         setCurrentView(view);
     };
 
-    // Navegar entre fechas
+    // Navigate throw months
     const handleNavigate = (date) => {
-        setSelectedDate(date);
-        onDateSelect(date);
+        setCurrentDate(date);
     };
-
-    // Formatear fecha seleccionada
-    const formatSelectedDate = () => {
-        return selectedDate.toLocaleDateString('es-ES', {
-            weekday: 'long',
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric'
-        });
-    };
-
-    // Obtener texto del status en español
-    const getStatusText = (status) => {
-        const statusMap = {
-            'pending': 'Pendiente',
-            'confirmed': 'Confirmada',
-            'completed': 'Completada',
-            'cancelled': 'Cancelada'
-        };
-        return statusMap[status] || status;
-    };
-
-
-    // Manejar click en botón de opciones de cita
-    const handleAppointmentOptions = (appointment) => {
-        // Buscar la cita original en appointments
-        const originalAppointment = appointments.find(apt => apt.id === appointment.id);
-        if (originalAppointment) {
-            onEventSelect(originalAppointment);
-        }
-    };
-
-    
 
     return (
         <div className="calendar-container-full">
-            {/* Calendario principal */}
+            {/* Main calendar */}
             <div className="calendar-wrapper">
                 <Calendar
                     localizer={localizer}
@@ -139,6 +94,7 @@ export default function MyCalendar({
                     style={{ height: 500, width: 1000, minWidth: 600 }}
                     className="calendar-style"
                     messages={messages}
+                    date={currentDate}
                     view={currentView}
                     onView={handleViewChange}
                     onNavigate={handleNavigate}
@@ -146,10 +102,10 @@ export default function MyCalendar({
                     onSelectEvent={handleSelectEvent}
                     selectable={true}
                     popup={true}
-                    step={30}
-                    timeslots={2}
-                    min={new Date(0, 0, 0, 8, 0, 0)} // 8:00 AM
-                    max={new Date(0, 0, 0, 20, 0, 0)} // 8:00 PM
+                    step={20}
+                    timeslots={3}
+                    min={new Date(0, 0, 0, 9, 0, 0)} 
+                    max={new Date(0, 0, 0, 17, 0, 0)}
                     formats={{
                         dayFormat: 'DD',
                         monthHeaderFormat: 'MMMM YYYY',

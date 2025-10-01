@@ -8,128 +8,131 @@
     overflow: hidden;
 }
 
-.rbc-calendar {
+.small-calendar-widget .rbc-calendar {
+    font-family: var(--font-family);
     background-color: var(--white);
     border-radius: 8px;
     border: none;
     height: 100%;
 }
 
-/* ELIMINADO: Las reglas que ocultaban primera y última columna */
-/* Ocultar sábado y domingo (depende de si la semana empieza en domingo o lunes) */
-/* Si la semana empieza en domingo: ocultar primera (domingo) y última (sábado) */
-.rbc-time-header-content .rbc-header:first-child,
-.rbc-time-header-content .rbc-header:last-child,
-.rbc-time-content .rbc-day-slot:first-child,
-.rbc-time-content .rbc-day-slot:last-child {
+.small-calendar-widget.rbc-time-header-content .rbc-header:first-child,
+.small-calendar-widget.rbc-time-header-content .rbc-header:last-child,
+.small-calendar-widget.rbc-time-content .rbc-day-slot:first-child,
+.small-calendar-widget.rbc-time-content .rbc-day-slot:last-child {
     display: none !important;
 }
 
-/* Movido arriba junto con .rbc-day-slot */
 
-.rbc-header span {
+.small-calendar-widget .rbc-header span {
     text-transform: uppercase;
     font-size: 10px;
 }
 
-/* Columna de horas - mantener visible con ancho fijo */
-.rbc-time-header-gutter {
+.small-calendar-widget .rbc-time-header-gutter {
     background-color: var(--primary-250);
     border-right: 1px solid var(--neutral-250);
-    width: 72px !important; /* Ancho fijo para la columna de horas */
+    width: 72px !important; 
+    flex-shrink: 0;
 }
 
-/* Ajustar el ancho de las columnas de días para alineación perfecta */
-.rbc-day-slot {
+.small-calendar-widget .rbc-day-slot {
     border-right: 1px solid var(--neutral-250);
     background-color: var(--white);
-    width: calc((536px - 70px - 6px) / 5) !important; /* (ancho total - columna horas - bordes) / 5 días */
-    flex: none !important;
+    flex: 1 1 0% !important; 
+    min-width: 0;
 }
 
-.rbc-header {
+.small-calendar-widget .rbc-header {
     background-color: var(--primary-250);
     color: var(--neutral-750);
     font-weight: bold;
     padding: 6px 4px;
     font-size: 11px;
-    width: calc((536px - 70px - 6px) / 5) !important; /* Mismo ancho que las celdas de días */
-    flex: none !important;
+    flex: 1 1 0% !important;
+    min-width: 0;
 }
 
-.rbc-allday-cell {
+.small-calendar-widget .rbc-allday-cell {
     display: none !important;
 }
 
-.rbc-time-slot {
+.small-calendar-widget .rbc-time-slot {
     border-bottom: 1px solid var(--neutral-250);
     min-height: 15px;
     background-color: var(--white);
 }
 
-.rbc-time-slot:nth-child(3n) {
+.small-calendar-widget .rbc-day-slot .rbc-time-slot {
+    position: relative;
+}
+
+.small-calendar-widget .rbc-time-slot:nth-child(3n) {
     border-bottom: 1px solid var(--neutral-250);
 }
 
-.rbc-label {
-    font-size: 9px;
-    color: var(--neutral-750);
-    padding: 1px 3px;
-    font-weight: bold;
+.small-calendar-widget .rbc-label {
+    display: none;
 }
 
-/* divisions */
-.rbc-time-content {
+/* Divisions */
+.small-calendar-widget .rbc-time-content {
     border-top: 1px solid var(--neutral-250);
 }
 
-.rbc-day-slot {
+.small-calendar-widget .rbc-day-slot {
     border-right: 1px solid var(--neutral-250);
     background-color: var(--white);
 }
 
-.rbc-today {
+.small-calendar-widget .rbc-today {
     background-color: var(--secondary-250) !important;
 }
 
-.rbc-current-time-indicator {
+.small-calendar-widget .rbc-current-time-indicator {
     background-color: var(--primary-500);
     height: 2px;
     z-index: 1;
 }
 
-/* Contenedor general */
-.rbc-time-view {
+/* Container */
+.small-calendar-widget .rbc-time-view {
     border: 1px solid var(--neutral-250);
     border-radius: 8px;
 }
 
-.rbc-event {
+.small-calendar-widget .rbc-event {
     background-color: var(--primary-500);
-    color: var(--neutral-750);
+    color: var(--white);
     border-radius: 4px;
     padding: 2px 4px;
-    font-size: 0.85rem;
+    font-size: 10px;
     min-height: 12px;
-    border: none;
+    border: none !important;
+    position: absolute !important;
+    left: 1px !important;
+    right: 1px !important;
+    width: calc(100% - 2px) !important;
+    margin: 0 !important;
 }
 
-.rbc-event:hover {
-    background-color: #357AB8;
+.small-calendar-widget .rbc-event:hover {
+    background-color: var(--primary-250);
 }
 
-.small-calendar-widget .rbc-calendar {
-    font-family: var(--font-family);
-}
-
-.rbc-off-range-bg {
+.small-calendar-widget .rbc-off-range-bg {
     background-color: var(--neutral-250);
 }
 
-.rbc-time-header {
+.small-calendar-widget .rbc-time-header {
     background-color: var(--primary-250);
 }
 
-.rbc-allday-cell {
+.small-calendar-widget .rbc-allday-cell {
     background-color: var(--primary-250);
+}
+
+.small-calendar-widget .rbc-time-column {
+    display: flex;
+    flex-direction: column;
 }

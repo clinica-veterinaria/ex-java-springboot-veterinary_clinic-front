@@ -9,7 +9,7 @@ import EditAppt from "../components/editAppt/EditAppt";
 import DeleteModal from "../components/deleteModal/DeleteModal";
 import EditDeleteModal from "../components/editDeleteModal/EditDeleteModal";
 import AppointmentDetailsAdmin from '../components/appointmentDetailsAdmin/AppointmentDetailsAdmin';
-import { getAppointmentsByDate, createAppointment, updateAppointment, deleteAppointment, updateAppointmentStatus } from '../services/APIAppointment';
+import { getAllAppointments, createAppointment, updateAppointment, deleteAppointment, updateAppointmentStatus } from '../services/APIAppointment';
 
 export default function CalendarPage() {
     const [showAddModal, setShowAddModal] = useState(false);
@@ -19,27 +19,61 @@ export default function CalendarPage() {
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [selectedAppointment, setSelectedAppointment] = useState(null);
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [appointments, setAppointments] = useState([]);
+    const [allAppointments, setAllAppointments] = useState([]); // TODAS las citas
+    const [dayAppointments, setDayAppointments] = useState([]); // Citas del día seleccionado
     const [loading, setLoading] = useState(true);
     const [feedback, setFeedback] = useState(null);
 
-    // load selected date appointments
     useEffect(() => {
-        if (selectedDate) loadAppointmentsForDate(selectedDate);
-    }, [selectedDate]);
+        loadAllAppointments();
+    }, []);
 
-    const loadAppointmentsForDate = async (date) => {
+    useEffect(() => {
+        filterAppointmentsByDate(selectedDate);
+    }, [selectedDate, allAppointments]);
+
+    const loadAllAppointments = async () => {
         try {
             setLoading(true);
-            const dateISO = date.toISOString().split('T')[0]; 
-            const data = await getAppointmentsByDate(dateISO);
-            setAppointments(data || []);
+            const data = await getAllAppointments();
+            console.log('Todas las citas cargadas:', data.length); // DEBUG
+            setAllAppointments(data || []);
         } catch (error) {
             console.error("Error cargando citas:", error);
             setFeedback({ message: "Error al cargar las citas", type: "error" });
         } finally {
             setLoading(false);
         }
+    };
+
+    // Filtrar citas por fecha seleccionada
+    const filterAppointmentsByDate = (date) => {
+        console.log('🔍 Filtrando para fecha:', date.toDateString()); // DEBUG
+        
+        const filtered = allAppointments.filter(apt => {
+            const aptDate = new Date(apt.appointmentDatetime);
+            
+            const normalizedAptDate = new Date(
+                aptDate.getFullYear(),
+                aptDate.getMonth(),
+                aptDate.getDate()
+            );
+            
+            const normalizedSelectedDate = new Date(
+                date.getFullYear(),
+                date.getMonth(),
+                date.getDate()
+            );
+            
+            const match = normalizedAptDate.getTime() === normalizedSelectedDate.getTime();
+            
+            if (match) {
+                console.log('✅ Match encontrado:', apt.patientName, aptDate.toDateString()); // DEBUG
+            }
+            
+            return match;
+        });
+        setDayAppointments(filtered);
     };
 
     const handleDateSelect = (date) => {
@@ -59,7 +93,7 @@ export default function CalendarPage() {
             await createAppointment(appointmentData);
             setShowAddModal(false);
             setFeedback({ message: "Cita añadida con éxito ✅", type: "success" });
-            loadAppointmentsForDate(selectedDate);
+            loadAllAppointments(); // Reload all appointments
         } catch (error) {
             console.error("Error creando cita:", error);
             setFeedback({ message: "Error al crear la cita", type: "error" });
@@ -72,7 +106,7 @@ export default function CalendarPage() {
             await updateAppointment(selectedAppointment.id, updatedData);
             setShowEditModal(false);
             setFeedback({ message: "Cita editada con éxito ✏️", type: "success" });
-            loadAppointmentsForDate(selectedDate);
+            loadAllAppointments();// Reload all appointments
         } catch (error) {
             console.error("Error editando cita:", error);
             setFeedback({ message: "Error al editar la cita", type: "error" });
@@ -84,7 +118,7 @@ export default function CalendarPage() {
             await deleteAppointment(selectedAppointment.id);
             setShowDeleteModal(false);
             setFeedback({ message: "Cita eliminada 🗑️", type: "success" });
-            loadAppointmentsForDate(selectedDate);
+            loadAllAppointments(); // Reload all appointments
         } catch (error) {
             console.error("Error eliminando cita:", error);
             setFeedback({ message: "Error al eliminar la cita", type: "error" });
@@ -95,7 +129,7 @@ export default function CalendarPage() {
         try {
             await updateAppointmentStatus(appointment.id, newStatus, appointment);
             setFeedback({ message: "Estado actualizado correctamente", type: "success" });
-            loadAppointmentsForDate(selectedDate);
+            loadAllAppointments(); // Reload all appointments
         } catch (error) {
             console.error("Error cambiando estado:", error);
             setFeedback({ message: "Error al cambiar el estado", type: "error" });
@@ -105,26 +139,29 @@ export default function CalendarPage() {
     return (
         <div className="calendar-page">
             <main className="calendar-main-content">
-
                 <div className="calendar-content-area">
                     <div className="calendar-header">
                         <h1>Calendario</h1>
                     </div>
                     <div className="appointment-container">
-                        {/* Calendario principal */}
+                        {/* Calendario principal - Pasar TODAS las citas */}
                         <MyCalendar
-                            appointments={appointments}
+                            appointments={allAppointments}
                             onDateSelect={handleDateSelect}
                         />
                         {/* Appointment list day selected */}
                         <div className="calendar-page__next">
                             <h2 className="calendar-page__subtitle">
-                                Citas de {selectedDate.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' })}
+                                Citas de {selectedDate.toLocaleDateString('es-ES', {
+                                    weekday: 'long', 
+                                    day: 'numeric', 
+                                    month: 'long'
+                                })}
                             </h2>
                             {loading ? (
                                 <p className="calendar-page__loading-message">Cargando citas...</p>
-                            ) : appointments.length > 0 ? (
-                                appointments.map(appt => (
+                            ) : dayAppointments.length > 0 ? (
+                                dayAppointments.map(appt => (
                                     <AppointmentCard
                                         key={appt.id}
                                         appointmentDatetime={appt.appointmentDatetime}
@@ -150,7 +187,7 @@ export default function CalendarPage() {
                 </div>
             </main>
 
-            {/* Modales */}
+            {/* Overlays */}
             {showAddModal && (
                 <AddAppt
                     isOpen={showAddModal}
@@ -167,7 +204,6 @@ export default function CalendarPage() {
                 />
             )}
 
-            {/* Edit/Delete modal */}
             {showOptionsModal && (
                 <EditDeleteModal
                     onGoToEdit={() => handleOpenEdit(selectedAppointment)}
@@ -176,7 +212,6 @@ export default function CalendarPage() {
                 />
             )}
 
-            {/* Edit appointment modal */}
             {showEditModal && (
                 <EditAppt
                     isOpen={showEditModal}
@@ -186,13 +221,13 @@ export default function CalendarPage() {
                 />
             )}
 
-            {/* Delete confirmation modal */}
             {showDeleteModal && (
                 <DeleteModal
                     onCancel={handleCancelDelete}
                     onConfirm={handleConfirmDelete}
                 />
             )}
+            
             {showDetailsModal && selectedAppointment && (
                 <AppointmentDetailsAdmin
                     isOpen={showDetailsModal}
@@ -203,7 +238,6 @@ export default function CalendarPage() {
                     type={selectedAppointment.type} 
                     status={selectedAppointment.status}
                     onStatusChange={(newStatus) => handleStatusChange(selectedAppointment, newStatus)}
-                
                 />
             )}
         </div>
