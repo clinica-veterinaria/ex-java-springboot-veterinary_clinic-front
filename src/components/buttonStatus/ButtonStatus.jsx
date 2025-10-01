@@ -83,10 +83,9 @@ const ButtonStatus = ({ initialStatus = 'pendiente', appointmentDatetime = null,
       
       if (now > appointmentDateTime) {
         setStatus('expirada');
-        onStatusChange('expirada');
       }
     }
-  }, [appointmentDatetime, status, onStatusChange]);
+  }, [appointmentDatetime, status]);
 
 
   // Close dropdown when clicking outside
