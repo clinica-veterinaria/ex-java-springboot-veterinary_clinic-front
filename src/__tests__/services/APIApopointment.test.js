@@ -7,7 +7,7 @@ import {
   updateAppointmentStatus,
   updateAppointmentType,
   deleteAppointment,
-} from '../../services/APIAppointment';   // 👈 este es el nombre correcto
+} from '../../services/APIAppointment';
 
 global.fetch = jest.fn();
 
@@ -27,7 +27,7 @@ describe('formatDateTime', () => {
 });
 
 describe('getUpcomingAppointments', () => {
-  test('devuelve citas formateadas', async () => {
+  test('devuelve citas', async () => {
     fetch.mockResolvedValueOnce({
       ok: true,
       json: async () => ({
@@ -38,15 +38,15 @@ describe('getUpcomingAppointments', () => {
     const data = await getUpcomingAppointments(2);
 
     expect(fetch).toHaveBeenCalledWith(
-      'http://localhost:8080/api/appointments/upcoming?limit=2'
+      'http://localhost:8080/appointments/upcoming?limit=2'
     );
-    expect(data.appointments[0].appointmentDatetime).toMatch(/SEP/);
+    expect(data.appointments[0].appointmentDatetime).toBe('2025-09-30T10:00:00');
   });
 
   test('lanza error si la respuesta no es ok', async () => {
-    fetch.mockResolvedValueOnce({ ok: false });
+    fetch.mockResolvedValueOnce({ ok: false, statusText: 'Bad Request' });
     await expect(getUpcomingAppointments()).rejects.toThrow(
-      'Error fetching appointments'
+      'Error fetching appointments: Bad Request'
     );
   });
 });
@@ -81,7 +81,7 @@ describe('createAppointment', () => {
     const result = await createAppointment(appointment);
 
     expect(fetch).toHaveBeenCalledWith(
-      'http://localhost:8080/api/appointments',
+      'http://localhost:8080/appointments',
       expect.objectContaining({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -108,7 +108,7 @@ describe('updateAppointment', () => {
     const result = await updateAppointment(1, updated);
 
     expect(fetch).toHaveBeenCalledWith(
-      'http://localhost:8080/api/appointments/1',
+      'http://localhost:8080/appointments/1',
       expect.objectContaining({
         method: 'PUT',
       })
@@ -120,28 +120,45 @@ describe('updateAppointment', () => {
 describe('updateAppointmentStatus y updateAppointmentType', () => {
   test('updateAppointmentStatus llama updateAppointment con status', async () => {
     fetch.mockResolvedValueOnce({ ok: true, json: async () => ({ status: 'DONE' }) });
-    const result = await updateAppointmentStatus(1, 'DONE');
+    const appointmentData = {
+      appointmentDatetime: '2025-09-30T10:00:00',
+      type: 'CHECKUP',
+      reason: 'Control',
+      patientId: 1,
+      status: 'PENDING'
+    };
+    const result = await updateAppointmentStatus(1, 'DONE', appointmentData);
     expect(result).toEqual({ status: 'DONE' });
   });
 
   test('updateAppointmentType llama updateAppointment con type', async () => {
     fetch.mockResolvedValueOnce({ ok: true, json: async () => ({ type: 'CHECKUP' }) });
-    const result = await updateAppointmentType(1, 'CHECKUP');
+    const appointmentData = {
+      appointmentDatetime: '2025-09-30T10:00:00',
+      type: 'REVISION',
+      reason: 'Control',
+      patientId: 1,
+      status: 'PENDING'
+    };
+    const result = await updateAppointmentType(1, 'CHECKUP', appointmentData);
     expect(result).toEqual({ type: 'CHECKUP' });
   });
 });
 
 describe('deleteAppointment', () => {
-  test('devuelve null si status 204', async () => {
-    fetch.mockResolvedValueOnce({ ok: true, status: 204 });
+  test('devuelve null si no hay content-type json', async () => {
+    fetch.mockResolvedValueOnce({
+      ok: true,
+      headers: { get: () => null }
+    });
     const result = await deleteAppointment(1);
     expect(result).toBeNull();
   });
 
-  test('devuelve json si no es 204', async () => {
+  test('devuelve json si hay content-type json', async () => {
     fetch.mockResolvedValueOnce({
       ok: true,
-      status: 200,
+      headers: { get: () => 'application/json' },
       json: async () => ({ success: true }),
     });
     const result = await deleteAppointment(2);
