@@ -71,8 +71,14 @@ function RootRedirect() {
   if (!user) {
     return <Navigate to="/login" replace />;
   }
+
+  const userRoleNormalized = user.role?.replace('ROLE_', '') || user.role;
+  const redirectPath = userRoleNormalized === 'ADMIN' ? '/admin' : '/user';
   
-  const redirectPath = user.role === 'ADMIN' ? '/admin' : '/user';
+  console.log('🔍 RootRedirect - Usuario:', user);
+  console.log('🔍 RootRedirect - Rol normalizado:', userRoleNormalized);
+  console.log('🔍 RootRedirect - Redirigiendo a:', redirectPath);
+  
   return <Navigate to={redirectPath} replace />;
 }
 

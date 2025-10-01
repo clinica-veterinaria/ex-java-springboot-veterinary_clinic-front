@@ -119,11 +119,17 @@ const AddPetModal = ({ isOpen = false, onClose = () => { }, onSave = () => { } }
   };
 
   const handleSave = async () => {
+  // 🔍 AGREGAR ESTAS LÍNEAS AQUÍ
+  const user = JSON.parse(localStorage.getItem('user') || 'null');
+  console.log('🔍 Usuario actual:', user);
+  console.log('🔍 Rol del usuario:', user?.role);
+  console.log('🔍 Datos del paciente:', formData);
+  
   if (!validateForm()) return;
 
   try {
     console.log("Datos de formData antes de construir el JSON:", formData);
-    // Preparar los datos del paciente (sin photo, la añadiremos aparte)
+    
     const patientData = {
       name: formData.name,
       age: parseInt(formData.age) || 0,
@@ -136,12 +142,14 @@ const AddPetModal = ({ isOpen = false, onClose = () => { }, onSave = () => { } }
       petIdentification: formData.petIdentification,
     };
 
-   const savedPatient = await registerPatient(patientData, formData.photo); 
-    onSave(savedPatient); // Actualiza la lista en PatientPage
-    handleCancel();        // Cierra el modal
+    console.log("📤 Datos que se enviarán al backend:", patientData);
+    
+    const savedPatient = await registerPatient(patientData, formData.photo); 
+    onSave(savedPatient);
+    handleCancel();
 
   } catch (error) {
-    console.error("Error al guardar paciente:", error);
+    console.error("❌ Error al guardar paciente:", error);
     alert("Hubo un error al guardar la mascota");
   }
 };

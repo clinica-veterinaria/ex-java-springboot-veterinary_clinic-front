@@ -1,5 +1,4 @@
-// services/APIPatient.js
-const API_URL = "http://localhost:8080/patients"; // Ajusta si tu backend tiene otra ruta
+const API_URL = "http://localhost:8080/patients";
 
 // Listar todos los pacientes
 export async function getPatients() {
@@ -9,7 +8,9 @@ export async function getPatients() {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include", 
     });
+    
     if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
     const data = await response.json();
     return data;
@@ -18,6 +19,51 @@ export async function getPatients() {
     throw error;
   }
 }
+
+// Crear un nuevo paciente
+export async function registerPatient(patientData, imageFile = null) {
+  try {
+
+    console.log("🔍 [APIPatient] Usuario desde localStorage:", JSON.parse(localStorage.getItem('user') || 'null'));
+    console.log("🔍 [APIPatient] Datos recibidos:", patientData);
+    const formDataToSend = new FormData();
+
+    console.log("Datos del paciente para enviar:", patientData);
+
+    // Añadir el JSON del paciente
+    formDataToSend.append(
+      'patient',
+      new Blob([JSON.stringify(patientData)], {
+        type: 'application/json'
+      })
+    );
+
+    // Añadir la imagen si existe
+    if (imageFile) {
+      formDataToSend.append('image', imageFile);
+    }
+
+    // IMPORTANTE: Sin Content-Type header para FormData
+    const response = await fetch(API_URL, {
+      method: "POST",
+      body: formDataToSend, 
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Error ${response.status}: ${errorText}`);
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error en registerPatient:", error);
+    throw error;
+  }
+}
+
+// Actualizar paciente
 export async function updatePatient(patientId, updatedData) {
   try {
     const response = await fetch(`${API_URL}/${patientId}`, {
@@ -25,6 +71,7 @@ export async function updatePatient(patientId, updatedData) {
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: "include", 
       body: JSON.stringify(updatedData),
     });
 
@@ -41,58 +88,19 @@ export async function updatePatient(patientId, updatedData) {
   }
 }
 
-// Crear un nuevo paciente
-// services/APIPatient.js
-export async function registerPatient(patientData, imageFile) {
-  try {
-    // 1. Creación e inicialización del objeto FormData (CORREGIDO)
-    const formDataToSend = new FormData(); // Usamos 'formDataToSend' como el objeto principal
-
-    // 2. Log de depuración (patientData ahora es el JSON del paciente)
-    console.log("Datos del paciente (JSON) para enviar:", patientData);
-
-    // 3. Añadir el JSON del paciente (CORREGIDO: usando formDataToSend)
-    formDataToSend.append(
-      'patient',
-      new Blob([JSON.stringify(patientData)], {
-        type: 'application/json'
-      })
-    );
-
-    // 4. Añadir la imagen si existe (CORREGIDO: usando imageFile y formDataToSend)
-    if (imageFile) {
-      formDataToSend.append('image', imageFile);
-    }
-
-    // 5. Envío de la petición
-    const response = await fetch(API_URL, {
-      method: "POST",
-      body: formDataToSend, // Usamos el objeto FormData que acabamos de construir
-      // Importante: NO se añade Content-Type manualmente aquí.
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Error ${response.status}: ${errorText}`);
-    }
-
-    const result = await response.json();
-    return result;
-  } catch (error) {
-    console.error("Error en registerPatient:", error);
-    throw error;
-  }
-}
-// Eliminar paciente por ID
+// Eliminar paciente
 export async function deletePatient(patientId) {
   try {
     const response = await fetch(`${API_URL}/${patientId}`, {
       method: "DELETE",
+      credentials: "include", 
     });
+    
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(`Error ${response.status}: ${errorText}`);
     }
+    
     return true;
   } catch (error) {
     console.error(`Error en deletePatient (${patientId}):`, error);
@@ -100,6 +108,7 @@ export async function deletePatient(patientId) {
   }
 }
 
+// Buscar pacientes
 export async function searchPatients({ search, species, gender, sortBy }) {
   try {
     const params = new URLSearchParams();
@@ -112,7 +121,9 @@ export async function searchPatients({ search, species, gender, sortBy }) {
     const response = await fetch(url, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
+      credentials: "include", 
     });
+    
     if (!response.ok) throw new Error(`Error ${response.status}`);
     return await response.json();
   } catch (error) {
@@ -120,6 +131,3 @@ export async function searchPatients({ search, species, gender, sortBy }) {
     throw error;
   }
 }
-
-
-
