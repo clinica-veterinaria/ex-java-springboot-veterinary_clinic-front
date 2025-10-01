@@ -32,6 +32,7 @@ export async function searchAppointments({ search, type, status, sortBy }) {
     
     const response = await fetch(url, {
       method: "GET",
+      credentials: 'include',
       headers: {
         "Content-Type": "application/json",
       },
@@ -118,6 +119,7 @@ export async function createAppointment(appointmentData) {
     try {
       const response = await fetch(`${API_URL}/appointments`, {
         method: "POST",
+        credentials: 'include',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(appointmentData),
       });
@@ -135,6 +137,7 @@ export async function updateAppointment(id, updatedData) {
     try {
       const response = await fetch(`${API_URL}/appointments/${id}`, {
         method: "PUT",
+        credentials: 'include',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedData),
       });

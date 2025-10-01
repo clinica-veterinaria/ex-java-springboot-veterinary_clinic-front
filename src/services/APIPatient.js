@@ -22,6 +22,7 @@ export async function updatePatient(patientId, updatedData) {
   try {
     const response = await fetch(`${API_URL}/${patientId}`, {
       method: 'PUT',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -42,24 +43,20 @@ export async function updatePatient(patientId, updatedData) {
 }
 
 // Crear un nuevo paciente
-// services/APIPatient.js
 export async function registerPatient(patientData, imageFile) {
   try {
-    // 1. Creación e inicialización del objeto FormData (CORREGIDO)
-    const formDataToSend = new FormData(); // Usamos 'formDataToSend' como el objeto principal
+    
+    const formDataToSend = new FormData(); 
 
-    // 2. Log de depuración (patientData ahora es el JSON del paciente)
     console.log("Datos del paciente (JSON) para enviar:", patientData);
 
-    // 3. Añadir el JSON del paciente (CORREGIDO: usando formDataToSend)
     formDataToSend.append(
       'patient',
       new Blob([JSON.stringify(patientData)], {
         type: 'application/json'
       })
     );
-
-    // 4. Añadir la imagen si existe (CORREGIDO: usando imageFile y formDataToSend)
+   
     if (imageFile) {
       formDataToSend.append('image', imageFile);
     }
@@ -67,8 +64,9 @@ export async function registerPatient(patientData, imageFile) {
     // 5. Envío de la petición
     const response = await fetch(API_URL, {
       method: "POST",
-      body: formDataToSend, // Usamos el objeto FormData que acabamos de construir
-      // Importante: NO se añade Content-Type manualmente aquí.
+      credentials: 'include',
+      body: formDataToSend,
+      
     });
 
     if (!response.ok) {
@@ -111,6 +109,7 @@ export async function searchPatients({ search, species, gender, sortBy }) {
     const url = `${API_URL}${params.toString() ? `?${params.toString()}` : ''}`;
     const response = await fetch(url, {
       method: "GET",
+      credentials: 'include',
       headers: { "Content-Type": "application/json" },
     });
     if (!response.ok) throw new Error(`Error ${response.status}`);
