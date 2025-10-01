@@ -1,19 +1,20 @@
-import React from 'react';
-import './App.css'
-import './components/styles/Variables.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import AppointmentsPage from './pages/AppointmentsPage';
-import HomePage from './pages/HomePage';
-import MainLayout from './components/mainLayout/MainLayout';
-import PatientPage from './pages/PatientPage';
-import CalendarPage from './pages/CalendarPage';
-import LoginPage from './pages/LoginPage';
-import SignInPage from './pages/SignInPage';
-import HomeUserPage from './pages/HomeUserPage';
-import UserLayout from './components/userLayout/UserLayout';
-import AuthHandler from './pages/AuthHandler';
-import PatientProfile from './pages/PatientProfile';
-import { SearchProvider } from './context/SearchContext';
+import React from "react";
+import "./App.css";
+import "./components/styles/Variables.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AppointmentsPage from "./pages/AppointmentsPage";
+import HomePage from "./pages/HomePage";
+import MainLayout from "./components/mainLayout/MainLayout";
+import PatientPage from "./pages/PatientPage";
+import CalendarPage from "./pages/CalendarPage";
+import LoginPage from "./pages/LoginPage";
+import SignInPage from "./pages/SignInPage";
+import HomeUserPage from "./pages/HomeUserPage";
+import UserLayout from "./components/userLayout/UserLayout";
+import AuthHandler from "./pages/AuthHandler";
+import PatientProfile from "./pages/PatientProfile";
+import { SearchProvider } from "./context/SearchContext";
+import HomeProfilePage from "./pages/HomeProfilePage";
 
 function App() {
   return (
@@ -30,13 +31,14 @@ function App() {
           </Route>
           <Route path="/user" element={<UserLayout />}>
             <Route index element={<HomeUserPage />} />
+            <Route path="profile/:id" element={<HomeProfilePage />} />
           </Route>
           <Route path="login" element={<AuthHandler isLoginView={true} />} />
           <Route path="signin" element={<AuthHandler isLoginView={false} />} />
         </Routes>
       </SearchProvider>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;

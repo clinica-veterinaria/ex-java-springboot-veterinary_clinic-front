@@ -18,6 +18,25 @@ export async function getPatients() {
     throw error;
   }
 }
+export async function getPatientById(id) {
+  try {
+    const response = await fetch(`${API_URL}/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(`Error en getPatientById(${id}):`, error);
+    throw error;
+  }
+}
+
 export async function updatePatient(patientId, updatedData) {
   try {
     const response = await fetch(`${API_URL}/${patientId}`, {
