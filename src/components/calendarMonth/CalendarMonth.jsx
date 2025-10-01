@@ -77,7 +77,7 @@ export default function MyCalendar({
         setCurrentView(view);
     };
 
-    // Navigate between dates
+    // Navigate throw months
     const handleNavigate = (date) => {
         setCurrentDate(date);
     };
