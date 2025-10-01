@@ -1,7 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1759307289828" clover="3.2.0">
-  <project timestamp="1759307289828" name="All files">
-    <metrics statements="762" coveredstatements="530" conditionals="350" coveredconditionals="194" methods="196" coveredmethods="115" elements="1308" coveredelements="839" complexity="0" loc="762" ncloc="762" packages="11" files="22" classes="22"/>
+<coverage generated="1759308208419" clover="3.2.0">
+  <project timestamp="1759308208419" name="All files">
+    <metrics statements="811" coveredstatements="579" conditionals="364" coveredconditionals="206" methods="217" coveredmethods="134" elements="1392" coveredelements="919" complexity="0" loc="811" ncloc="811" packages="13" files="24" classes="24"/>
+    <package name="components.addAppt">
+      <metrics statements="41" coveredstatements="41" conditionals="14" coveredconditionals="12" methods="15" coveredmethods="13"/>
+      <file name="AddAppt.jsx" path="C:\Users\Equipo\OneDrive\Escritorio\clinica-veterinaria-front\ex-java-springboot-veterinary_clinic-front\src\components\addAppt\AddAppt.jsx">
+        <metrics statements="41" coveredstatements="41" conditionals="14" coveredconditionals="12" methods="15" coveredmethods="13"/>
+        <line num="9" count="1" type="cond" truecount="2" falsecount="1"/>
+        <line num="10" count="33" type="stmt"/>
+        <line num="19" count="33" type="stmt"/>
+        <line num="21" count="33" type="stmt"/>
+        <line num="22" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="23" count="7" type="stmt"/>
+        <line num="24" count="7" type="stmt"/>
+        <line num="26" count="3" type="stmt"/>
+        <line num="27" count="3" type="stmt"/>
+        <line num="28" count="3" type="stmt"/>
+        <line num="30" count="3" type="stmt"/>
+        <line num="33" count="33" type="stmt"/>
+        <line num="34" count="16" type="stmt"/>
+        <line num="35" count="16" type="stmt"/>
+        <line num="38" count="33" type="stmt"/>
+        <line num="39" count="3" type="stmt"/>
+        <line num="40" count="3" type="stmt"/>
+        <line num="41" count="3" type="stmt"/>
+        <line num="42" count="3" type="stmt"/>
+        <line num="44" count="3" type="stmt"/>
+        <line num="49" count="3" type="cond" truecount="5" falsecount="0"/>
+        <line num="50" count="1" type="stmt"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="54" count="2" type="stmt"/>
+        <line num="55" count="2" type="stmt"/>
+        <line num="62" count="2" type="stmt"/>
+        <line num="63" count="1" type="stmt"/>
+        <line num="64" count="1" type="stmt"/>
+        <line num="67" count="1" type="stmt"/>
+        <line num="68" count="1" type="stmt"/>
+        <line num="73" count="33" type="stmt"/>
+        <line num="74" count="1" type="stmt"/>
+        <line num="82" count="1" type="stmt"/>
+        <line num="85" count="33" type="cond" truecount="2" falsecount="0"/>
+        <line num="87" count="31" type="stmt"/>
+        <line num="104" count="4" type="stmt"/>
+        <line num="114" count="3" type="stmt"/>
+        <line num="127" count="3" type="stmt"/>
+        <line num="137" count="3" type="stmt"/>
+        <line num="152" count="2" type="stmt"/>
+        <line num="160" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="components.addSelectModal">
+      <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6"/>
+      <file name="AddSelectModal.jsx" path="C:\Users\Equipo\OneDrive\Escritorio\clinica-veterinaria-front\ex-java-springboot-veterinary_clinic-front\src\components\addSelectModal\AddSelectModal.jsx">
+        <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6"/>
+        <line num="5" count="5" type="stmt"/>
+        <line num="6" count="2" type="stmt"/>
+        <line num="7" count="2" type="stmt"/>
+        <line num="10" count="5" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="19" count="3" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+      </file>
+    </package>
     <package name="components.buttonProfile">
       <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="ButtonProfile.jsx" path="C:\Users\Equipo\OneDrive\Escritorio\clinica-veterinaria-front\ex-java-springboot-veterinary_clinic-front\src\components\buttonProfile\ButtonProfile.jsx">
