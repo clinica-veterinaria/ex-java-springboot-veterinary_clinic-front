@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from 'react';
 import './CalendarPage.css';
 import MyCalendar from '../components/calendarMonth/CalendarMonth';
