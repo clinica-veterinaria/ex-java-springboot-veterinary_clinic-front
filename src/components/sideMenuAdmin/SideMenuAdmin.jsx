@@ -1,21 +1,24 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import './SideMenuAdmin.css';
 import Logo from '../../assets/logoPositive.svg';
 import ButtonText from '../buttonText/ButtonText';
 import ButtonProfile from '../buttonProfile/ButtonProfile';
 import SignoutEditModal from "../SignoutEditModal/SignoutEditModal";
 import EditProfile from "../editProfile/Editprofile";
+import { logoutUser } from '../../services/APILogin';
+
 
 export default function SideMenuAdmin() {
     const location = useLocation();
     const isSelected = (path) => location.pathname === path;
-
+    const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
 
     const handleOpenModal = () => setIsModalOpen(true);
     const handleCloseModal = () => setIsModalOpen(false);
+
 
     const handleGoToEdit = () => {
         setIsModalOpen(false);
@@ -32,10 +35,9 @@ export default function SideMenuAdmin() {
         setIsEditProfileOpen(false);
     };
 
-    const handleGoToSignout = () => {
-        setIsModalOpen(false);
-        localStorage.clear();
-        window.location.href = "/login";
+    const handleSignout = async () => {
+        await logoutUser(); // Limpia localStorage y llama al backend
+        navigate('/login', { replace: true });
     };
 
     // ⚠️ Simulación de usuario (reemplaza con datos reales de contexto/API)
@@ -86,7 +88,7 @@ export default function SideMenuAdmin() {
             {isModalOpen && (
                 <SignoutEditModal
                     onGoToEdit={handleGoToEdit}
-                    onGoToSignout={handleGoToSignout}
+                    onGoToSignout={handleSignout}
                     onClose={handleCloseModal}
                 />
             )}

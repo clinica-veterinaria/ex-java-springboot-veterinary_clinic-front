@@ -17,13 +17,21 @@ export default function AuthHandler({ isLoginView }) {
         try {
             
             const dataToApi = {
-                username: formData.identifier, 
+                email: formData.identifier, 
                 password: formData.password 
             };
 
-            await loginUser(dataToApi);
+           const response = await loginUser(dataToApi);
 
-            navigate('/home'); 
+            localStorage.setItem('user', JSON.stringify({
+                ...response.user,
+                role: response.role
+            }));
+
+            // Redirigir según el rol
+            const redirectPath = response.role === 'ADMIN' ? '/admin' : '/user';
+            navigate(redirectPath, { replace: true });
+
 
         } catch (err) {
             console.error("Fallo de Login:", err);
@@ -39,7 +47,13 @@ export default function AuthHandler({ isLoginView }) {
         try {
             await registerUser(formData);
 
-            navigate('/login?success=true'); 
+           localStorage.setItem('user', JSON.stringify({
+                ...response.user,
+                role: response.role || 'USER'
+            }));
+
+            navigate('/user', { replace: true });
+
 
         } catch (err) {
             console.error("Fallo de Registro:", err);
