@@ -9,6 +9,7 @@ import EditProfile from "../editProfile/Editprofile";
 import { logoutUser } from '../../services/APILogin';
 
 
+
 export default function SideMenuAdmin() {
     const location = useLocation();
     const isSelected = (path) => location.pathname === path;
@@ -36,7 +37,7 @@ export default function SideMenuAdmin() {
     };
 
     const handleSignout = async () => {
-        await logoutUser(); // Limpia localStorage y llama al backend
+        await logoutUser(); 
         navigate('/login', { replace: true });
     };
 
