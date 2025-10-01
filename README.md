@@ -1,5 +1,5 @@
 # Oliwa Frontend 🐶🐱
-![Home Page preview](src/assets/homePage.png)
+![Home Page preview](src/assets/home.png)
 
 Aplicación frontend del sistema de gestión de pacientes de la clínica veterinaria **Oliwa**.  
 Este módulo permite a administradores y clientes interactuar con la aplicación: gestionar pacientes, programar citas y consultar información de manera sencilla.
