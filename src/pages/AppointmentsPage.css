@@ -34,61 +34,66 @@
     color: var(--black);
 }
 
-/* Tablet - 768px and less */
-@media (max-width: 768px) {
-    .appointments-page__title {
-        font-size: calc(var(--h1-size) * 0.8);
-        margin-left: calc(var(--space-section) * 0.7);
-        text-align: center;
-        margin-right: calc(var(--space-section) * 0.7);
-    }
-
-    .appointments-page__content {
-        padding: 0 calc(var(--space-section) * 0.7);
-    }
-
-    .appointments-page__flying-button {
-        bottom: 20px;
-        right: 20px;
-    }
-
-    .appointments-page__next {
-        margin-top: calc(var(--space-section) * 0.7);
-        gap: calc(var(--space-card) * 0.8);
-        align-items: center;
-    }
-
-    .appointments-page__subtitle {
-        font-size: calc(var(--h2-size) * 0.9);
-        text-align: center;
-    }
+/* Medias para PatientProfile */
+/* Tablet */
+@media (max-width: 900px) {
+  .patient-profile__content {
+    padding: 24px;
+    gap: 16px;
+  }
+  .patient-profile__lower-container {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .patient-profile__appointments-container {
+    width: 100%;
+    min-width: 0;
+  }
 }
 
-/* Mobile - 480px and less */
-@media (max-width: 480px) {
-    .appointments-page__title {
-        font-size: calc(var(--h1-size) * 0.7);
-        margin-left: calc(var(--space-section) * 0.5);
-        margin-right: calc(var(--space-section) * 0.5);
-    }
-
-    .appointments-page__content {
-        padding: 0 calc(var(--space-section) * 0.5);
-    }
-
-    .appointments-page__flying-button {
-        bottom: 15px;
-        right: 15px;
-        transform: scale(0.9);
-    }
-
-    .appointments-page__next {
-        margin-top: calc(var(--space-section) * 0.5);
-        gap: calc(var(--space-card) * 0.6);
-    }
-
-    .appointments-page__subtitle {
-        font-size: calc(var(--h2-size) * 0.8);
-        text-align: center;
-    }
+/* Móvil */
+@media (max-width: 600px) {
+  .patient-profile__content {
+    padding: 12px;
+    gap: 8px;
+  }
+  .patient-profile__lower-container {
+    gap: 8px;
+  }
+  .patient-profile__appointments-container {
+    width: 100%;
+  }
 }
+
+/* Medias para AppointmentsPage */
+/* Tablet */
+@media (max-width: 900px) {
+  .appointments-main-content {
+    padding: 24px;
+    gap: 16px;
+  }
+  .appointments-content-area {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .appointments-list {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+/* Móvil */
+@media (max-width: 600px) {
+  .appointments-main-content {
+    padding: 12px;
+    gap: 8px;
+  }
+  .appointments-content-area {
+    gap: 8px;
+  }
+  .appointments-list {
+    width: 100%;
+  }
+}
+
+

@@ -37,3 +37,36 @@
   right: 80px;
   z-index: 800;
 }
+
+/* Tablet */
+@media (max-width: 900px) {
+  .patient-profile__lower-container {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .patient-profile__lower-container > :first-child,
+  .patient-profile__appointments-container {
+    min-width: 0;
+    width: 100%;
+    flex: unset;
+  }
+  .patient-profile__add-button {
+    bottom: 32px;
+    right: 32px;
+  }
+}
+
+/* Móvil */
+@media (max-width: 600px) {
+  .patient-profile__content {
+    padding: 12px;
+    gap: 12px;
+  }
+  .patient-profile__lower-container {
+    gap: 8px;
+  }
+  .patient-profile__add-button {
+    bottom: 16px;
+    right: 16px;
+  }
+}

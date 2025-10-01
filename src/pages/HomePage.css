@@ -52,18 +52,35 @@
     gap: var(--space-section);
 }
 
-
-@media (max-width: 768px) {
-    .home-page__planning {
-        flex-direction: column;
-    }
-    
-    .home-page__week-view,
-    .home-page__next-appointments {
-        width: 100%;
-    }
-    
-    .home-page__appointments-list {
-        gap: 8px;
-    }
+/* Medias para HomePage */
+/* Tablet */
+@media (max-width: 900px) {
+  .homepage__main {
+    padding: 24px;
+    gap: 16px;
+  }
+  .homepage__sections {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .homepage__card {
+    width: 100%;
+    min-width: 0;
+  }
 }
+
+/* Móvil */
+@media (max-width: 600px) {
+  .homepage__main {
+    padding: 12px;
+    gap: 8px;
+  }
+  .homepage__sections {
+    gap: 8px;
+  }
+  .homepage__card {
+    width: 100%;
+  }
+}
+
+
