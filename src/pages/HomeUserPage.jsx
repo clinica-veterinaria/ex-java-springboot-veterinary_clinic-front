@@ -84,11 +84,11 @@ export default function HomeUserPage() {
     setShowAddModal(true);
   };
 
-  // Abrir modal para editar paciente
   const handlePatientClick = (patient) => {
-    setCurrentPatient(patient);
-    setShowAddModal(true);
-  };
+        if (!isSelectionMode) {
+            navigate(`/profile/${patient.id}`, { state: { patient } });
+        }
+    };
 
   // Selección de pacientes
   const handleSelectionChange = (patientId, isSelected) => {
