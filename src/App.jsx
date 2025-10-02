@@ -15,6 +15,7 @@ import AuthHandler from './pages/AuthHandler';
 import PatientProfile from './pages/PatientProfile';
 import { SearchProvider } from './context/SearchContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import HomeProfilePage from './pages/HomeProfilePage';
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
           >
             <Route index element={<HomeUserPage />} />
             <Route path="profile/:id" element={<HomeProfilePage />} />
+          
           </Route>
 
           {/* AUTH - Público */}
