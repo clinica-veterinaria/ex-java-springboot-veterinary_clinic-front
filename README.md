@@ -135,3 +135,129 @@ flowchart TD
 ## 🧪 Cobertura de tests
 <img width="auto" height="400" alt="test coverage" src="https://github.com/user-attachments/assets/05ce9b25-88c0-4e96-97c9-f43b7f698c7a" />
 
+## File tree 
+```
+.
+├── coverage
+│   ├── lcov-report
+│   │   ├── components
+│   │   ├── pages
+│   │   ├── services
+│   │   ├── base.css
+│   │   ├── prettify.css
+│   │   ├── HomePage.jsx.html
+│   │   ├── HomeUserPage.jsx.html
+│   │   ├── index.html
+│   │   ├── LoginPage.jsx.html
+│   │   ├── block-navigation.js
+│   │   ├── prettify.js
+│   │   ├── sorter.js
+│   │   ├── favicon.png
+│   │   └── sort-arrow-sprite.png
+│   ├── lcov.info
+│   ├── coverage-final.json
+│   └── clover.xml
+├── public
+│   └── vite.svg
+├── src
+│   ├── assets
+│   │   ├── favicon.ico
+│   │   ├── homepage.png
+│   │   ├── logoNegative.svg
+│   │   ├── logoPositive.svg
+│   │   └── react.svg
+│   ├── components
+│   │   ├── addAppt
+│   │   ├── addSelectModal
+│   │   ├── addTreatment
+│   │   ├── alphabetIndex
+│   │   ├── appointmentCard
+│   │   ├── appointmentDetailsAdmin
+│   │   ├── appointmentDetailsUser
+│   │   ├── appointmentsWidget
+│   │   ├── buttonAdd
+│   │   ├── buttonProfile
+│   │   ├── buttons
+│   │   ├── buttonStatus
+│   │   ├── buttonText
+│   │   ├── buttonType
+│   │   ├── calendarMonth
+│   │   ├── cardPatient
+│   │   ├── cardsHome
+│   │   ├── dateTimePicker
+│   │   ├── deleteModal
+│   │   ├── editAppt
+│   │   ├── editDeleteModal
+│   │   ├── editPatient
+│   │   ├── editProfile
+│   │   ├── feedbackModal
+│   │   ├── filterGroup
+│   │   ├── filterPills
+│   │   ├── inputField
+│   │   ├── mainLayout
+│   │   ├── navbar
+│   │   ├── nextAppointment
+│   │   ├── patientRecord
+│   │   ├── patientWidget
+│   │   ├── petModal
+│   │   ├── pillDateTime
+│   │   ├── searchInput
+│   │   ├── sideMenuAdmin
+│   │   ├── sideMenuProfile
+│   │   ├── signInModal
+│   │   ├── signoutEditModal
+│   │   ├── smallCalendarWidget
+│   │   ├── styles
+│   │   └── userLayout
+│   ├── context
+│   │   └── SearchContext.jsx
+│   ├── pages
+│   │   ├── AppointmentsPage.css
+│   │   ├── CalendarPage.css
+│   │   ├── HomePage.css
+│   │   ├── HomeProfilePage.css
+│   │   ├── HomeUserPage.css
+│   │   ├── LoginPage.css
+│   │   ├── PatientPage.css
+│   │   ├── PatientProfile.css
+│   │   ├── SignInPage.css
+│   │   ├── AppointmentsPage.jsx
+│   │   ├── AuthHandler.jsx
+│   │   ├── CalendarPage.jsx
+│   │   ├── HomePage.jsx
+│   │   ├── HomeProfilePage.jsx
+│   │   ├── HomeUserPage.jsx
+│   │   ├── LoginPage.jsx
+│   │   ├── PatientPage.jsx
+│   │   ├── PatientProfile.jsx
+│   │   └── SignInPage.jsx
+│   ├── services
+│   │   ├── APIAppointment.js
+│   │   ├── APILogin.js
+│   │   ├── APIPatient.js
+│   │   ├── APIRegister.js
+│   │   ├── APITreatment.js
+│   │   └── APIUser.js
+│   ├── __tests__
+│   │   ├── services
+│   │   ├── HomePage.test.jsx
+│   │   ├── HomeUserPage.test.jsx
+│   │   └── LoginPage.test.jsx
+│   ├── App.css
+│   ├── index.css
+│   ├── setupTests.js
+│   ├── App.jsx
+│   └── main.jsx
+├── __mocks__
+│   ├── fileMock.js
+│   └── styleMock.js
+├── index.html
+├── babel.config.js
+├── eslint.config.js
+├── jest.setup.js
+├── vite.config.js
+├── package-lock.json
+├── package.json
+├── README.md
+
+```
