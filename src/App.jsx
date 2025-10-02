@@ -51,6 +51,7 @@ function App() {
             }
           >
             <Route index element={<HomeUserPage />} />
+            <Route path="profile/:id" element={<HomeProfilePage />} />
           </Route>
 
           {/* AUTH - Público */}
@@ -62,7 +63,7 @@ function App() {
         </Routes>
       </SearchProvider>
     </BrowserRouter>
-  )
+  );
 }
 
 function RootRedirect() {
@@ -82,4 +83,4 @@ function RootRedirect() {
 }
 
 
-export default App
+export default App;

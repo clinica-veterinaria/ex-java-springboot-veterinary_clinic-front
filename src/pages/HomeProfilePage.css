@@ -1,0 +1,43 @@
+.patient-profile__content {
+  flex: 1;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  justify-content: center;
+  margin-top: 10%;
+  align-items: center;
+}
+
+.patient-profile__lower-container {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  min-width: 50%;
+}
+
+.patient-profile__lower-container > :first-child {
+  flex: 2;
+  min-width: 350px;
+}
+
+.patient-profile__appointments-container {
+  flex: 1;
+  min-width: 250px;
+}
+
+.patient-profile__content {
+  flex: 1;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  position: relative;
+}
+
+.patient-profile__add-button {
+  position: fixed;
+  bottom: 80px;
+  right: 80px;
+  z-index: 800;
+}
