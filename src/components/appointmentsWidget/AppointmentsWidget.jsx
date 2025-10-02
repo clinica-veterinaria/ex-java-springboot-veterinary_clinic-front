@@ -115,7 +115,7 @@ export default function AppointmentsWidget({ onAppointmentClick }) {
 
   return (
     <div className="appointments-widget">
-      <h2 className="appointments-widget__title">Historial de Citas</h2>
+      <h2 className="appointments-widget__title">Citas</h2>
 
       <div className="appointments-widget__list">
         {appointments.length === 0 ? (
