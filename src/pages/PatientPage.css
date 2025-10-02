@@ -35,6 +35,59 @@
   flex-shrink: 0;
 }
 
+.icon-button {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: var(--neutral-750);
+  border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-button:hover {
+  background-color: var(--neutral-250);
+  color: var(--primary-750);
+}
+/* Header con título y acciones */
+.page-header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.page-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  max-width: 1300px;
+}
+/* Barra de selección */
+.selection-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-button);
+  background-color: var(--white);
+  padding: var(--space-body);
+  border-radius: var(--border-radius-card);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 400px;
+  max-width: 500px;
+  margin: 10px;
+}
+.selection-info {
+  font-size: var(--body-size);
+  color: var(--neutral-750);
+  line-height: 1.4;
+  font-family: var(--font-family);
+}
+.selection-actions {
+  display: flex;
+  gap: var(--space-button);
+  justify-content: flex-end;
+}
+
 
 /* GRID DE PACIENTES - Centrado y responsivo */
 .patients-content {
