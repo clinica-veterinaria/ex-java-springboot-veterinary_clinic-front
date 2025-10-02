@@ -155,7 +155,6 @@ export default function HomeUserPage() {
 
   return (
     <div className="home-page">
-      
       <main className="home-page__main">
         <div className="home-page__container">
           <div className="home-page__content">
@@ -167,7 +166,11 @@ export default function HomeUserPage() {
                 <div className="home-page__loading">Cargando pacientes...</div>
               ) : filteredPatients.length > 0 ? (
                 filteredPatients.map((patient) => (
-                  <div key={patient.id} className="patient-card-wrapper" style={{ position: "relative" }}>
+                  <div
+                    key={patient.id}
+                    className="patient-card-wrapper"
+                    style={{ position: "relative" }}
+                  >
                     <CardPatient
                       name={patient.name}
                       photo={patient.photo}
@@ -223,10 +226,7 @@ export default function HomeUserPage() {
         />
       )}
       {showDeleteModal && (
-        <DeleteModal
-          onCancel={cancelDelete}
-          onConfirm={confirmDelete}
-        />
+        <DeleteModal onCancel={cancelDelete} onConfirm={confirmDelete} />
       )}
     </div>
   );
